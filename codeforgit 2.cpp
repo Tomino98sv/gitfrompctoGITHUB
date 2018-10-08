@@ -8,7 +8,7 @@ int main(){
 	while(i!=10){
 	i=rand()%10+1;
 	switch(i){
-		case 1:printf("\nThis time it is 1");
+		case 1:printf("\nThis time it is 1"); // POZNAMKY A INE SRACKY
 			   break;
 		case 2:printf("\nThis time it is 2");
 			   break;
@@ -30,6 +30,8 @@ int main(){
 			   break;
 		default:printf("\nWrong");
 	}	
+	
+	
 		
 	}
 	
