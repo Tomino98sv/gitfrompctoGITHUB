@@ -9,8 +9,8 @@
         #container{
             box-sizing:border-box;
             margin: auto;
-            width: 300px;
-            height: 100px;
+            max-width: 300px;
+            min-height: 150px;
         }
         #canvas{
             display: block;
@@ -31,28 +31,54 @@
 
 <script>
 
-// var jsonfile = {
-//    "jsonarray": [{
-//       "date": "01/02/2016",
-//       "valueCoin": 500
-//    }, {
-//       "date": "01/01/2017",
-//       "valueCoin": 350
-//    }]
-// };
+var jsonfile = {
+    "jsonarray": [{
+      "date": "01/04/2016",
+      "valueCoin": 500
+   }, {
+      "date": "03/07/2016",
+      "valueCoin": 350
+   }, {
+      "date": "06/10/2016",
+      "valueCoin": 800
+   },{
+      "date": "09/12/2016",
+      "valueCoin": 700
+   },{
+      "date": "05/01/2017",
+      "valueCoin": 600
+   },{
+      "date": "11/03/2017",
+      "valueCoin": 500
+   },{
+      "date": "21/08/2017",
+      "valueCoin": 1500
+   },{
+      "date": "08/11/2017",
+      "valueCoin": 2300
+   },{
+      "date": "05/01/2018",
+      "valueCoin": 100
+   },{
+      "date": "08/03/2018",
+      "valueCoin":1000
+   }]
+};
 
-// var dates=jsonfile.jsonarray.map(function(e){
-//     return e.date;
-// });
+var labelsDate = jsonfile.jsonarray.map(function(e) {
+   return e.date;
+});
+var dataValues = jsonfile.jsonarray.map(function(e) {
+   return e.valueCoin;
+});
 
-// var valueOfCoin=jsonfile.jsonarray.map(function(e){
-//     return e.valueCoin;
-// });
+
    var timeFormat = 'DD/MM/YYYY';
 
     var config = {
         type:'line',
         data:    {
+            labels: labelsDate,
             datasets: [
                 {
                     label: "Bitcoin",
@@ -60,67 +86,7 @@
                     backgroundColor:"rgba(163, 81, 0,0.5)",
                     lineTension: 0.3,
                     borderColor: 'rgba(73, 44, 14,0.6)',
-                    data:  [{
-                        x: "01/02/2016", 
-                        y: 175
-                    }, 
-                    {
-                        x: "01/03/2016", 
-                        y: 175
-                    }, 
-                    {
-                        x: "01/04/2016", 
-                        y: 178
-                    }, 
-                    {
-                        x: "01/05/2016", 
-                        y: 178
-                    },
-                    {
-                        x:"01/01/2017",
-                        y:200
-                    },
-                    {
-                        x:"01/02/2017",
-                        y:250
-                    },
-                    {
-                        x:"01/04/2017",
-                        y:270
-                    },
-                    {
-                        x:"01/08/2017",
-                        y:405
-                    },
-                    {
-                        x:"01/12/2017",
-                        y:605
-                    },
-                    {
-                        x:"01/01/2018",
-                        y:805
-                    },
-                    {
-                        x:"01/05/2018",
-                        y:105
-                    },
-                    {
-                        x:"01/08/2018",
-                        y:50
-                    },
-                    {
-                        x:"01/12/2018",
-                        y:150
-                    },
-                    {
-                        x:"05/01/2019",
-                        y:60
-                    },
-                    {
-                        x:"01/12/2019",
-                        y:955
-                    }
-                    ],
+                    data: dataValues
                 }
             ]
         },
