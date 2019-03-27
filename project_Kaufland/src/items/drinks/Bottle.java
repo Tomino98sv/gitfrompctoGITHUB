@@ -27,4 +27,9 @@ public class Bottle extends Drink implements Pce {
     public double getTotalPrice() {
         return amount*getPrice();
     }
+
+    @Override
+    public String getUnit() {
+        return "Pcs";
+    }
 }

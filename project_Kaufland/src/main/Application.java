@@ -25,16 +25,16 @@ public class Application {
         Bottle milk = new Bottle("milk 1,5 %",0.56,4);
         bill.addItem(milk);
 
-        Item pizza = new Pastry("Salamova",1.10,280,2);
+        Item pizza = new Pastry("Penne",2.10,280,8);
         bill.addItem(pizza);
 
-        Fruit apple = new Fruit("Red apple",0.59,0.370);
+        Fruit apple = new Fruit("Orange",0.75,0.560);
         bill.addItem(apple);
 
         Goods pencil = new Goods("Pencil 0.5",0.60,1, Category.SCHOOL);
         bill.addItem(pencil);
 
-        Draft vinea = new Draft("White Vinea",1.20,true,0.3);
+        Draft vinea = new Draft("Beer",1.50,true,1.3);
         bill.addItem(vinea);
 
         Draft pivo = new Draft("Birell lemon",1,true,0.50);

@@ -21,6 +21,11 @@ public class Pastry extends Food implements Pce {
     }
 
     @Override
+    public String getUnit() {
+        return "Pcs";
+    }
+
+    @Override
     public int getAmount(){
         return amount;
     }

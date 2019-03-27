@@ -1,6 +1,9 @@
 package database;
 
+import interfaces.DraftInterface;
+import interfaces.Pce;
 import items.Item;
+import items.food.Fruit;
 import main.Bill;
 import main.Globals;
 
@@ -36,21 +39,6 @@ public class Database {
         return null;
     }
 
-//    public void insertNewBill(List<Item> uctenka, java.util.Date date, double finalPriceOfBill){
-//        Connection conn = getConnection();
-//
-//        try {
-//            PreparedStatement stmtBill = conn.prepareStatement("INSERT INTO bill (date,time,totalPrice) values(?,?,?)");
-//            stmtBill.setDate(1,new java.sql.Date(date.getTime()));
-//            stmtBill.setTime(2,new java.sql.Time(date.getTime()));
-//            stmtBill.setDouble(3,finalPriceOfBill);
-//            stmtBill.executeUpdate();
-//            conn.close();
-//        } catch (SQLException e) {
-//            e.printStackTrace();
-//        }
-//
-//    }
 
     public void insertNewBill(Bill bill) throws SQLException {
         Connection conn = getConnection();
@@ -63,6 +51,27 @@ public class Database {
             stmtBill.setDouble(3,bill.getFinalPriceOfBill());
 
             stmtBill.executeUpdate();
+            int orderId=0;
+            ResultSet rs = stmtBill.getGeneratedKeys();
+            while (rs.next()){
+                orderId = rs.getInt(1);
+            }
+            for (Item item: bill.getList()) {
+                stmtBill = conn.prepareStatement("INSERT INTO item (orderID,name,price,count,unit) values (?,?,?,?,?)");
+                stmtBill.setInt(1,orderId);
+                stmtBill.setString(2,item.getName());
+                stmtBill.setDouble(3,item.getPrice());
+
+                if (item instanceof DraftInterface){
+                    stmtBill.setDouble(4,((DraftInterface) item).getVolume());
+                }else if(item instanceof Fruit){
+                    stmtBill.setDouble(4,((Fruit) item).getWeight());
+                }else if(item instanceof Pce){
+                    stmtBill.setDouble(4,((Pce) item).getAmount());
+                }
+                stmtBill.setString(5,item.getUnit());
+                stmtBill.executeUpdate();
+            }
             conn.commit();
             conn.close();
 

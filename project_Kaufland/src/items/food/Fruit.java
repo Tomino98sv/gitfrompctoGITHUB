@@ -22,4 +22,9 @@ public class Fruit extends Food{
     public double getTotalPrice() {
         return (weight*super.getPrice()*100)/100;
     }
+
+    @Override
+    public String getUnit() {
+        return "Kg";
+    }
 }

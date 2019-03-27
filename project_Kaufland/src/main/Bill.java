@@ -1,14 +1,17 @@
 package main;
 
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+import database.Database;
 import exception.BillException;
 import interfaces.DraftInterface;
 import items.Item;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import interfaces.Pce;
 import items.food.Fruit;
@@ -16,10 +19,9 @@ import items.food.Fruit;
 public class Bill {
     private List<Item> list;
     static int countItem;
-    private int finalPriceOfBill;
+    private double finalPriceOfBill;
     private boolean open;
-    private LocalDate date;
-    private LocalTime time;
+    private Date date;
 
     public Bill(){
         this.list=new ArrayList<>();
@@ -66,15 +68,36 @@ public class Bill {
         return countItem;
     }
 
+    public List<Item> getList() {
+        return list;
+    }
+
+    public double getFinalPriceOfBill() {
+        return finalPriceOfBill;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
     public void end(){
         if(open){
-            date= LocalDate.now();
-            time=LocalTime.now();
+            date= new Date();
+            try {
+                finalPriceOfBill = getFinalPrice();
+            } catch (BillException e) {
+                e.printStackTrace();
+            }
             System.out.println("Date: "+date);
-            System.out.println("Time: "+time);
+            Database db = Database.getInstanceDB();
+            try {
+                db.insertNewBill(this);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+//            db.insertNewBill(list, (java.util.Date) date,finalPriceOfBill);
         }else{
             System.out.println("Date: "+date);
-            System.out.println("Time: "+time);
         }
         open=false;
     }
