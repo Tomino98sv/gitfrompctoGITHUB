@@ -1,7 +1,5 @@
 package items.food;
 
-import static java.lang.Math.round;
-
 public class Fruit extends Food{
     public double weight;
 
@@ -20,7 +18,7 @@ public class Fruit extends Food{
 
     @Override
     public double getTotalPrice() {
-        return (weight*super.getPrice()*100)/100;
+        return Math.round((weight*super.getPrice())*100.0)/100.0;
     }
 
     @Override

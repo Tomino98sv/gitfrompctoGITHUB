@@ -1,17 +1,18 @@
 package main;
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.io.BufferedReader;
-import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import javax.net.ssl.HttpsURLConnection;
 
 public class Internet {
 
-    public static void getUSDrate() throws IOException {
+    public static double getUSDrate() throws IOException {
         URL urlForGetRequest = new URL("http://data.fixer.io/api/latest?access_key=f7e184e416001bd5af106b8c297a002d");
         String readLine = null;
         HttpURLConnection connection = (HttpURLConnection) urlForGetRequest.openConnection();
@@ -25,11 +26,17 @@ public class Internet {
             while ((readLine = in .readLine()) != null) {
                 response.append(readLine);
             } in .close();
-            // print result
-            System.out.println("JSON String Result " + response);
-            //GetAndPost.POSTRequest(response.toString());
+
+            JsonObject jsonObject = (new JsonParser()).parse(response.toString()).getAsJsonObject();
+            JsonObject rates = jsonObject.getAsJsonObject("rates");
+            Double usd = rates.get("USD").getAsDouble();
+
+           return  usd;
+
+
         } else {
             System.out.println("GET NOT WORKED");
+            return -1;
         }
     }
 

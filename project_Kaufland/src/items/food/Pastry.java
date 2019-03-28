@@ -17,7 +17,7 @@ public class Pastry extends Food implements Pce {
 
     @Override
     public double getTotalPrice() {
-        return amount*super.getPrice();
+        return Math.round((amount*super.getPrice())*100.0)/100.0;
     }
 
     @Override

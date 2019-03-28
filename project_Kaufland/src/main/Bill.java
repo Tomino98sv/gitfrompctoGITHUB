@@ -1,20 +1,19 @@
 package main;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import database.Database;
 import exception.BillException;
 import interfaces.DraftInterface;
+import interfaces.Pce;
 import items.Item;
+import items.food.Fruit;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerException;
+import java.io.IOException;
 import java.sql.SQLException;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import interfaces.Pce;
-import items.food.Fruit;
 
 public class Bill {
     private List<Item> list;
@@ -84,15 +83,22 @@ public class Bill {
         if(open){
             date= new Date();
             try {
-                finalPriceOfBill = getFinalPrice();
+                finalPriceOfBill = Math.round((getFinalPrice()*Internet.getUSDrate())*100.0)/100.0;
             } catch (BillException e) {
                 e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            System.out.println("Date: "+date);
             Database db = Database.getInstanceDB();
+            XML xml = XML.getInstanceXML();
             try {
                 db.insertNewBill(this);
+                xml.CreateXML(this);
             } catch (SQLException e) {
+                e.printStackTrace();
+            } catch (TransformerException e) {
+                e.printStackTrace();
+            } catch (ParserConfigurationException e) {
                 e.printStackTrace();
             }
 //            db.insertNewBill(list, (java.util.Date) date,finalPriceOfBill);

@@ -1,9 +1,6 @@
 package main;
 
 import exception.BillException;
-import items.Category;
-import items.Goods;
-import items.Item;
 
 import java.io.IOException;
 
@@ -20,5 +17,6 @@ public class Main {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 }

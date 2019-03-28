@@ -25,7 +25,7 @@ public class Bottle extends Drink implements Pce {
 
     @Override
     public double getTotalPrice() {
-        return amount*getPrice();
+        return Math.round((amount*getPrice())*100.0)/100.0;
     }
 
     @Override

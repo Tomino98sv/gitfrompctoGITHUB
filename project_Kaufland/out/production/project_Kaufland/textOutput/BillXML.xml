@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Bill>
+<DateOfPurchase>
+<Date>2019-03-28</Date>
+<Time>18:45:36</Time>
+</DateOfPurchase>
+<Item>
+<Name>milk 1,5 %</Name>
+<PriceOfOneUnit>0.56</PriceOfOneUnit>
+<TotalPrice>2.24</TotalPrice>
+<Count>4</Count>
+<Unit>Pcs</Unit>
+</Item>
+<Item>
+<Name>Penne</Name>
+<PriceOfOneUnit>2.1</PriceOfOneUnit>
+<TotalPrice>16.8</TotalPrice>
+<Count>8</Count>
+<Unit>Pcs</Unit>
+</Item>
+<Item>
+<Name>Orange</Name>
+<PriceOfOneUnit>0.75</PriceOfOneUnit>
+<TotalPrice>0.42</TotalPrice>
+<Count>0.56</Count>
+<Unit>Kg</Unit>
+</Item>
+<Item>
+<Name>Pencil 0.5</Name>
+<PriceOfOneUnit>0.6</PriceOfOneUnit>
+<TotalPrice>0.6</TotalPrice>
+<Count>1</Count>
+<Unit>Pcs</Unit>
+</Item>
+<Item>
+<Name>Beer</Name>
+<PriceOfOneUnit>1.5</PriceOfOneUnit>
+<TotalPrice>1.95</TotalPrice>
+<Count>1.3</Count>
+<Unit>l</Unit>
+</Item>
+<FinalPriceOfBill>24.73</FinalPriceOfBill>
+</Bill>

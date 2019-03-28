@@ -5,10 +5,9 @@ import items.Category;
 import items.Goods;
 import items.Item;
 import items.drinks.Bottle;
-import items.drinks.Drink;
+import items.drinks.Draft;
 import items.food.Fruit;
 import items.food.Pastry;
-import items.drinks.Draft;
 
 public class Application {
     private static Application app = new Application();
@@ -40,12 +39,6 @@ public class Application {
         Draft pivo = new Draft("Birell lemon",1,true,0.50);
         bill.removeItem(pivo);
 
-
-        System.out.println(bill.getCountItem());
-        bill.print();
         bill.end();
-        bill.print();
-        bill.end();
-        bill.print();
     }
 }
