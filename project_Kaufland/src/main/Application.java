@@ -39,6 +39,9 @@ public class Application {
         Draft pivo = new Draft("Birell lemon",1,true,0.50);
         bill.removeItem(pivo);
 
+        Bottle milkzabudolsom = new Bottle("milk 1,5 %",0.56,4);
+        bill.addItem(milkzabudolsom);
+
         bill.end();
     }
 }

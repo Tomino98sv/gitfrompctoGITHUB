@@ -24,6 +24,11 @@ public class Bottle extends Drink implements Pce {
     }
 
     @Override
+    public void setAmount(int amountnew) {
+        this.amount = amountnew;
+    }
+
+    @Override
     public double getTotalPrice() {
         return Math.round((amount*getPrice())*100.0)/100.0;
     }

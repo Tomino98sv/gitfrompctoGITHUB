@@ -29,4 +29,9 @@ public class Pastry extends Food implements Pce {
     public int getAmount(){
         return amount;
     }
+
+    @Override
+    public void setAmount(int amount){
+        this.amount=amount;
+    }
 }

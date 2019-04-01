@@ -16,6 +16,11 @@ public class Draft extends Drink implements DraftInterface {
     }
 
     @Override
+    public void setVolume(double volume){
+        this.volume=volume;
+    }
+
+    @Override
     public double getTotalPrice() {
         return Math.round((volume*super.getPrice())*100.0)/100.0;
     }

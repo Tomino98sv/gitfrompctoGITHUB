@@ -30,7 +30,8 @@ public class Bill {
     }
 
     public void addItem(Item item) throws BillException {
-        if (item!=null)  {
+        Item itemTemp = checkItems(item);
+        if (itemTemp==item)  {
             if(open == false){
                 String message = "Bill is closed Is not allowed to add any item ";
                 throw new BillException(message);
@@ -42,6 +43,27 @@ public class Bill {
                 list.add(item);
                 countItem++;
             }
+        }
+    }
+
+    public Item checkItems(Item item){
+        for (Item checkingItem: list) {
+            if (item.getName().toLowerCase() == checkingItem.getName().toLowerCase()
+                    && item.getClass().getName().equals(checkingItem.getClass().getName())){
+                updateItem(item,checkingItem);
+                return null;
+            }
+        }
+        return item;
+    }
+
+    public void updateItem(Item item, Item oldItem){
+        if (oldItem instanceof DraftInterface && item instanceof DraftInterface){
+            ((DraftInterface) oldItem).setVolume(((DraftInterface) oldItem).getVolume()+((DraftInterface) item).getVolume());
+        }else if(oldItem instanceof Fruit && item instanceof Fruit){
+            ((Fruit) oldItem).setWeight(((Fruit) oldItem).getWeight()+((Fruit) item).getWeight());
+        }else if(oldItem instanceof Pce && item instanceof Pce){
+           ((Pce) oldItem).setAmount(((Pce) oldItem).getAmount()+((Pce) item).getAmount());
         }
     }
 

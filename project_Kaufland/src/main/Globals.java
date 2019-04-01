@@ -1,9 +1,5 @@
 package main;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-
 public class Globals {
    static public final int MAXITEMS;
    static public final String user;
@@ -12,7 +8,7 @@ public class Globals {
    static public final String driver;
 
    static{
-       MAXITEMS = 7;
+       MAXITEMS = 30;
        user = "klaud";
        pass = "";
        url ="jdbc:mysql://localhost:3306/kauflanddb";

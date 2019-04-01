@@ -32,4 +32,9 @@ public class Goods extends Item implements Pce {
         return amount;
     }
 
+    @Override
+    public void setAmount(int amount){
+        this.amount=amount;
+    }
+
 }
