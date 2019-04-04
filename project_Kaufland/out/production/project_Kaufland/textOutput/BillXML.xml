@@ -1,7 +1,7 @@
 <Bill>
 <DateOfPurchase>
-<Date>2019-04-01</Date>
-<Time>13:14:42</Time>
+<Date>2019-04-04</Date>
+<Time>19:33:02</Time>
 </DateOfPurchase>
 <Item>
 <Name>milk 1,5 %</Name>
@@ -38,12 +38,6 @@
 <Count>1.3</Count>
 <Unit>l</Unit>
 </Item>
-<Item>
-<Name>milk 1,5 %</Name>
-<PriceOfOneUnit>0.56</PriceOfOneUnit>
-<TotalPrice>2.24</TotalPrice>
-<Count>4</Count>
-<Unit>Pcs</Unit>
-</Item>
-<FinalPriceOfBill>29.77</FinalPriceOfBill>
+<FinalPriceOfBill>27.2</FinalPriceOfBill>
+<IdOfBill>1</IdOfBill>
 </Bill>

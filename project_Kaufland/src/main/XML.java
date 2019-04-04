@@ -83,11 +83,16 @@ public class XML {
             unitName.appendChild(doc.createTextNode(item.getUnit()));
             itemOfBill.appendChild(unitName);
 
+
         }
 
         Element finalPrice = doc.createElement("FinalPriceOfBill");
         finalPrice.appendChild(doc.createTextNode(String.valueOf(bill.getFinalPriceOfBill())));
         rootElement.appendChild(finalPrice);
+
+        Element idBill = doc.createElement("IdOfBill");
+        idBill.appendChild(doc.createTextNode(String.valueOf(bill.getId())));
+        rootElement.appendChild(idBill);
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();

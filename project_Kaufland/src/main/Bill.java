@@ -1,16 +1,14 @@
 package main;
 
 import database.Database;
+import database.MongoDB;
 import exception.BillException;
 import interfaces.DraftInterface;
 import interfaces.Pce;
 import items.Item;
 import items.food.Fruit;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -21,12 +19,22 @@ public class Bill {
     private double finalPriceOfBill;
     private boolean open;
     private Date date;
+    private static int count=0;
+
+    public int getId() {
+        return id;
+    }
+
+    private int id;
+
 
     public Bill(){
         this.list=new ArrayList<>();
         countItem=0;
         finalPriceOfBill =0;
         open=true;
+        count++;
+        id=count;
     }
 
     public void addItem(Item item) throws BillException {
@@ -48,8 +56,10 @@ public class Bill {
 
     public Item checkItems(Item item){
         for (Item checkingItem: list) {
-            if (item.getName().toLowerCase() == checkingItem.getName().toLowerCase()
+
+            if (item.getName().toLowerCase().equals(checkingItem.getName().toLowerCase())
                     && item.getClass().getName().equals(checkingItem.getClass().getName())){
+                System.out.println("PRESLA PODMIENKA");
                 updateItem(item,checkingItem);
                 return null;
             }
@@ -113,14 +123,12 @@ public class Bill {
             }
             Database db = Database.getInstanceDB();
             XML xml = XML.getInstanceXML();
+            MongoDB mdb = MongoDB.getInstanceMongoDB();
             try {
                 db.insertNewBill(this);
                 xml.CreateXML(this);
-            } catch (SQLException e) {
-                e.printStackTrace();
-            } catch (TransformerException e) {
-                e.printStackTrace();
-            } catch (ParserConfigurationException e) {
+                mdb.addBillToMongoDB(this);
+            } catch (Exception e){
                 e.printStackTrace();
             }
 //            db.insertNewBill(list, (java.util.Date) date,finalPriceOfBill);
