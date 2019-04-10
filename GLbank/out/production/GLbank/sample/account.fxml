@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.Account">
+   <children>
+      <Label fx:id="fnameShow" layoutX="183.0" layoutY="84.0" prefHeight="47.0" prefWidth="168.0" text="firstname" textAlignment="CENTER">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Label fx:id="lnameShow" layoutX="183.0" layoutY="130.0" prefHeight="47.0" prefWidth="168.0" text="lastname" textAlignment="CENTER">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Label fx:id="positShow" layoutX="183.0" layoutY="177.0" prefHeight="47.0" prefWidth="144.0" text="position" textAlignment="CENTER">
+         <font>
+            <Font size="32.0" />
+         </font>
+      </Label>
+      <Label alignment="BOTTOM_LEFT" layoutX="14.0" layoutY="84.0" prefHeight="47.0" prefWidth="168.0" text="FirstName:" textAlignment="CENTER" textFill="#b5a4a4">
+         <font>
+            <Font name="Cambria" size="28.0" />
+         </font>
+      </Label>
+      <Label alignment="BOTTOM_LEFT" layoutX="14.0" layoutY="130.0" prefHeight="47.0" prefWidth="168.0" text="LastName:" textAlignment="CENTER" textFill="#b5a4a4">
+         <font>
+            <Font name="Cambria" size="28.0" />
+         </font>
+      </Label>
+      <Label alignment="BOTTOM_LEFT" layoutX="14.0" layoutY="177.0" prefHeight="47.0" prefWidth="168.0" text="Position:" textAlignment="CENTER" textFill="#b5a4a4">
+         <font>
+            <Font name="Cambria" size="28.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

@@ -6,7 +6,7 @@ import sample.Globals;
 import java.sql.*;
 
 public class Database {
-    static final String SQL1 = "select employee.id as employeeId, employee.lname,employee.fname,loginemp.id as loginId,loginemp.login,loginemp.password, positions.id as positionId, positions.name as nameposition from employee inner join loginemp on loginemp.login like ? and loginemp.password like ? inner join positions on employee.position=positions.id group by employee.lname and employee.fname;";
+    static final String SQL1 = "select employee.id as employeeId, employee.lname,employee.fname,loginemp.id as loginId,loginemp.login,loginemp.password, positions.id as positionId, positions.name as nameposition from employee inner join loginemp on employee.id=loginemp.id inner join positions on employee.position=positions.id where loginemp.login like ? and loginemp.password like ?;";
 
     private static Database database = new Database();
     private Database(){
