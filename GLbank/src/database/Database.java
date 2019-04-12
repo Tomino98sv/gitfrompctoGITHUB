@@ -1,12 +1,16 @@
 package database;
 
-import employee.Employee;
+import persons.Client;
+import persons.Employee;
 import sample.Globals;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
     static final String SQL1 = "select employee.id as employeeId, employee.lname,employee.fname,loginemp.id as loginId,loginemp.login,loginemp.password, positions.id as positionId, positions.name as nameposition from employee inner join loginemp on employee.id=loginemp.id inner join positions on employee.position=positions.id where loginemp.login like ? and loginemp.password like ?;";
+    static final String SQL2 = "select * from client group by client.id";
 
     private static Database database = new Database();
     private Database(){
@@ -57,6 +61,31 @@ public class Database {
                 return null;
             else
                 return new Employee(employeeId,fname,lname,loginId,login,password,positionId,position);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+
+    public List<Client> getAllClients(){
+        List<Client> listOfClients= new ArrayList<>();
+        Connection conn = getConnection();
+
+        try{
+            PreparedStatement statement = conn.prepareStatement(SQL2);
+            ResultSet result = statement.executeQuery();
+
+            while (result.next()){
+                int id = result.getInt("id");
+                String fname = result.getString("fname");
+                String lname = result.getString("lname");
+                String email = result.getString("email");
+                Client client = new Client(id,fname,lname,email);
+                listOfClients.add(client);
+            }
+            return listOfClients;
         }catch (SQLException e){
             e.printStackTrace();
         }
