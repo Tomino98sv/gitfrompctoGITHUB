@@ -1,5 +1,6 @@
-package sample;
+package controller;
 
+import account.Account;
 import database.Database;
 import persons.Client;
 import persons.Employee;
@@ -12,6 +13,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import sample.Globals;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,7 +26,6 @@ public class Controller {
     public Label wlogin;
 
 
-    Database db = Database.getInstanceDatabase();
     Employee zamestnanec;
     String meno="zly";
     String heslo="zly";
@@ -34,7 +35,7 @@ public class Controller {
     public void getData(ActionEvent actionEvent) {
         meno = login.getText();
         heslo = pass.getText();
-        zamestnanec=db.getEmployee(meno,heslo);
+        zamestnanec= Globals.db.getEmployee(meno,heslo);
         if(zamestnanec==null){
             wpassw.setVisible(true);
             wlogin.setVisible(true);
@@ -53,16 +54,14 @@ public class Controller {
                 dialogStage.close();
 
                 FXMLLoader fxmlLoader = new FXMLLoader();
-                fxmlLoader.setLocation(getClass().getResource("account.fxml"));
+                fxmlLoader.setLocation(getClass().getResource("../account/account.fxml"));
                 Parent accountView = fxmlLoader.load();
 
                 Stage stage = new Stage();
                 stage.setScene(new Scene(accountView));
 
-                List<Client> clientList = db.getAllClients();
                 Account account = fxmlLoader.getController();
-                account.showDataMethod(zamestnanec,clientList);
-
+                account.showDataMethod(zamestnanec);
                 stage.show();
             }
             catch (IOException e) {
