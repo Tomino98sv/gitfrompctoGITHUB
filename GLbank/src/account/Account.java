@@ -101,12 +101,12 @@ public class Account implements Initializable {
                 .observableArrayList(
                         Globals.db.getAllClients());
         currentClient = listClients.get(0);
+        buttonCreateAcc.setVisible(false);
         dropdownMenu();
-        dropdownMenuAcc();
+//        dropdownMenuAcc();
         clientfname.setText(currentClient.getFname());
         clientlname.setText(currentClient.getLname());
         clientemail.setText(currentClient.getEmail());
-        buttonCreateAcc.setVisible(false);
 
     }
 
@@ -115,19 +115,10 @@ public class Account implements Initializable {
             comboBox.getItems().add(client.getFname()+" "+client.getLname());
         }
         comboBox.getSelectionModel().select(0);
+        comboChange(new ActionEvent());
     }
 
-    public void dropdownMenuAcc(){
-        for (ClientAccount clAccount: currentClient.getListAccount()) {
-            accComboBox.getItems().add(clAccount.getAccNum());
-        }
-        accComboBox.getSelectionModel().select(0);
-        accountAcc = currentClient.getListAccount().get(0);
 
-        sccId.setText(String.valueOf(accountAcc.getIdAcc()));
-        accNumLab.setText(accountAcc.getAccNum());
-        amountLab.setText(String.valueOf(accountAcc.getAmount()));
-    }
 
     public void comboChange(ActionEvent event){
             selectClientId = comboBox.getSelectionModel().getSelectedIndex();
@@ -148,6 +139,8 @@ public class Account implements Initializable {
             noAccount(true);
         }
     }
+
+
 
     public void accComboBoxAction(ActionEvent event) {
         selectedAccountId = accComboBox.getSelectionModel().getSelectedIndex();
