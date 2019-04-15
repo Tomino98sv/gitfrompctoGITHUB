@@ -13,6 +13,7 @@ public class Database {
     private static final String SQL2 = "select * from client group by client.id";
     private static final String SQL3 = "select * from account where account.idc like ?";
     private static final String SQL4 = "update account set account.amount = account.amount + ? where id like ?";
+    private static final String SQL5 = "insert into client(fname,lname,email) values (?,?,?)";
 
     private Connection conn;
     private static Database database = new Database();
@@ -128,6 +129,19 @@ public class Database {
             statement.setInt(2,idAcc);
             statement.executeUpdate();
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void insertNewClient(String fname,String lname,String email){
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL5);
+            statement.setString(1,fname);
+            statement.setString(2,lname);
+            statement.setString(3,email);
+            statement.executeUpdate();
+        }catch (SQLException e){
             e.printStackTrace();
         }
     }

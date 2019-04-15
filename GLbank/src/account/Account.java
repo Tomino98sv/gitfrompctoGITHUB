@@ -5,6 +5,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import persons.Client;
 import persons.ClientAccount;
 import persons.Employee;
@@ -42,6 +43,12 @@ public class Account implements Initializable {
 
     public TextField withdrawInput;
     public TextField depotInput;
+    public Button buttonDraw;
+    public Button buttonDepot;
+    public Label labelDraw;
+    public Label labelDepot;
+
+    public Button buttonCreateAcc;
 
     private ObservableList<Client> listClients;
     private Client currentClient;
@@ -57,23 +64,35 @@ public class Account implements Initializable {
         positShow.setText(employee.getNameposit());
     }
 
-    public void logOutMethod(ActionEvent actionEvent) {
-        Node node = (Node)actionEvent.getSource();
+    public void closeScene(ActionEvent actionEventForClose){
+        Node node = (Node)actionEventForClose.getSource();
         Stage dialogStage = (Stage) node.getScene().getWindow();
         dialogStage.close();
+    }
 
+    public Parent loadFXMLoader(String path){
         FXMLLoader fxmlLoader = new FXMLLoader();
-        fxmlLoader.setLocation(getClass().getResource("../controller/sample.fxml"));
+        fxmlLoader.setLocation(getClass().getResource(path));
         Parent accountView = null;
         try {
             accountView = fxmlLoader.load();
+            return accountView;
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
+    }
 
+    public void newStage(Parent accountView){
         Stage stage = new Stage();
         stage.setScene(new Scene(accountView));
         stage.show();
+    }
+
+    public void logOutMethod(ActionEvent actionEvent) {
+        closeScene(actionEvent);
+        Parent accountView=loadFXMLoader("../controller/sample.fxml");
+        newStage(accountView);
     }
 
     @Override
@@ -87,6 +106,7 @@ public class Account implements Initializable {
         clientfname.setText(currentClient.getFname());
         clientlname.setText(currentClient.getLname());
         clientemail.setText(currentClient.getEmail());
+        buttonCreateAcc.setVisible(false);
 
     }
 
@@ -117,10 +137,16 @@ public class Account implements Initializable {
         clientfname.setText(currentClient.getFname());
         clientlname.setText(currentClient.getLname());
         clientemail.setText(currentClient.getEmail());
-        for (ClientAccount cacc: currentClient.getListAccount()) {
-            accComboBox.getItems().add(cacc.getAccNum());
+
+        if (!currentClient.getListAccount().isEmpty()){
+            for (ClientAccount cacc: currentClient.getListAccount()) {
+                accComboBox.getItems().add(cacc.getAccNum());
+            }
+            accComboBox.getSelectionModel().select(0);
+            noAccount(false);
+        }else{
+            noAccount(true);
         }
-        accComboBox.getSelectionModel().select(0);
     }
 
     public void accComboBoxAction(ActionEvent event) {
@@ -130,16 +156,17 @@ public class Account implements Initializable {
         }
 
         accountAcc = currentClient.getListAccount().get(selectedAccountId);
-        sccId.setText(String.valueOf(accountAcc.getIdAcc()));
-        accNumLab.setText(accountAcc.getAccNum());
-        amountLab.setText(String.valueOf(accountAcc.getAmount()));
+            sccId.setText(String.valueOf(accountAcc.getIdAcc()));
+            accNumLab.setText(accountAcc.getAccNum());
+            amountLab.setText(String.valueOf(accountAcc.getAmount()));
+
     }
 
     public void confirmDepot(ActionEvent event) {   //depot=vklad
         try {
-            Double depotNumDouble=Double.parseDouble(depotInput.getText());
-
-            Globals.db.changeAmount(Math.round(depotNumDouble*100.0)/100.0,accountAcc.getIdAcc());
+            double depotNumDouble=Double.parseDouble(depotInput.getText());
+            depotNumDouble = Math.round(depotNumDouble*100.0)/100.0;
+            Globals.db.changeAmount(depotNumDouble,accountAcc.getIdAcc());
             updateCurrentClientAndAccount();
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
             depotInput.setText("");
@@ -153,7 +180,7 @@ public class Account implements Initializable {
 
     public void confirmWithdraw(ActionEvent event) {  //withdraw=vyber
         try {
-            Double withdrawNumDouble=Double.parseDouble(withdrawInput.getText());
+            double withdrawNumDouble=Double.parseDouble(withdrawInput.getText());
             withdrawNumDouble = Math.round(withdrawNumDouble*100.0)/100.0;
             Globals.db.changeAmount(withdrawNumDouble*-1,accountAcc.getIdAcc());
             updateCurrentClientAndAccount();
@@ -189,5 +216,45 @@ public class Account implements Initializable {
                         Globals.db.getAllClients());
         currentClient=listClients.get(selectClientId);
         accountAcc=currentClient.getListAccount().get(selectedAccountId);
+    }
+
+
+    public void addClient(ActionEvent event) {
+        closeScene(event);
+        Parent accountView=loadFXMLoader("../createClient/createClient.fxml");
+        newStage(accountView);
+
+    }
+
+    private void noAccount(boolean bool){
+        accComboBox.setDisable(bool);
+        accComboBox.setVisible(!bool);
+
+        buttonCreateAcc.setDisable(!bool);
+        buttonCreateAcc.setVisible(bool);
+
+        withdrawInput.setDisable(bool);
+        withdrawInput.setVisible(!bool);
+
+        depotInput.setDisable(bool);
+        depotInput.setVisible(!bool);
+
+        buttonDraw.setDisable(bool);
+        buttonDraw.setVisible(!bool);
+
+        buttonDepot.setDisable(bool);
+        buttonDepot.setVisible(!bool);
+
+        labelDraw.setDisable(bool);
+        labelDraw.setVisible(!bool);
+
+        labelDepot.setDisable(bool);
+        labelDepot.setVisible(!bool);
+
+        if (bool){
+            sccId.setText("NONE Account Id");
+            accNumLab.setText("NONE Account Number");
+            amountLab.setText("NONE Account Amount");
+        }
     }
 }

@@ -140,7 +140,7 @@
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0">
                                  <children>
-                                    <Label alignment="CENTER" prefHeight="28.0" prefWidth="200.0" text="Monety depot" textAlignment="CENTER">
+                                    <Label fx:id="labelDepot" alignment="CENTER" prefHeight="28.0" prefWidth="200.0" text="Monety depot" textAlignment="CENTER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -151,7 +151,7 @@
                                           <Insets left="50.0" right="50.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label alignment="CENTER" prefHeight="28.0" prefWidth="200.0" text="withdrawal of money" textAlignment="CENTER">
+                                    <Label fx:id="labelDraw" alignment="CENTER" prefHeight="28.0" prefWidth="200.0" text="withdrawal of money" textAlignment="CENTER">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -189,7 +189,7 @@
                                     <Insets bottom="5.0" left="10.0" right="10.0" />
                                  </opaqueInsets>
                                  <children>
-                                    <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#confirmDepot" prefHeight="42.0" prefWidth="153.0" text="Confirm depot" textAlignment="CENTER" textOverrun="CLIP">
+                                    <Button fx:id="buttonDepot" alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#confirmDepot" prefHeight="42.0" prefWidth="153.0" text="Confirm depot" textAlignment="CENTER" textOverrun="CLIP">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -197,7 +197,7 @@
                                           <Insets left="70.0" right="70.0" />
                                        </HBox.margin>
                                     </Button>
-                                    <Button alignment="CENTER" contentDisplay="CENTER" layoutX="70.0" layoutY="10.0" mnemonicParsing="false" onAction="#confirmWithdraw" prefHeight="42.0" prefWidth="153.0" text="Confirm withdraw" textAlignment="CENTER" textOverrun="CLIP">
+                                    <Button fx:id="buttonDraw" alignment="CENTER" contentDisplay="CENTER" layoutX="70.0" layoutY="10.0" mnemonicParsing="false" onAction="#confirmWithdraw" prefHeight="42.0" prefWidth="153.0" text="Confirm withdraw" textAlignment="CENTER" textOverrun="CLIP">
                                        <font>
                                           <Font size="16.0" />
                                        </font>
@@ -209,6 +209,7 @@
                               </HBox>
                            </children>
                         </VBox>
+                        <Button fx:id="buttonCreateAcc" layoutX="131.0" layoutY="20.0" mnemonicParsing="false" scaleX="1.3" text="Create first Account" />
                      </children></AnchorPane>
             </content>
           </Tab>
@@ -225,5 +226,6 @@
         </tabs>
       </TabPane>
       <ComboBox fx:id="comboBox" layoutX="14.0" layoutY="57.0" onAction="#comboChange" prefWidth="150.0" />
+      <Button layoutX="199.0" layoutY="57.0" mnemonicParsing="false" onAction="#addClient" text="Add Client" />
    </children>
 </AnchorPane>
