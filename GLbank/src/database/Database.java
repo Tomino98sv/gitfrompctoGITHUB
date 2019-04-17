@@ -1,5 +1,7 @@
 package database;
 
+import account.Account;
+import com.sun.org.apache.regexp.internal.RE;
 import persons.ClientAccount;
 import persons.Client;
 import persons.Employee;
@@ -9,11 +11,14 @@ import java.sql.*;
 import java.util.ArrayList;
 
 public class Database {
-    private static final String SQL1 = "select employee.id as employeeId, employee.lname,employee.fname,loginemp.id as loginId,loginemp.login,loginemp.password, positions.id as positionId, positions.name as nameposition from employee inner join loginemp on employee.id=loginemp.id inner join positions on employee.position=positions.id where loginemp.login like ? and loginemp.password like ?;";
-    private static final String SQL2 = "select * from client group by client.id";
-    private static final String SQL3 = "select * from account where account.idc like ?";
-    private static final String SQL4 = "update account set account.amount = account.amount + ? where id like ?";
-    private static final String SQL5 = "insert into client(fname,lname,email) values (?,?,?)";
+    private static final String SQL1 = "SELECT employee.id as employeeId, employee.lname,employee.fname,loginemp.id as loginId,loginemp.login,loginemp.password, positions.id as positionId, positions.name as nameposition from employee inner join loginemp on employee.id=loginemp.id inner join positions on employee.position=positions.id where loginemp.login like ? and loginemp.password like ?;";
+    private static final String SQL2 = "SELECT * from client group by client.id";
+    private static final String SQL3 = "SELECT * from account where account.idc like ?";
+    private static final String SQL4 = "UPDATE account set account.amount = account.amount + ? where id like ?";
+    private static final String SQL5 = "INSERT into client(fname,lname,email) values (?,?,?)";
+    private static final String SQL6 = "INSERT into account(AccNum,amount,idc) values (?,?,?)";
+    private static final String SQL7 = "SELECT * from account where AccNum like ?";
+
 
     private Connection conn;
     private static Database database = new Database();
@@ -144,5 +149,47 @@ public class Database {
         }catch (SQLException e){
             e.printStackTrace();
         }
+    }
+
+    public ClientAccount insertNewAccount(String accNum, double startingAmount, int idc){
+        int id=0;
+        String AccNum="";
+        double amount=0;
+        int idcl=0;
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL6);
+            statement.setString(1,accNum);
+            statement.setDouble(2,startingAmount);
+            statement.setDouble(3,idc);
+            statement.executeUpdate();
+            statement = conn.prepareStatement(SQL3);
+            statement.setInt(1,idc);
+            ResultSet createdAccount = statement.executeQuery();
+            while (createdAccount.next()){
+                id = createdAccount.getInt("id");
+                AccNum = createdAccount.getString("AccNum");
+                amount = createdAccount.getDouble("amount");
+                idcl = createdAccount.getInt("idc");
+            }
+            return new ClientAccount(id,AccNum,amount,idcl);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
+    public boolean isAccountNumberAlreadyUsed(String accNumb){
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL7);
+            statement.setString(1,accNumb);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                return false;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return true;
     }
 }

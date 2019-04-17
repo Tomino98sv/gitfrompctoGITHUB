@@ -1,4 +1,6 @@
 package account;
+import createAccount.CreateAccount;
+import createClient.CreateClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.Initializable;
@@ -49,9 +51,12 @@ public class Account implements Initializable {
     public Label labelDepot;
 
     public Button buttonCreateAcc;
+    public Button buttonAddAcc;
 
-    private ObservableList<Client> listClients;
-    private Client currentClient;
+    public static ObservableList<Client> listClients;
+    public static Client currentClient;
+    private ComboBox comboBoxCards;
+    private Button buttonAddCard;
     private ClientAccount accountAcc;
     private boolean depFalse=false;
     private boolean drawFalse=false;
@@ -102,11 +107,14 @@ public class Account implements Initializable {
                         Globals.db.getAllClients());
         currentClient = listClients.get(0);
         buttonCreateAcc.setVisible(false);
+        buttonCreateAcc.setDisable(true);
+        buttonAddAcc.setVisible(true);
+        buttonAddAcc.setDisable(false);
         dropdownMenu();
-//        dropdownMenuAcc();
         clientfname.setText(currentClient.getFname());
         clientlname.setText(currentClient.getLname());
         clientemail.setText(currentClient.getEmail());
+        updateCurrentClientAndAccount();
 
     }
 
@@ -157,6 +165,7 @@ public class Account implements Initializable {
 
     public void confirmDepot(ActionEvent event) {   //depot=vklad
         try {
+            updateCurrentClientAndAccount();
             double depotNumDouble=Double.parseDouble(depotInput.getText());
             depotNumDouble = Math.round(depotNumDouble*100.0)/100.0;
             Globals.db.changeAmount(depotNumDouble,accountAcc.getIdAcc());
@@ -173,6 +182,7 @@ public class Account implements Initializable {
 
     public void confirmWithdraw(ActionEvent event) {  //withdraw=vyber
         try {
+            updateCurrentClientAndAccount();
             double withdrawNumDouble=Double.parseDouble(withdrawInput.getText());
             withdrawNumDouble = Math.round(withdrawNumDouble*100.0)/100.0;
             Globals.db.changeAmount(withdrawNumDouble*-1,accountAcc.getIdAcc());
@@ -207,8 +217,16 @@ public class Account implements Initializable {
         listClients = FXCollections
                 .observableArrayList(
                         Globals.db.getAllClients());
+
+        selectClientId=comboBox.getSelectionModel().getSelectedIndex();
         currentClient=listClients.get(selectClientId);
+
+        selectedAccountId=accComboBox.getSelectionModel().getSelectedIndex();
         accountAcc=currentClient.getListAccount().get(selectedAccountId);
+
+        sccId.setText(String.valueOf(accountAcc.getIdAcc()));
+        accNumLab.setText(accountAcc.getAccNum());
+        amountLab.setText(String.valueOf(accountAcc.getAmount()));
     }
 
 
@@ -244,10 +262,25 @@ public class Account implements Initializable {
         labelDepot.setDisable(bool);
         labelDepot.setVisible(!bool);
 
+        buttonAddAcc.setVisible(!bool);
+        buttonAddAcc.setDisable(bool);
         if (bool){
             sccId.setText("NONE Account Id");
             accNumLab.setText("NONE Account Number");
             amountLab.setText("NONE Account Amount");
         }
+    }
+
+    public void addAccount(ActionEvent event) throws IOException {
+        closeScene(event);
+        Parent createAcc = loadFXMLoader("../createAccount/confirmAcc.fxml");
+        newStage(createAcc);
+    }
+
+    public void cardsComboBoxAction(ActionEvent event) {
+    }
+
+    public void buttonAddCardAction(ActionEvent event) {
+        
     }
 }

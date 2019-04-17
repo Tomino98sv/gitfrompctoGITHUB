@@ -209,11 +209,11 @@
                               </HBox>
                            </children>
                         </VBox>
-                        <Button fx:id="buttonCreateAcc" layoutX="120.0" layoutY="18.0" mnemonicParsing="false" text="Create first Account">
+                        <Button fx:id="buttonCreateAcc" layoutX="112.0" layoutY="18.0" mnemonicParsing="false" onAction="#addAccount" prefHeight="30.0" prefWidth="159.0" text="Create first Account">
                            <font>
                               <Font size="14.0" />
                            </font></Button>
-                        <Button fx:id="buttonCreateAcc1" layoutX="277.0" layoutY="20.0" mnemonicParsing="false" text="Create first Account" />
+                        <Button fx:id="buttonAddAcc" layoutX="277.0" layoutY="20.0" mnemonicParsing="false" onAction="#addAccount" text="Add Account" />
                      </children></AnchorPane>
             </content>
           </Tab>
