@@ -2,6 +2,7 @@ package database;
 
 import account.Account;
 import com.sun.org.apache.regexp.internal.RE;
+import persons.Card;
 import persons.ClientAccount;
 import persons.Client;
 import persons.Employee;
@@ -18,7 +19,9 @@ public class Database {
     private static final String SQL5 = "INSERT into client(fname,lname,email) values (?,?,?)";
     private static final String SQL6 = "INSERT into account(AccNum,amount,idc) values (?,?,?)";
     private static final String SQL7 = "SELECT * from account where AccNum like ?";
-
+    private static final String SQL8 = "SELECT * from card where ida like ?";
+    private static final String SQL9 = "INSERT into card (PIN,active,expireM,expireY,ida) values(?,?,?,?,?)";
+    private static final String SQL10 = "SELECT * from card where ida like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -115,7 +118,7 @@ public class Database {
                 double amount = resultSet.getDouble("amount");
                 int idC = resultSet.getInt("idc");
 
-                ClientAccount account = new ClientAccount(idAcc,accNum,amount,idC);
+                ClientAccount account = new ClientAccount(idAcc,accNum,amount,idC,getAllCards(idAcc));
                 lisOfAccounts.add(account);
             }
 
@@ -124,6 +127,29 @@ public class Database {
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    public ArrayList<Card> getAllCards(int ida){
+        ArrayList<Card> listOfCards = new ArrayList<>();
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL8);
+            statement.setInt(1,ida);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                int id = resultSet.getInt("id");
+                String pin = resultSet.getString("PIN");
+                boolean active = resultSet.getBoolean("active");
+                int expireM = resultSet.getInt("expireM");
+                int expireY = resultSet.getInt("expireY");
+                int idaccount = resultSet.getInt("ida");
+                listOfCards.add(new Card(id,pin,active,expireM,expireY,idaccount));
+            }
+            return listOfCards;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -171,11 +197,44 @@ public class Database {
                 amount = createdAccount.getDouble("amount");
                 idcl = createdAccount.getInt("idc");
             }
-            return new ClientAccount(id,AccNum,amount,idcl);
+            return new ClientAccount(id,AccNum,amount,idcl,null);
         }catch (SQLException e){
             e.printStackTrace();
         }
 
+        return null;
+    }
+
+    public Card insertNewCard(String pin, boolean active, int expireM, int expireY, int ida){
+        int id = 0;
+        String PIN = "";
+        boolean activ = true;
+        int m = 0;
+        int y = 0;
+        int idA = 0;
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL9);
+            statement.setString(1,pin);
+            statement.setBoolean(2,active);
+            statement.setInt(3,expireM);
+            statement.setInt(4,expireY);
+            statement.setInt(5,ida);
+            statement.executeUpdate();
+            statement = conn.prepareStatement(SQL10);
+            statement.setInt(1,ida);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                id = resultSet.getInt("id");
+                PIN = resultSet.getString("PIN");
+                activ = resultSet.getBoolean("active");
+                m = resultSet.getInt("expireM");
+                y = resultSet.getInt("expireY");
+                idA = resultSet.getInt("ida");
+            }
+            return new Card(id,PIN,activ,m,y,idA);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
         return null;
     }
 
@@ -192,4 +251,6 @@ public class Database {
         }
         return true;
     }
+
+
 }

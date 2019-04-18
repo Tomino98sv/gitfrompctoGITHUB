@@ -3,11 +3,13 @@ import createAccount.CreateAccount;
 import createClient.CreateClient;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import persons.Card;
 import persons.Client;
 import persons.ClientAccount;
 import persons.Employee;
@@ -27,7 +29,7 @@ import java.util.ResourceBundle;
 
 
 public class Account implements Initializable {
-
+    //Client variables
     public Label fnameShow;
     public Label lnameShow;
     public Label positShow;
@@ -38,30 +40,42 @@ public class Account implements Initializable {
     public Label clientlname;
     public Label clientemail;
 
+    public static ObservableList<Client> listClients;
+    public static Client currentClient;
+    private int selectClientId;
+    //Client variables
+
+    //Account variables
     public Label accNumLab;
     public Label amountLab;
     public ComboBox<String> accComboBox;
     public Label sccId;
-
+    public Button buttonCreateAcc;
+    public Button buttonAddAcc;
+        //vklad a vyber z uctu
     public TextField withdrawInput;
     public TextField depotInput;
     public Button buttonDraw;
     public Button buttonDepot;
     public Label labelDraw;
     public Label labelDepot;
-
-    public Button buttonCreateAcc;
-    public Button buttonAddAcc;
-
-    public static ObservableList<Client> listClients;
-    public static Client currentClient;
-    private ComboBox comboBoxCards;
-    private Button buttonAddCard;
-    private ClientAccount accountAcc;
+         //vklad a vyber z uctu
     private boolean depFalse=false;
     private boolean drawFalse=false;
+    public static ClientAccount accountAcc;
     private int selectedAccountId;
-    private int selectClientId;
+    //Account variables
+
+    //Card variables
+    public ComboBox comboBoxCards;
+    public Button buttonAddCard;
+    public Label pinLabel;
+    public Label dateLabel;
+    public Label activeLabel;
+    public Label accNumLabel;
+    public static Card currentCard;
+    private int selectedCardId;
+    //Card variables
 
     public void showDataMethod(Employee employee) {
         fnameShow.setText(employee.getFname());
@@ -114,7 +128,7 @@ public class Account implements Initializable {
         clientfname.setText(currentClient.getFname());
         clientlname.setText(currentClient.getLname());
         clientemail.setText(currentClient.getEmail());
-        updateCurrentClientAndAccount();
+        updateCurrentClientAndAccountAndCard();
 
     }
 
@@ -165,11 +179,11 @@ public class Account implements Initializable {
 
     public void confirmDepot(ActionEvent event) {   //depot=vklad
         try {
-            updateCurrentClientAndAccount();
+            updateCurrentClientAndAccountAndCard();
             double depotNumDouble=Double.parseDouble(depotInput.getText());
             depotNumDouble = Math.round(depotNumDouble*100.0)/100.0;
             Globals.db.changeAmount(depotNumDouble,accountAcc.getIdAcc());
-            updateCurrentClientAndAccount();
+            updateCurrentClientAndAccountAndCard();
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
             depotInput.setText("");
         }catch (NumberFormatException e){
@@ -182,11 +196,11 @@ public class Account implements Initializable {
 
     public void confirmWithdraw(ActionEvent event) {  //withdraw=vyber
         try {
-            updateCurrentClientAndAccount();
+            updateCurrentClientAndAccountAndCard();
             double withdrawNumDouble=Double.parseDouble(withdrawInput.getText());
             withdrawNumDouble = Math.round(withdrawNumDouble*100.0)/100.0;
             Globals.db.changeAmount(withdrawNumDouble*-1,accountAcc.getIdAcc());
-            updateCurrentClientAndAccount();
+            updateCurrentClientAndAccountAndCard();
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
             withdrawInput.setText("");
         }catch (NumberFormatException e){
@@ -213,7 +227,7 @@ public class Account implements Initializable {
         }
     }
 
-    public void updateCurrentClientAndAccount(){
+    public void updateCurrentClientAndAccountAndCard(){
         listClients = FXCollections
                 .observableArrayList(
                         Globals.db.getAllClients());
@@ -227,6 +241,8 @@ public class Account implements Initializable {
         sccId.setText(String.valueOf(accountAcc.getIdAcc()));
         accNumLab.setText(accountAcc.getAccNum());
         amountLab.setText(String.valueOf(accountAcc.getAmount()));
+
+
     }
 
 
@@ -277,10 +293,18 @@ public class Account implements Initializable {
         newStage(createAcc);
     }
 
+    //card method
     public void cardsComboBoxAction(ActionEvent event) {
     }
 
     public void buttonAddCardAction(ActionEvent event) {
-        
+        closeScene(event);
+        Parent returnAcc = loadFXMLoader("../createCard/ConfirmCard.fxml");
+        newStage(returnAcc);
+
     }
+
+    public void changePINAction(ActionEvent event) {
+    }
+    //card method
 }
