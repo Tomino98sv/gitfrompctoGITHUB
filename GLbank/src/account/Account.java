@@ -9,6 +9,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import persons.Card;
 import persons.Client;
 import persons.ClientAccount;
@@ -46,6 +47,7 @@ public class Account implements Initializable {
     //Client variables
 
     //Account variables
+    private boolean noAcc=true;
     public Label accNumLab;
     public Label amountLab;
     public ComboBox<String> accComboBox;
@@ -67,6 +69,8 @@ public class Account implements Initializable {
     //Account variables
 
     //Card variables
+    public Button buttonFirstAddCard;
+    public VBox vBoxCardInfo;
     public ComboBox comboBoxCards;
     public Button buttonAddCard;
     public Label pinLabel;
@@ -124,15 +128,15 @@ public class Account implements Initializable {
         buttonCreateAcc.setDisable(true);
         buttonAddAcc.setVisible(true);
         buttonAddAcc.setDisable(false);
-        dropdownMenu();
+        updateCurrentClientAndAccountAndCard();
         clientfname.setText(currentClient.getFname());
         clientlname.setText(currentClient.getLname());
         clientemail.setText(currentClient.getEmail());
-        updateCurrentClientAndAccountAndCard();
 
     }
 
     public void dropdownMenu(){
+        comboBox.getItems().clear();
         for (Client client:listClients) {
             comboBox.getItems().add(client.getFname()+" "+client.getLname());
         }
@@ -144,7 +148,9 @@ public class Account implements Initializable {
 
     public void comboChange(ActionEvent event){
             selectClientId = comboBox.getSelectionModel().getSelectedIndex();
-            accComboBox.getItems().clear();
+            if (selectClientId<0){
+                selectedCardId++;
+            }
             currentClient = listClients.get(selectClientId);
         System.out.println(currentClient.getFname()+" "+ currentClient.getLname());
         clientfname.setText(currentClient.getFname());
@@ -152,13 +158,17 @@ public class Account implements Initializable {
         clientemail.setText(currentClient.getEmail());
 
         if (!currentClient.getListAccount().isEmpty()){
+            accComboBox.getItems().clear();
+            noAcc=false;
             for (ClientAccount cacc: currentClient.getListAccount()) {
                 accComboBox.getItems().add(cacc.getAccNum());
             }
             accComboBox.getSelectionModel().select(0);
+            accComboBoxAction(new ActionEvent());
             noAccount(false);
         }else{
             noAccount(true);
+            noCard(true);
         }
     }
 
@@ -171,6 +181,18 @@ public class Account implements Initializable {
         }
 
         accountAcc = currentClient.getListAccount().get(selectedAccountId);
+        if (!accountAcc.getListOfCards().isEmpty()){
+            comboBoxCards.getItems().clear();
+            noCard(false);
+            for (Card currCard:accountAcc.getListOfCards()) {
+                comboBoxCards.getItems().add(currCard.getId());
+            }
+            comboBoxCards.getSelectionModel().select(0);
+            cardsComboBoxAction(new ActionEvent());
+        }else {
+            noCard(true);
+        }
+
             sccId.setText(String.valueOf(accountAcc.getIdAcc()));
             accNumLab.setText(accountAcc.getAccNum());
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
@@ -232,11 +254,12 @@ public class Account implements Initializable {
                 .observableArrayList(
                         Globals.db.getAllClients());
 
-        selectClientId=comboBox.getSelectionModel().getSelectedIndex();
-        currentClient=listClients.get(selectClientId);
-
-        selectedAccountId=accComboBox.getSelectionModel().getSelectedIndex();
-        accountAcc=currentClient.getListAccount().get(selectedAccountId);
+        dropdownMenu();
+//        selectClientId=comboBox.getSelectionModel().getSelectedIndex();
+//        currentClient=listClients.get(selectClientId);
+//
+//        selectedAccountId=accComboBox.getSelectionModel().getSelectedIndex();
+//        accountAcc=currentClient.getListAccount().get(selectedAccountId);
 
         sccId.setText(String.valueOf(accountAcc.getIdAcc()));
         accNumLab.setText(accountAcc.getAccNum());
@@ -284,7 +307,27 @@ public class Account implements Initializable {
             sccId.setText("NONE Account Id");
             accNumLab.setText("NONE Account Number");
             amountLab.setText("NONE Account Amount");
+            noAcc=true;
         }
+    }
+
+    public void noCard(boolean bool){
+        if (!noAcc){
+            buttonFirstAddCard.setVisible(bool);
+            buttonFirstAddCard.setDisable(!bool);
+        }else{
+            buttonFirstAddCard.setVisible(bool);
+            buttonFirstAddCard.setDisable(bool);
+        }
+
+            vBoxCardInfo.setVisible(!bool);
+            vBoxCardInfo.setDisable(bool);
+
+            comboBoxCards.setVisible(!bool);
+            comboBoxCards.setDisable(bool);
+
+            buttonAddCard.setVisible(!bool);
+            buttonAddCard.setDisable(bool);
     }
 
     public void addAccount(ActionEvent event) throws IOException {
@@ -295,6 +338,15 @@ public class Account implements Initializable {
 
     //card method
     public void cardsComboBoxAction(ActionEvent event) {
+        selectedCardId = comboBoxCards.getSelectionModel().getSelectedIndex();
+        if (selectedCardId<0){
+            selectedCardId++;
+        }
+        currentCard = accountAcc.getListOfCards().get(selectedCardId);
+        pinLabel.setText(currentCard.getPin());
+        dateLabel.setText(currentCard.getExpireM()+". "+currentCard.getExpireY());
+        activeLabel.setText(String.valueOf(currentCard.isActive()));
+        accNumLabel.setText(accountAcc.getAccNum());
     }
 
     public void buttonAddCardAction(ActionEvent event) {
