@@ -2,10 +2,7 @@ package database;
 
 import account.Account;
 import com.sun.org.apache.regexp.internal.RE;
-import persons.Card;
-import persons.ClientAccount;
-import persons.Client;
-import persons.Employee;
+import persons.*;
 import sample.Globals;
 
 import java.sql.*;
@@ -22,6 +19,9 @@ public class Database {
     private static final String SQL8 = "SELECT * from card where ida like ?";
     private static final String SQL9 = "INSERT into card (PIN,active,expireM,expireY,ida) values(?,?,?,?,?)";
     private static final String SQL10 = "SELECT * from card where ida like ?";
+    private static final String SQL11 = "SELECT * from client where id like ?";
+    private static final String SQL12 = "INSERT into loginClient (login,password,idc) values (?,?,?)";
+    private static final String SQL13 = "SELECT * from loginClient where id like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -164,17 +164,70 @@ public class Database {
         }
     }
 
-    public void insertNewClient(String fname,String lname,String email){
-
+    public Client insertNewClient(String fname,String lname,String email){
+        Client newClientToGo=null;
         try {
-            PreparedStatement statement = conn.prepareStatement(SQL5);
+            PreparedStatement statement = conn.prepareStatement(SQL5,Statement.RETURN_GENERATED_KEYS);
             statement.setString(1,fname);
             statement.setString(2,lname);
             statement.setString(3,email);
             statement.executeUpdate();
+            ResultSet resultSet = statement.getGeneratedKeys();
+            PreparedStatement newClient = conn.prepareStatement(SQL11);
+
+            int idclient=0;
+            while (resultSet.next()){
+                idclient = resultSet.getInt(1);
+            }
+            newClient.setInt(1,idclient);
+
+            ResultSet newClientResult = newClient.executeQuery();
+            while (newClientResult.next()){
+                int id=        newClientResult.getInt("id");
+                String firstname=  newClientResult.getString("fname");
+                String lastname=  newClientResult.getString("lname");
+                String emailed=  newClientResult.getString("email");
+                newClientToGo = new Client(id,firstname,lastname,emailed,null);
+            }
+            return newClientToGo;
         }catch (SQLException e){
             e.printStackTrace();
         }
+
+        return null;
+    }
+
+    public LoginClient insertNewLogin(String login,String password, int idc){
+        LoginClient loginClient=null;
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL12,Statement.RETURN_GENERATED_KEYS);
+            statement.setString(1,login);
+            statement.setString(2,password);
+            statement.setInt(3,idc);
+            statement.executeUpdate();
+            ResultSet newLoginClient = statement.getGeneratedKeys();
+            PreparedStatement newLogin = conn.prepareStatement(SQL13);
+
+            int idLogin = 0;
+            while (newLoginClient.next()){
+                idLogin = newLoginClient.getInt(1);
+            }
+            newLogin.setInt(1,idLogin);
+            ResultSet resultSet = newLogin.executeQuery();
+            while (resultSet.next()){
+                int id = resultSet.getInt("id");
+                String loginStr = resultSet.getString("login");
+                String passStr = resultSet.getString("password");
+                int idcl = resultSet.getInt("idc");
+                loginClient = new LoginClient(id,loginStr,passStr,idcl);
+            }
+            return loginClient;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     public ClientAccount insertNewAccount(String accNum, double startingAmount, int idc){

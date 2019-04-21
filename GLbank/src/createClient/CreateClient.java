@@ -1,5 +1,6 @@
 package createClient;
 
+import account.Account;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -7,6 +8,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import persons.Client;
 import sample.Globals;
 
 import java.io.IOException;
@@ -46,8 +48,22 @@ public class CreateClient {
         String fname=fNameInput.getText();
         String lname=lNameInput.getText();
         String email=emailInput.getText();
-        Globals.db.insertNewClient(fname,lname,email);
-        cancel(event);
+        Client newClientCreated =Globals.db.insertNewClient(fname,lname,email);
+        closeScene(event);
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader();
+            fxmlLoader.setLocation(getClass().getResource("../createClient/clientLogin.fxml"));
+            Parent accountView = fxmlLoader.load();
+
+            Stage stage = new Stage();
+            stage.setScene(new Scene(accountView));
+
+            ClientLogin clientLogin = fxmlLoader.getController();
+            clientLogin.initial(newClientCreated);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void cancel(ActionEvent event) {
