@@ -22,6 +22,7 @@ public class Database {
     private static final String SQL11 = "SELECT * from client where id like ?";
     private static final String SQL12 = "INSERT into loginClient (login,password,idc) values (?,?,?)";
     private static final String SQL13 = "SELECT * from loginClient where id like ?";
+    private static final String SQL14 = "SELECT * from loginClient where login like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -291,7 +292,7 @@ public class Database {
         return null;
     }
 
-    public boolean isAccountNumberAlreadyUsed(String accNumb){
+    public boolean isAccountNumberNotAlreadyUsed(String accNumb){
         try {
             PreparedStatement statement = conn.prepareStatement(SQL7);
             statement.setString(1,accNumb);
@@ -300,6 +301,20 @@ public class Database {
                 return false;
             }
         }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return true;
+    }
+
+    public boolean isLoginClientNameNotAlreadyUsed(String login){
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL14);
+            statement.setString(1,login);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                return false;
+            }
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return true;

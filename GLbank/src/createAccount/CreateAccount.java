@@ -50,10 +50,10 @@ public class CreateAccount implements Initializable {
 
         while (true){
             for (int i=0;i<10;i++){
-                int num=rand.nextInt(10);
+                int num=rand.nextInt(9);
                 generatedNum+=String.valueOf(num);
             }
-            if(Globals.db.isAccountNumberAlreadyUsed(generatedNum)){
+            if(Globals.db.isAccountNumberNotAlreadyUsed(generatedNum)){
                 break;
             }
         }
