@@ -180,8 +180,10 @@ public class Account implements Initializable {
         if (Globals.db.failedLoginCount(currentLoginClient.getId())==3){
             System.out.println("Found three failes");
             blockIB.setSelected(true);
+            blockIB.setDisable(false);
         }else {
             blockIB.setSelected(false);
+            blockIB.setDisable(true);
         }
     }
 
@@ -403,6 +405,7 @@ public class Account implements Initializable {
 
     public void blockingIB(ActionEvent event) {
         Globals.db.resetFailedLogin(currentLoginClient.getId());
+        blockIB.setDisable(true);
     }
     //card method
 }

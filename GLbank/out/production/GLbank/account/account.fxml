@@ -340,7 +340,7 @@
                            </font>
                         </Label>
                         <Button layoutX="242.0" layoutY="50.0" mnemonicParsing="false" onAction="#resetPassword" text="Reset Password" />
-                        <CheckBox fx:id="blockIB" layoutX="195.0" layoutY="86.0" mnemonicParsing="false" onAction="#blockingIB" text="Block Client Net Bank">
+                        <CheckBox fx:id="blockIB" layoutX="195.0" layoutY="86.0" mnemonicParsing="false" onAction="#blockingIB" text="UnBlock Client Net Bank">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />
                            </font>
