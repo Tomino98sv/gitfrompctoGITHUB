@@ -331,7 +331,15 @@
             </Tab>
             <Tab text="INTERNET BANKING">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Label fx:id="labelLoginName" alignment="CENTER" contentDisplay="CENTER" layoutX="121.0" layoutY="14.0" prefHeight="27.0" prefWidth="340.0" text="LoginName">
+                           <font>
+                              <Font size="18.0" />
+                           </font>
+                        </Label>
+                        <Button layoutX="242.0" layoutY="50.0" mnemonicParsing="false" onAction="#resetPassword" text="Reset Password" />
+                     </children></AnchorPane>
                </content>
             </Tab>
         </tabs>

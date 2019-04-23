@@ -24,6 +24,7 @@ public class Database {
     private static final String SQL13 = "SELECT * from loginClient where id like ?";
     private static final String SQL14 = "SELECT * from loginClient where login like ?";
     private static final String SQL15 = "update card set PIN=? where id like ?";
+    private static final String SQL16 = "SELECT * from loginClient where idc like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -287,6 +288,26 @@ public class Database {
                 idA = resultSet.getInt("ida");
             }
             return new Card(id,PIN,activ,m,y,idA);
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public LoginClient getLoginClient(int idc){
+        LoginClient loginClient=null;
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL16);
+            statement.setInt(1,idc);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                int id=resultSet.getInt(1);
+                String login=resultSet.getString(2);
+                String passw=resultSet.getString(3);
+                int idcl=resultSet.getInt(4);
+                loginClient = new LoginClient(id,login,passw,idcl);
+            }
+            return loginClient;
         }catch (SQLException e){
             e.printStackTrace();
         }

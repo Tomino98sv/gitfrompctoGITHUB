@@ -10,10 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import persons.Card;
-import persons.Client;
-import persons.ClientAccount;
-import persons.Employee;
+import persons.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -81,6 +78,11 @@ public class Account implements Initializable {
     public static Card currentCard;
     private int selectedCardId;
     //Card variables
+
+    //Internet Banking variables
+    public Label labelLoginName;
+    private LoginClient currentLoginClient;
+    //Internet Banking variables
 
     public void showDataMethod(Employee employee) {
         fnameShow.setText(employee.getFname());
@@ -174,6 +176,8 @@ public class Account implements Initializable {
             noAccount(true);
             noCard(true);
         }
+        currentLoginClient=Globals.db.getLoginClient(currentClient.getId());
+        labelLoginName.setText(currentLoginClient.getLogin());
     }
 
 
@@ -383,6 +387,12 @@ public class Account implements Initializable {
     public void changePINAction(ActionEvent event) {
         closeScene(event);
         Parent createAcc = loadFXMLoader("../createCard/changePIN.fxml");
+        newStage(createAcc);
+    }
+
+    public void resetPassword(ActionEvent event) {
+        closeScene(event);
+        Parent createAcc = loadFXMLoader("../createClient/resetPassword.fxml");
         newStage(createAcc);
     }
     //card method
