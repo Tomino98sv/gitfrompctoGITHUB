@@ -26,6 +26,8 @@ public class Database {
     private static final String SQL15 = "UPDATE card set PIN=? where id like ?";
     private static final String SQL16 = "SELECT * from loginClient where idc like ?";
     private static final String SQL17 = "UPDATE loginClient set password=? where id like ?";
+    private static final String SQL18 = "SELECT count(*) from loginhistory where success=false and idl like ?";
+    private static final String SQL19 = "DELETE from loginhistory where idl like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -365,5 +367,30 @@ public class Database {
         return true;
     }
 
+    public int failedLoginCount(int idLogin){
+        try {
+            int count=0;
+            PreparedStatement statement = conn.prepareStatement(SQL18);
+            statement.setInt(1,idLogin);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                count=resultSet.getInt(1);
+            }
+            return count;
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
+    }
+
+    public void resetFailedLogin(int idLogin){
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL19);
+            statement.setInt(1,idLogin);
+            statement.execute();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
 
 }

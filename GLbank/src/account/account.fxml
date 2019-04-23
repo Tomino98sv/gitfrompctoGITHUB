@@ -2,6 +2,7 @@
 
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Tab?>
@@ -339,6 +340,11 @@
                            </font>
                         </Label>
                         <Button layoutX="242.0" layoutY="50.0" mnemonicParsing="false" onAction="#resetPassword" text="Reset Password" />
+                        <CheckBox fx:id="blockIB" layoutX="195.0" layoutY="86.0" mnemonicParsing="false" onAction="#blockingIB" text="Block Client Net Bank">
+                           <font>
+                              <Font name="System Bold Italic" size="16.0" />
+                           </font>
+                        </CheckBox>
                      </children></AnchorPane>
                </content>
             </Tab>
