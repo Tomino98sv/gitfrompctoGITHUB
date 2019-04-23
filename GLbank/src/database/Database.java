@@ -23,6 +23,7 @@ public class Database {
     private static final String SQL12 = "INSERT into loginClient (login,password,idc) values (?,?,?)";
     private static final String SQL13 = "SELECT * from loginClient where id like ?";
     private static final String SQL14 = "SELECT * from loginClient where login like ?";
+    private static final String SQL15 = "update card set PIN=? where id like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -290,6 +291,17 @@ public class Database {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public void changePIN(int idCard, String newPIN){
+        try{
+            PreparedStatement statement = conn.prepareStatement(SQL15);
+            statement.setString(1,newPIN);
+            statement.setInt(2,idCard);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     public boolean isAccountNumberNotAlreadyUsed(String accNumb){

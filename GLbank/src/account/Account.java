@@ -381,6 +381,9 @@ public class Account implements Initializable {
     }
 
     public void changePINAction(ActionEvent event) {
+        closeScene(event);
+        Parent createAcc = loadFXMLoader("../createCard/changePIN.fxml");
+        newStage(createAcc);
     }
     //card method
 }
