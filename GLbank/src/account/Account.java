@@ -24,6 +24,8 @@ import java.util.ResourceBundle;
 
 
 public class Account implements Initializable {
+    public Employee currentEmployee;
+
     //Client variables
     public Label fnameShow;
     public Label lnameShow;
@@ -80,10 +82,10 @@ public class Account implements Initializable {
     public Label labelLoginName;
     public CheckBox blockIB;
     public static LoginClient currentLoginClient;
-
     //Internet Banking variables
 
     public void showDataMethod(Employee employee) {
+        currentEmployee=employee;
         fnameShow.setText(employee.getFname());
         lnameShow.setText(employee.getLname());
         positShow.setText(employee.getNameposit());
