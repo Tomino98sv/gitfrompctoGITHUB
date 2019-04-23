@@ -83,5 +83,20 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <Label fx:id="warningFname" alignment="CENTER" layoutX="350.0" layoutY="105.0" text="Minimum 3 chars" textFill="RED" visible="false">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="warningLname" alignment="CENTER" layoutX="350.0" layoutY="165.0" text="Minimum 3 chars" textFill="RED" visible="false">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
+      <Label fx:id="warningEmail" alignment="CENTER" layoutX="350.0" layoutY="225.0" text="not valid email form" textFill="RED" visible="false">
+         <font>
+            <Font size="13.0" />
+         </font>
+      </Label>
    </children>
 </AnchorPane>
