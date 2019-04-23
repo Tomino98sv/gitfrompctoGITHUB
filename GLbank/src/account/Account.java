@@ -44,6 +44,7 @@ public class Account implements Initializable {
     public static ObservableList<Client> listClients;
     public static Client currentClient;
     private int selectClientId;
+    private boolean noClient = false;
     //Client variables
 
     //Account variables
@@ -123,15 +124,18 @@ public class Account implements Initializable {
         listClients = FXCollections
                 .observableArrayList(
                         Globals.db.getAllClients());
-        currentClient = listClients.get(0);
-        buttonCreateAcc.setVisible(false);
-        buttonCreateAcc.setDisable(true);
-        buttonAddAcc.setVisible(true);
-        buttonAddAcc.setDisable(false);
+        if (listClients.isEmpty()){
+            System.out.println("no Client");
+            noClient(true);
+        }else{
+            noClient(false);
+            currentClient = listClients.get(0);
+        }
+//        buttonCreateAcc.setVisible(false);
+//        buttonCreateAcc.setDisable(true);
+//        buttonAddAcc.setVisible(true);
+//        buttonAddAcc.setDisable(false);
         updateCurrentClientAndAccountAndCard();
-        clientfname.setText(currentClient.getFname());
-        clientlname.setText(currentClient.getLname());
-        clientemail.setText(currentClient.getEmail());
 
     }
 
@@ -152,7 +156,7 @@ public class Account implements Initializable {
                 selectedCardId++;
             }
             currentClient = listClients.get(selectClientId);
-        System.out.println(currentClient.getFname()+" "+ currentClient.getLname());
+        System.out.println(currentClient.getFname()+" "+ currentClient.getLname()+" clientId in list "+selectClientId+"and id of client in db "+currentClient.getId());
         clientfname.setText(currentClient.getFname());
         clientlname.setText(currentClient.getLname());
         clientemail.setText(currentClient.getEmail());
@@ -253,19 +257,25 @@ public class Account implements Initializable {
         listClients = FXCollections
                 .observableArrayList(
                         Globals.db.getAllClients());
-
-        dropdownMenu();
+        if (!noClient){
+            dropdownMenu();
 //        selectClientId=comboBox.getSelectionModel().getSelectedIndex();
 //        currentClient=listClients.get(selectClientId);
 //
 //        selectedAccountId=accComboBox.getSelectionModel().getSelectedIndex();
 //        accountAcc=currentClient.getListAccount().get(selectedAccountId);
+            clientfname.setText(currentClient.getFname());
+            clientlname.setText(currentClient.getLname());
+            clientemail.setText(currentClient.getEmail());
+            if (!noAcc){
+                sccId.setText(String.valueOf(accountAcc.getIdAcc()));
+                accNumLab.setText(accountAcc.getAccNum());
+                amountLab.setText(String.valueOf(accountAcc.getAmount()));
+            }else{
+                noAccount(true);
+            }
 
-        sccId.setText(String.valueOf(accountAcc.getIdAcc()));
-        accNumLab.setText(accountAcc.getAccNum());
-        amountLab.setText(String.valueOf(accountAcc.getAmount()));
-
-
+        }
     }
 
 
@@ -277,38 +287,43 @@ public class Account implements Initializable {
     }
 
     private void noAccount(boolean bool){
-        accComboBox.setDisable(bool);
-        accComboBox.setVisible(!bool);
-
-        buttonCreateAcc.setDisable(!bool);
-        buttonCreateAcc.setVisible(bool);
-
-        withdrawInput.setDisable(bool);
-        withdrawInput.setVisible(!bool);
-
-        depotInput.setDisable(bool);
-        depotInput.setVisible(!bool);
-
-        buttonDraw.setDisable(bool);
-        buttonDraw.setVisible(!bool);
-
-        buttonDepot.setDisable(bool);
-        buttonDepot.setVisible(!bool);
-
-        labelDraw.setDisable(bool);
-        labelDraw.setVisible(!bool);
-
-        labelDepot.setDisable(bool);
-        labelDepot.setVisible(!bool);
-
-        buttonAddAcc.setVisible(!bool);
-        buttonAddAcc.setDisable(bool);
-        if (bool){
-            sccId.setText("NONE Account Id");
-            accNumLab.setText("NONE Account Number");
-            amountLab.setText("NONE Account Amount");
-            noAcc=true;
+        if (noClient){
+            System.out.println("noClient bol true takze banujem aj createAccButton");
+            buttonCreateAcc.setDisable(bool);
+            buttonCreateAcc.setVisible(bool);
+        }else{
+            buttonCreateAcc.setDisable(!bool);
+            buttonCreateAcc.setVisible(bool);
         }
+            accComboBox.setDisable(bool);
+            accComboBox.setVisible(!bool);
+
+            withdrawInput.setDisable(bool);
+            withdrawInput.setVisible(!bool);
+
+            depotInput.setDisable(bool);
+            depotInput.setVisible(!bool);
+
+            buttonDraw.setDisable(bool);
+            buttonDraw.setVisible(!bool);
+
+            buttonDepot.setDisable(bool);
+            buttonDepot.setVisible(!bool);
+
+            labelDraw.setDisable(bool);
+            labelDraw.setVisible(!bool);
+
+            labelDepot.setDisable(bool);
+            labelDepot.setVisible(!bool);
+
+            buttonAddAcc.setVisible(!bool);
+            buttonAddAcc.setDisable(bool);
+            if (bool){
+                sccId.setText("NONE Account Id");
+                accNumLab.setText("NONE Account Number");
+                amountLab.setText("NONE Account Amount");
+                noAcc=true;
+            }
     }
 
     public void noCard(boolean bool){
@@ -328,6 +343,15 @@ public class Account implements Initializable {
 
             buttonAddCard.setVisible(!bool);
             buttonAddCard.setDisable(bool);
+    }
+
+    public void noClient(boolean bool){
+        System.out.println("volan methodu NoClient");
+        noClient = bool;
+        System.out.println("noClient je na: "+noClient);
+        comboBox.getItems().clear();
+        noAccount(true);
+        noCard(true);
     }
 
     public void addAccount(ActionEvent event) throws IOException {

@@ -26,7 +26,7 @@
             <Font size="19.0" />
          </font>
       </Label>
-      <Label fx:id="lnameShow" layoutX="443.0" layoutY="37.0" prefHeight="32.0" prefWidth="116.0" text="  lastname" textAlignment="CENTER">
+      <Label fx:id="lnameShow" layoutX="443.0" layoutY="37.0" prefHeight="32.0" prefWidth="116.0" text="lastname" textAlignment="CENTER">
          <font>
             <Font size="19.0" />
          </font>
@@ -67,17 +67,17 @@
                         </VBox>
                         <VBox layoutX="119.0" layoutY="7.0" prefHeight="200.0" prefWidth="311.0">
                            <children>
-                              <Label fx:id="clientfname" prefHeight="32.0" prefWidth="250.0" text="Firstname:">
+                              <Label fx:id="clientfname" prefHeight="32.0" prefWidth="250.0" text="NoClient">
                                  <font>
                                     <Font size="19.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="clientlname" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="250.0" text="Lastname:">
+                              <Label fx:id="clientlname" layoutX="10.0" layoutY="10.0" prefHeight="32.0" prefWidth="250.0" text="NoClient">
                                  <font>
                                     <Font size="19.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="clientemail" layoutX="10.0" layoutY="42.0" prefHeight="32.0" prefWidth="250.0" text="Email:">
+                              <Label fx:id="clientemail" layoutX="10.0" layoutY="42.0" prefHeight="32.0" prefWidth="250.0" text="NoClient">
                                  <font>
                                     <Font size="19.0" />
                                  </font>
