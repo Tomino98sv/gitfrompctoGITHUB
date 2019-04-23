@@ -54,6 +54,9 @@ public class ResetPassword implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        ClientLogin clientLogin = new ClientLogin();
+        String newPassword = clientLogin.generatePassword();
+        Globals.db.changePasswordLogin(newPassword,Account.currentLoginClient.getId());
         LoginClient loginClient = Globals.db.getLoginClient(Account.currentClient.getId());
         loginLabel.setText(loginClient.getLogin());
         passwordLabel.setText(loginClient.getPassword());

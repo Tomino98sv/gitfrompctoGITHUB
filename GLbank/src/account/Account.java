@@ -81,7 +81,7 @@ public class Account implements Initializable {
 
     //Internet Banking variables
     public Label labelLoginName;
-    private LoginClient currentLoginClient;
+    public static LoginClient currentLoginClient;
     //Internet Banking variables
 
     public void showDataMethod(Employee employee) {

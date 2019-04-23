@@ -23,8 +23,9 @@ public class Database {
     private static final String SQL12 = "INSERT into loginClient (login,password,idc) values (?,?,?)";
     private static final String SQL13 = "SELECT * from loginClient where id like ?";
     private static final String SQL14 = "SELECT * from loginClient where login like ?";
-    private static final String SQL15 = "update card set PIN=? where id like ?";
+    private static final String SQL15 = "UPDATE card set PIN=? where id like ?";
     private static final String SQL16 = "SELECT * from loginClient where idc like ?";
+    private static final String SQL17 = "UPDATE loginClient set password=? where id like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -319,6 +320,17 @@ public class Database {
             PreparedStatement statement = conn.prepareStatement(SQL15);
             statement.setString(1,newPIN);
             statement.setInt(2,idCard);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void changePasswordLogin(String newPassword,int id){
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL17);
+            statement.setString(1,newPassword);
+            statement.setInt(2,id);
             statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
