@@ -7,6 +7,7 @@ import sample.Globals;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Date;
 
 public class Database {
     private static final String SQL1 = "SELECT employee.id as employeeId, employee.lname,employee.fname,loginemp.id as loginId,loginemp.login,loginemp.password, positions.id as positionId, positions.name as nameposition from employee inner join loginemp on employee.id=loginemp.id inner join positions on employee.position=positions.id where loginemp.login like ? and loginemp.password like ?;";
@@ -26,8 +27,9 @@ public class Database {
     private static final String SQL15 = "UPDATE card set PIN=? where id like ?";
     private static final String SQL16 = "SELECT * from loginClient where idc like ?";
     private static final String SQL17 = "UPDATE loginClient set password=? where id like ?";
-    private static final String SQL18 = "SELECT count(*) from loginhistory where success=false and idl like ?";
-    private static final String SQL19 = "DELETE from loginhistory where idl like ?";
+    private static final String SQL18 = "INSERT into loginhistory(logDate,idl) values (NOW(),?)";
+    private static final String SQL19 = "INSERT into loginhistory(logDate,success,idl) values (NOW(),true,?)";
+    private static final String SQL20 = "select * from loginhistory where idl = ? order by UNIX_TIMESTAMP(logDate) desc limit 3";
 
     private Connection conn;
     private static Database database = new Database();
@@ -367,30 +369,55 @@ public class Database {
         return true;
     }
 
-    public int failedLoginCount(int idLogin){
-        try {
-            int count=0;
+    public void blockInternetBanking(int idl){
+        try{
             PreparedStatement statement = conn.prepareStatement(SQL18);
-            statement.setInt(1,idLogin);
+            statement.setInt(1,idl);
+            statement.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void unblockInternetBanking(int idl){
+        try{
+            PreparedStatement statement = conn.prepareStatement(SQL19);
+            statement.setInt(1,idl);
+            statement.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
+    public boolean isIBblocked(int idl){
+        int falsecount=0;
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL20);
+            statement.setInt(1,idl);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                count=resultSet.getInt(1);
+                String bool = resultSet.getString(3);
+                System.out.println(bool);
+                try {
+                    if (Integer.valueOf(bool)==1){
+                        return false;
+                    }
+                }catch (NumberFormatException e){
+                    System.out.println("to nic to len null sa neda premenit na cislo");
+                }
+                if (bool==null){
+                    return true;
+                }
+                if (Integer.valueOf(bool)==0){
+                    falsecount++;
+                }
+                if (falsecount==3){
+                    return true;
+                }
             }
-            return count;
-        }catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return 0;
+        return false;
     }
-
-    public void resetFailedLogin(int idLogin){
-        try {
-            PreparedStatement statement = conn.prepareStatement(SQL19);
-            statement.setInt(1,idLogin);
-            statement.execute();
-        }catch (SQLException e){
-            e.printStackTrace();
-        }
-    }
-
 }

@@ -179,14 +179,12 @@ public class Account implements Initializable {
         }
         currentLoginClient=Globals.db.getLoginClient(currentClient.getId());
         labelLoginName.setText(currentLoginClient.getLogin());
-        if (Globals.db.failedLoginCount(currentLoginClient.getId())==3){
-            System.out.println("Found three failes");
+        if (Globals.db.isIBblocked(currentLoginClient.getId())){
             blockIB.setSelected(true);
-            blockIB.setDisable(false);
         }else {
             blockIB.setSelected(false);
-            blockIB.setDisable(true);
         }
+
     }
 
 
@@ -406,8 +404,11 @@ public class Account implements Initializable {
     }
 
     public void blockingIB(ActionEvent event) {
-        Globals.db.resetFailedLogin(currentLoginClient.getId());
-        blockIB.setDisable(true);
+        if (Globals.db.isIBblocked(currentLoginClient.getId())){
+            Globals.db.unblockInternetBanking(currentLoginClient.getId());
+        }else {
+            Globals.db.blockInternetBanking(currentLoginClient.getId());
+        }
     }
     //card method
 }
