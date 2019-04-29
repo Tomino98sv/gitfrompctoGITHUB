@@ -327,6 +327,11 @@
                            </children></VBox>
                         <Button fx:id="buttonAddCard" layoutX="321.0" layoutY="21.0" mnemonicParsing="false" onAction="#buttonAddCardAction" text="Add Card" />
                         <Button fx:id="buttonFirstAddCard" layoutX="150.0" layoutY="21.0" mnemonicParsing="false" onAction="#buttonAddCardAction" prefHeight="25.0" prefWidth="150.0" text="Create First Card" />
+                        <CheckBox fx:id="blockCard" layoutX="212.0" layoutY="210.0" mnemonicParsing="false" onAction="#blockCardEvent" prefHeight="41.0" prefWidth="116.0" text="Block Card">
+                           <font>
+                              <Font size="15.0" />
+                           </font>
+                        </CheckBox>
                      </children></AnchorPane>
                </content>
             </Tab>
@@ -340,7 +345,7 @@
                            </font>
                         </Label>
                         <Button layoutX="242.0" layoutY="50.0" mnemonicParsing="false" onAction="#resetPassword" text="Reset Password" />
-                        <CheckBox fx:id="blockIB" layoutX="195.0" layoutY="86.0" mnemonicParsing="false" onAction="#blockingIB" text="UnBlock Client Net Bank">
+                        <CheckBox fx:id="blockIB" layoutX="195.0" layoutY="86.0" mnemonicParsing="false" onAction="#blockingIB" text="Block Client Net Bank">
                            <font>
                               <Font name="System Bold Italic" size="16.0" />
                            </font>

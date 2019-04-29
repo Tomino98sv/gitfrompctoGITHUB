@@ -29,7 +29,8 @@ public class Database {
     private static final String SQL17 = "UPDATE loginClient set password=? where id like ?";
     private static final String SQL18 = "INSERT into loginhistory(logDate,idl) values (NOW(),?)";
     private static final String SQL19 = "INSERT into loginhistory(logDate,success,idl) values (NOW(),true,?)";
-    private static final String SQL20 = "select * from loginhistory where idl = ? order by UNIX_TIMESTAMP(logDate) desc limit 3";
+    private static final String SQL20 = "SELECT * from loginhistory where idl = ? order by UNIX_TIMESTAMP(logDate) desc limit 3";
+    private static final String SQL21 = "UPDATE card set active=? where id like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -389,6 +390,17 @@ public class Database {
         }
     }
 
+    public void blockingCard(int idc,boolean bool){
+        try{
+            PreparedStatement statement = conn.prepareStatement(SQL21);
+            statement.setInt(2,idc);
+            statement.setBoolean(1,bool);
+            statement.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public boolean isIBblocked(int idl){
         int falsecount=0;
         try {
@@ -420,4 +432,6 @@ public class Database {
         }
         return false;
     }
+
+
 }

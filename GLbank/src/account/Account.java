@@ -76,6 +76,7 @@ public class Account implements Initializable {
     public Label accNumLabel;
     public static Card currentCard;
     private int selectedCardId;
+    public CheckBox blockCard;
     //Card variables
 
     //Internet Banking variables
@@ -354,6 +355,9 @@ public class Account implements Initializable {
 
             buttonAddCard.setVisible(!bool);
             buttonAddCard.setDisable(bool);
+
+            blockCard.setVisible(!bool);
+            blockCard.setDisable(bool);
     }
 
     public void noClient(boolean bool){
@@ -382,6 +386,11 @@ public class Account implements Initializable {
         dateLabel.setText(currentCard.getExpireM()+". "+currentCard.getExpireY());
         activeLabel.setText(String.valueOf(currentCard.isActive()));
         accNumLabel.setText(accountAcc.getAccNum());
+        if (currentCard.isActive()){
+            blockCard.setSelected(false);
+        }else {
+            blockCard.setSelected(true);
+        }
     }
 
     public void buttonAddCardAction(ActionEvent event) {
@@ -409,6 +418,27 @@ public class Account implements Initializable {
         }else {
             Globals.db.blockInternetBanking(currentLoginClient.getId());
         }
+    }
+
+    public void blockCardEvent(ActionEvent event) {
+        if (currentCard.isActive()){
+            Globals.db.blockingCard(currentCard.getId(),false);
+            updateCard();
+            activeLabel.setText(String.valueOf(currentCard.isActive()));
+        }else{
+            Globals.db.blockingCard(currentCard.getId(),true);
+            updateCard();
+            activeLabel.setText(String.valueOf(currentCard.isActive()));
+        }
+    }
+
+    public void updateCard(){
+        listClients = FXCollections
+                .observableArrayList(
+                        Globals.db.getAllClients());
+        currentClient = listClients.get(selectClientId);
+        accountAcc = currentClient.getListAccount().get(selectedAccountId);
+        currentCard = accountAcc.getListOfCards().get(selectedCardId);
     }
     //card method
 }
