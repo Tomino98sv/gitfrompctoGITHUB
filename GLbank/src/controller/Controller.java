@@ -48,7 +48,7 @@ public class Controller {
                     zamestnanec.getLogin()+"\n"+zamestnanec.getPassword()+"\n"+
                     zamestnanec.getPositionId()+"\n"+zamestnanec.getNameposit());
             try {
-
+                Account.currentEmployee=zamestnanec;
                 Node node = (Node)actionEvent.getSource();
                 dialogStage = (Stage) node.getScene().getWindow();
                 dialogStage.close();
@@ -59,9 +59,6 @@ public class Controller {
 
                 Stage stage = new Stage();
                 stage.setScene(new Scene(accountView));
-
-                Account account = fxmlLoader.getController();
-                account.showDataMethod(zamestnanec);
                 stage.show();
             }
             catch (IOException e) {

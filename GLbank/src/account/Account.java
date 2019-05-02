@@ -24,7 +24,7 @@ import java.util.ResourceBundle;
 
 
 public class Account implements Initializable {
-    public Employee currentEmployee;
+    public static Employee currentEmployee;
 
     //Client variables
     public Label fnameShow;
@@ -77,6 +77,7 @@ public class Account implements Initializable {
     public static Card currentCard;
     private int selectedCardId;
     public CheckBox blockCard;
+    public ComboBox comboBoxAccCards;
     //Card variables
 
     //Internet Banking variables
@@ -84,13 +85,6 @@ public class Account implements Initializable {
     public CheckBox blockIB;
     public static LoginClient currentLoginClient;
     //Internet Banking variables
-
-    public void showDataMethod(Employee employee) {
-        currentEmployee=employee;
-        fnameShow.setText(employee.getFname());
-        lnameShow.setText(employee.getLname());
-        positShow.setText(employee.getNameposit());
-    }
 
     public void closeScene(ActionEvent actionEventForClose){
         Node node = (Node)actionEventForClose.getSource();
@@ -135,10 +129,9 @@ public class Account implements Initializable {
             noClient(false);
             currentClient = listClients.get(0);
         }
-//        buttonCreateAcc.setVisible(false);
-//        buttonCreateAcc.setDisable(true);
-//        buttonAddAcc.setVisible(true);
-//        buttonAddAcc.setDisable(false);
+        fnameShow.setText(currentEmployee.getFname());
+        lnameShow.setText(currentEmployee.getLname());
+        positShow.setText(currentEmployee.getNameposit());
         updateCurrentClientAndAccountAndCard();
 
     }
@@ -167,13 +160,18 @@ public class Account implements Initializable {
 
         if (!currentClient.getListAccount().isEmpty()){
             accComboBox.getItems().clear();
+            comboBoxAccCards.getItems().clear();
             noAcc=false;
             for (ClientAccount cacc: currentClient.getListAccount()) {
                 accComboBox.getItems().add(cacc.getAccNum());
+                comboBoxAccCards.getItems().add(cacc.getAccNum());
             }
             accComboBox.getSelectionModel().select(0);
+
             accComboBoxAction(new ActionEvent());
             noAccount(false);
+
+
         }else{
             noAccount(true);
             noCard(true);
@@ -195,6 +193,8 @@ public class Account implements Initializable {
         if (selectedAccountId<0){
             selectedAccountId++;
         }
+
+        comboBoxAccCards.getSelectionModel().select(selectedAccountId);
 
         accountAcc = currentClient.getListAccount().get(selectedAccountId);
         if (!accountAcc.getListOfCards().isEmpty()){
@@ -330,6 +330,10 @@ public class Account implements Initializable {
 
             buttonAddAcc.setVisible(!bool);
             buttonAddAcc.setDisable(bool);
+
+            comboBoxAccCards.setVisible(!bool);
+            comboBoxAccCards.setDisable(bool);
+
             if (bool){
                 sccId.setText("NONE Account Id");
                 accNumLab.setText("NONE Account Number");
@@ -439,6 +443,27 @@ public class Account implements Initializable {
         currentClient = listClients.get(selectClientId);
         accountAcc = currentClient.getListAccount().get(selectedAccountId);
         currentCard = accountAcc.getListOfCards().get(selectedCardId);
+    }
+
+    public void comboBoxAccOnCards(ActionEvent event) {
+        //toto je comboBox v card zalozke
+        selectedAccountId = comboBoxAccCards.getSelectionModel().getSelectedIndex();
+        if (selectedAccountId<0){
+            selectedAccountId++;
+        }
+
+        accountAcc = currentClient.getListAccount().get(selectedAccountId);
+        if (!accountAcc.getListOfCards().isEmpty()){
+            comboBoxCards.getItems().clear();
+            noCard(false);
+            for (Card currCard:accountAcc.getListOfCards()) {
+                comboBoxCards.getItems().add(currCard.getId());
+            }
+            comboBoxCards.getSelectionModel().select(0);
+            cardsComboBoxAction(new ActionEvent());
+        }else {
+            noCard(true);
+        }
     }
     //card method
 }
