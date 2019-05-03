@@ -86,6 +86,22 @@ public class Account implements Initializable {
     public static LoginClient currentLoginClient;
     //Internet Banking variables
 
+    //Transaction variables
+    public TextField targetAccount;
+    public TextField amountToSend;
+    public Label labelIdEmp;
+    public Label labelFname;
+    public Label labelLname;
+    public Label labelPos;
+
+    public Label labelClF;
+    public Label labelClL;
+    public Label labelAccLast;
+
+    public Label transDate;
+    public Label transAmountLast;
+    //Transaction variables
+
     public void closeScene(ActionEvent actionEventForClose){
         Node node = (Node)actionEventForClose.getSource();
         Stage dialogStage = (Stage) node.getScene().getWindow();
@@ -218,15 +234,23 @@ public class Account implements Initializable {
     }
 
     public void confirmDepot(ActionEvent event) {   //depot=vklad
-        System.out.println("idacc before depot "+accountAcc.getIdAcc());
         try {
 //            updateCurrentClientAndAccountAndCard();
             double depotNumDouble=Double.parseDouble(depotInput.getText());
             depotNumDouble = Math.round(depotNumDouble*100.0)/100.0;
-            Globals.db.changeAmount(depotNumDouble,accountAcc.getIdAcc());
+            boolean passed = Globals.db.changeAmount(depotNumDouble,accountAcc.getIdAcc());
             updateDATA();
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
             depotInput.setText("");
+            if (passed){
+                depFalse=true;
+                depotInput.setStyle("-fx-text-fill: green; -fx-font-size: 16px;");
+                depotInput.setText("successfully done");
+            }else{
+                depFalse=true;
+                depotInput.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+                depotInput.setText("Can't pass this");
+            }
         }catch (NumberFormatException e){
             depFalse=true;
             depotInput.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
@@ -236,15 +260,23 @@ public class Account implements Initializable {
     }
 
     public void confirmWithdraw(ActionEvent event) {  //withdraw=vyber
-        System.out.println("idacc before withdraw "+accountAcc.getIdAcc());
         try {
 //            updateCurrentClientAndAccountAndCard();
             double withdrawNumDouble=Double.parseDouble(withdrawInput.getText());
             withdrawNumDouble = Math.round(withdrawNumDouble*100.0)/100.0;
-            Globals.db.changeAmount(withdrawNumDouble*-1,accountAcc.getIdAcc());
+            boolean passed = Globals.db.changeAmount(withdrawNumDouble*-1,accountAcc.getIdAcc());
             updateDATA();
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
             withdrawInput.setText("");
+            if (passed){
+                drawFalse=true;
+                withdrawInput.setStyle("-fx-text-fill: green; -fx-font-size: 16px;");
+                withdrawInput.setText("successfully done");
+            }else{
+                drawFalse=true;
+                withdrawInput.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+                withdrawInput.setText("Can't pass this");
+            }
         }catch (NumberFormatException e){
             drawFalse=true;
             withdrawInput.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
@@ -482,6 +514,9 @@ public class Account implements Initializable {
         }else {
             noCard(true);
         }
+    }
+
+    public void sendTrans(ActionEvent event) {
     }
     //card method
 }

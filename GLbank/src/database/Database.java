@@ -190,7 +190,7 @@ public class Database {
         return false;
     }
 
-    public void changeAmount(double amountToDep,int idAcc){
+    public boolean changeAmount(double amountToDep,int idAcc){
         System.out.println("IDACC "+idAcc);
         if (isChangeAmount(amountToDep,idAcc)){
             try {
@@ -198,11 +198,14 @@ public class Database {
                 statement.setDouble(1,amountToDep);
                 statement.setInt(2,idAcc);
                 statement.executeUpdate();
+                return true;
             } catch (SQLException e) {
                 e.printStackTrace();
+                return false;
             }
         }else{
             System.out.println("NEMOZEM UROBIT TEN VYBER");
+            return false;
         }
     }
 

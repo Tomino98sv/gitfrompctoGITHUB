@@ -354,6 +354,142 @@
                      </children></AnchorPane>
                </content>
             </Tab>
+            <Tab text="TRANSACTION">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <Button layoutX="63.0" layoutY="178.0" mnemonicParsing="false" onAction="#sendTrans" prefHeight="28.0" prefWidth="116.0" text="Send" />
+                        <TextField fx:id="targetAccount" layoutX="20.0" layoutY="62.0" prefHeight="32.0" prefWidth="200.0" />
+                        <TextField fx:id="amountToSend" layoutX="20.0" layoutY="133.0" prefHeight="32.0" prefWidth="200.0" />
+                        <Label layoutX="54.0" layoutY="34.0" text="TargetAccount">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="84.0" layoutY="105.0" text="Amount">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="333.0" layoutY="8.0" text="Last Transaction">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="228.0" layoutY="63.0" text="Employee :">
+                           <font>
+                              <Font name="System Bold" size="19.0" />
+                           </font>
+                        </Label>
+                        <VBox layoutX="333.0" layoutY="41.0" prefHeight="47.0" prefWidth="58.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="61.0" text="Id">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelIdEmp" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="19.0" prefWidth="61.0">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="391.0" layoutY="41.0" prefHeight="73.0" prefWidth="116.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="117.0" text="name">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelFname" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="125.0">
+                                 <font>
+                                    <Font name="System Bold Italic" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelLname" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="35.0" prefHeight="25.0" prefWidth="120.0">
+                                 <font>
+                                    <Font name="System Bold Italic" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="507.0" layoutY="41.0" prefHeight="47.0" prefWidth="58.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="19.0" prefWidth="61.0" text="position">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelPos" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="19.0" prefWidth="61.0">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <Label layoutX="233.0" layoutY="135.0" text="TargetAccount :">
+                           <font>
+                              <Font name="System Bold" size="16.0" />
+                           </font>
+                        </Label>
+                        <VBox layoutX="341.0" layoutY="123.0" prefHeight="73.0" prefWidth="116.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="117.0" text="name">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelClF" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="125.0">
+                                 <font>
+                                    <Font name="System Bold Italic" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelClL" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="35.0" prefHeight="25.0" prefWidth="120.0">
+                                 <font>
+                                    <Font name="System Bold Italic" size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <VBox layoutX="466.0" layoutY="123.0" prefHeight="73.0" prefWidth="116.0">
+                           <children>
+                              <Label alignment="CENTER" contentDisplay="CENTER" prefHeight="25.0" prefWidth="117.0" text="accountNum">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                              <Label fx:id="labelAccLast" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="10.0" prefHeight="25.0" prefWidth="125.0">
+                                 <font>
+                                    <Font size="16.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </VBox>
+                        <Label layoutX="251.0" layoutY="208.0" prefHeight="25.0" prefWidth="116.0" text="TransactionDate : ">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="transDate" alignment="CENTER" layoutX="233.0" layoutY="230.0" prefHeight="32.0" prefWidth="137.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="451.0" layoutY="212.0" text="TransactionAmount : ">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="transAmountLast" alignment="CENTER" layoutX="449.0" layoutY="232.0" prefHeight="28.0" prefWidth="116.0">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
         </tabs>
       </TabPane>
       <ComboBox fx:id="comboBox" layoutX="14.0" layoutY="57.0" onAction="#comboChange" prefWidth="150.0" />
