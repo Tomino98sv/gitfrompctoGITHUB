@@ -167,6 +167,7 @@ public class Account implements Initializable {
                 comboBoxAccCards.getItems().add(cacc.getAccNum());
             }
             accComboBox.getSelectionModel().select(0);
+            comboBoxAccCards.getSelectionModel().select(0);
 
             accComboBoxAction(new ActionEvent());
             noAccount(false);
@@ -197,6 +198,7 @@ public class Account implements Initializable {
         comboBoxAccCards.getSelectionModel().select(selectedAccountId);
 
         accountAcc = currentClient.getListAccount().get(selectedAccountId);
+        System.out.println("account id is "+accountAcc.getIdAcc());
         if (!accountAcc.getListOfCards().isEmpty()){
             comboBoxCards.getItems().clear();
             noCard(false);
@@ -216,12 +218,13 @@ public class Account implements Initializable {
     }
 
     public void confirmDepot(ActionEvent event) {   //depot=vklad
+        System.out.println("idacc before depot "+accountAcc.getIdAcc());
         try {
-            updateCurrentClientAndAccountAndCard();
+//            updateCurrentClientAndAccountAndCard();
             double depotNumDouble=Double.parseDouble(depotInput.getText());
             depotNumDouble = Math.round(depotNumDouble*100.0)/100.0;
             Globals.db.changeAmount(depotNumDouble,accountAcc.getIdAcc());
-            updateCurrentClientAndAccountAndCard();
+            updateDATA();
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
             depotInput.setText("");
         }catch (NumberFormatException e){
@@ -233,12 +236,13 @@ public class Account implements Initializable {
     }
 
     public void confirmWithdraw(ActionEvent event) {  //withdraw=vyber
+        System.out.println("idacc before withdraw "+accountAcc.getIdAcc());
         try {
-            updateCurrentClientAndAccountAndCard();
+//            updateCurrentClientAndAccountAndCard();
             double withdrawNumDouble=Double.parseDouble(withdrawInput.getText());
             withdrawNumDouble = Math.round(withdrawNumDouble*100.0)/100.0;
             Globals.db.changeAmount(withdrawNumDouble*-1,accountAcc.getIdAcc());
-            updateCurrentClientAndAccountAndCard();
+            updateDATA();
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
             withdrawInput.setText("");
         }catch (NumberFormatException e){
@@ -288,6 +292,20 @@ public class Account implements Initializable {
             }
 
         }
+    }
+
+    public void updateDATA(){
+        listClients = FXCollections
+                .observableArrayList(
+                        Globals.db.getAllClients());
+
+        selectClientId=comboBox.getSelectionModel().getSelectedIndex();
+        currentClient=listClients.get(selectClientId);
+
+        selectedAccountId=accComboBox.getSelectionModel().getSelectedIndex();
+        accountAcc=currentClient.getListAccount().get(selectedAccountId);
+
+
     }
 
 

@@ -31,6 +31,7 @@ public class Database {
     private static final String SQL19 = "INSERT into loginhistory(logDate,success,idl) values (NOW(),true,?)";
     private static final String SQL20 = "SELECT * from loginhistory where idl = ? order by UNIX_TIMESTAMP(logDate) desc limit 3";
     private static final String SQL21 = "UPDATE card set active=? where id like ?";
+    private static final String SQL22 = "SELECT account.amount from account where id like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -162,14 +163,46 @@ public class Database {
         return null;
     }
 
-    public void changeAmount(double amountToDep,int idAcc){
-        try {
-            PreparedStatement statement = conn.prepareStatement(SQL4);
-            statement.setDouble(1,amountToDep);
-            statement.setInt(2,idAcc);
-            statement.executeUpdate();
-        } catch (SQLException e) {
+    public boolean isChangeAmount(double amountToDep, int idAcc){
+        System.out.println("amountToDep "+amountToDep+" "+" idAcc"+idAcc);
+        try{
+            int amount=0;
+            PreparedStatement statement = conn.prepareStatement(SQL22);
+            statement.setInt(1,idAcc);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                amount=resultSet.getInt(1);
+                System.out.println("AMOUNT: "+amount);
+            }
+            if (amount+amountToDep>0){
+                System.out.println("result number "+(amount+amountToDep));
+                System.out.println("true");
+                return true;
+            }else{
+                System.out.println("false");
+                return false;
+            }
+        }catch (SQLException e){
             e.printStackTrace();
+        }
+
+
+        return false;
+    }
+
+    public void changeAmount(double amountToDep,int idAcc){
+        System.out.println("IDACC "+idAcc);
+        if (isChangeAmount(amountToDep,idAcc)){
+            try {
+                PreparedStatement statement = conn.prepareStatement(SQL4);
+                statement.setDouble(1,amountToDep);
+                statement.setInt(2,idAcc);
+                statement.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }else{
+            System.out.println("NEMOZEM UROBIT TEN VYBER");
         }
     }
 
