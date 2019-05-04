@@ -32,6 +32,8 @@ public class Database {
     private static final String SQL20 = "SELECT * from loginhistory where idl = ? order by UNIX_TIMESTAMP(logDate) desc limit 3";
     private static final String SQL21 = "UPDATE card set active=? where id like ?";
     private static final String SQL22 = "SELECT account.amount from account where id like ?";
+    private static final String SQL23 = "SELECT * from account where AccNum like ?";
+    private static final String SQL24 = "INSERT into transaction(idEmployee,transdate,recAccount,transAmount,idacc) values (?,NOW(),?,?,?)";
 
     private Connection conn;
     private static Database database = new Database();
@@ -174,7 +176,7 @@ public class Database {
                 amount=resultSet.getInt(1);
                 System.out.println("AMOUNT: "+amount);
             }
-            if (amount+amountToDep>0){
+            if (amount+amountToDep>=0){
                 System.out.println("result number "+(amount+amountToDep));
                 System.out.println("true");
                 return true;
@@ -472,7 +474,7 @@ public class Database {
 
     public boolean isExistingAccount(String accNum){
         try {
-            PreparedStatement statement = conn.prepareStatement("SELECT * from account where AccNum like ?");
+            PreparedStatement statement = conn.prepareStatement(SQL23);
             statement.setString(1,accNum);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
@@ -483,6 +485,43 @@ public class Database {
         }
 
         return false;
+    }
+
+    public boolean insertTransaction(int idEmp, double transAmount, String recAccount, int idAccFrom){
+        try{
+            if (isChangeAmount(transAmount*-1, idAccFrom)){
+                PreparedStatement statement = conn.prepareStatement(SQL24);
+                statement.setInt(1,idEmp);
+                statement.setString(2,recAccount);
+                statement.setDouble(3,transAmount);
+                statement.setInt(4,idAccFrom);
+                statement.executeUpdate();
+                changeAmount(transAmount*-1,idAccFrom); //odcita od zasielatela
+                changeAmount(transAmount,idAcc(recAccount));  //pricita k cielovemu
+                return true;
+            }else{
+                System.out.println("not possible transaction");
+                return false;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public int idAcc(String accNum){
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL7);
+            statement.setString(1,accNum);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                int idAcc = resultSet.getInt(1);
+                return idAcc;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return 0;
     }
 
 }

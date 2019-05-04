@@ -520,8 +520,17 @@ public class Account implements Initializable {
         if (validationSendAmount() && validationTargetAcc(trgAcc)){
             amount=Double.parseDouble(amountToSend.getText());
             amount=Math.round(amount*100.0)/100.0;
-            successfulProc.setVisible(true);
-            System.out.println("AMOUNT IS: "+amount+" TO "+trgAcc);
+            if(Globals.db.insertTransaction(currentEmployee.getEmployeeId(), amount, trgAcc, accountAcc.getIdAcc())){
+                targetAccount.setText("");
+                amountToSend.setText("");
+                updateDATA();
+                amountLab.setText(String.valueOf(accountAcc.getAmount()));
+                successfulProc.setVisible(true);
+            }else{
+                eraseSendAmount = true;
+                amountToSend.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+                amountToSend.setText("Not enought resources");
+            }
         }
     }
 

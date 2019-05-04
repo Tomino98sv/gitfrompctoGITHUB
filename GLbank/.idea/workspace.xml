@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cdb932d9-7e58-4d94-93a9-e7b232ef17da" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/GLbank/database/Database.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/account/Account.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/account/Account.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/account/account.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/account/account.fxml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/database/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/database/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../glbankDatabase.sql" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../lastglbankDB.sql" beforeDir="false" />
@@ -141,12 +140,12 @@
         <counts>
           <entry key="dummy" value="46" />
           <entry key="fxml" value="139" />
-          <entry key="java" value="17419" />
+          <entry key="java" value="18131" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="JAVA" value="17419" />
+          <entry key="JAVA" value="18131" />
           <entry key="PLAIN_TEXT" value="46" />
           <entry key="XML" value="139" />
         </counts>
@@ -173,8 +172,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/account/Account.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1098">
-              <caret line="560" column="56" lean-forward="true" selection-start-line="560" selection-start-column="56" selection-end-line="560" selection-end-column="56" />
+            <state relative-caret-position="147">
+              <caret line="531" column="60" selection-start-line="531" selection-start-column="50" selection-end-line="531" selection-end-column="60" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -195,8 +194,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/database/Database.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="293">
-              <caret line="470" lean-forward="true" selection-start-line="470" selection-end-line="470" />
+            <state relative-caret-position="367">
+              <caret line="507" column="25" selection-start-line="507" selection-start-column="25" selection-end-line="507" selection-end-column="25" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -349,7 +348,7 @@
     <property name="MemberChooser.sorted" value="false" />
     <property name="OverrideImplement.combined" value="false" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556963453071" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1556971328348" />
     <property name="dynamic.classpath" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -476,8 +475,9 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1616" height="916" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.13688946" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.6703755" visible="true" weight="0.22686376" />
       <window_info id="Structure" order="1" weight="0.24933687" />
       <window_info id="Favorites" order="2" />
       <window_info id="Designer" order="3" />
@@ -486,7 +486,7 @@
       <window_info id="Capture Tool" order="6" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32992327" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.2685422" />
+      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.28900257" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39974126" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -833,16 +833,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/database/Database.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="293">
-          <caret line="470" lean-forward="true" selection-start-line="470" selection-end-line="470" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/account/account.fxml">
       <provider selected="true" editor-type-id="JavaFX-Scene-Builder" />
       <provider editor-type-id="text-editor">
@@ -851,10 +841,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/database/Database.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="367">
+          <caret line="507" column="25" selection-start-line="507" selection-start-column="25" selection-end-line="507" selection-end-column="25" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/account/Account.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1098">
-          <caret line="560" column="56" lean-forward="true" selection-start-line="560" selection-start-column="56" selection-end-line="560" selection-end-column="56" />
+        <state relative-caret-position="147">
+          <caret line="531" column="60" selection-start-line="531" selection-start-column="50" selection-end-line="531" selection-end-column="60" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
