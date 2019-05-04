@@ -2,12 +2,14 @@ package database;
 
 import account.Account;
 import com.sun.org.apache.regexp.internal.RE;
+import jdk.nashorn.internal.ir.WhileNode;
 import persons.*;
 import sample.Globals;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.WeakHashMap;
 
 public class Database {
     private static final String SQL1 = "SELECT employee.id as employeeId, employee.lname,employee.fname,loginemp.id as loginId,loginemp.login,loginemp.password, positions.id as positionId, positions.name as nameposition from employee inner join loginemp on employee.id=loginemp.id inner join positions on employee.position=positions.id where loginemp.login like ? and loginemp.password like ?;";
@@ -34,6 +36,8 @@ public class Database {
     private static final String SQL22 = "SELECT account.amount from account where id like ?";
     private static final String SQL23 = "SELECT * from account where AccNum like ?";
     private static final String SQL24 = "INSERT into transaction(idEmployee,transdate,recAccount,transAmount,idacc) values (?,NOW(),?,?,?)";
+    private static final String SQL25 = "SELECT * from transaction where idacc = ? order by UNIX_TIMESTAMP(transdate) desc limit 1";
+    private static final String SQL26 = "SELECT * from employee where id like ?";
 
     private Connection conn;
     private static Database database = new Database();
@@ -537,4 +541,74 @@ public class Database {
         return 0;
     }
 
+    public LastTransactionData lastTransactionData(int currentAccountId){
+        Employee employee;
+        Client targetClient=null;
+
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL25);
+            statement.setInt(1,currentAccountId);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                int idEmp = resultSet.getInt("idEmployee");
+                employee=getEmpById(idEmp);
+                targetClient = getClientByAccnum(resultSet.getString("recAccount"));
+                return new LastTransactionData(employee,targetClient,resultSet.getString("recAccount"),resultSet.getDate("transdate"),resultSet.getDouble("transAmount"));
+            }
+
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Employee getEmpById(int id){
+        try {
+            PreparedStatement statement = conn.prepareStatement(SQL26);
+            statement.setInt(1,id);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+               int idEmp = resultSet.getInt(1);
+               String lname = resultSet.getString(2);
+               String fname = resultSet.getString(3);
+               int positon = resultSet.getInt(4);
+               String nameposition="";
+               if (positon==1){
+                   nameposition="common";
+               }
+               if (positon==2){
+                   nameposition="boss";
+               }
+               return new Employee(idEmp,fname,lname,0,null,null,positon,nameposition);
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public Client getClientByAccnum(String accnum){
+        try{
+            PreparedStatement statement = conn.prepareStatement(SQL7);
+            statement.setString(1,accnum);
+            ResultSet resultSet = statement.executeQuery();
+            int idcl=0;
+            while (resultSet.next()){
+                idcl=resultSet.getInt("idc");
+                PreparedStatement statement1 = conn.prepareStatement(SQL11);
+                statement1.setInt(1,idcl);
+                ResultSet resultSet1 = statement1.executeQuery();
+                while (resultSet1.next()){
+                    int id = resultSet1.getInt(1);
+                    String fname = resultSet1.getString(2);
+                    String lname = resultSet1.getString(3);
+                    String email = resultSet1.getString(4);
+                    return new Client(id,fname,lname,email,null);
+                }
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+        return null;
+    }
 }

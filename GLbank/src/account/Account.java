@@ -26,6 +26,7 @@ import java.util.ResourceBundle;
 public class Account implements Initializable {
     public static Employee currentEmployee;
 
+    private LastTransactionData lastTransactionData;
     //Client variables
     public Label fnameShow;
     public Label lnameShow;
@@ -580,17 +581,17 @@ public class Account implements Initializable {
     }
 
     public void lastTransaction(){
+        lastTransactionData=Globals.db.lastTransactionData(accountAcc.getIdAcc());
+        labelIdEmp.setText(String.valueOf(lastTransactionData.getEmployee().getEmployeeId()));
+        labelFname.setText(lastTransactionData.getEmployee().getFname());
+        labelLname.setText(lastTransactionData.getEmployee().getLname());
+        labelPos.setText(lastTransactionData.getEmployee().getNameposit());
 
-        labelIdEmp.setText("IdEmp");
-        labelFname.setText("FnameEmp");
-        labelLname.setText("LnameEmp");
-        labelPos.setText("positionOfLAST");
+        labelClF.setText(lastTransactionData.getTargetClient().getFname());
+        labelClL.setText(lastTransactionData.getTargetClient().getLname());
+        labelAccLast.setText(lastTransactionData.getTargetAccount());
 
-        labelClF.setText("FirTar");
-        labelClL.setText("LastTar");
-        labelAccLast.setText("accnumTarget");
-
-        transDate.setText("dateOfTrans");
-        transAmountLast.setText("AmountOfSend");
+        transDate.setText(String.valueOf(lastTransactionData.getDateOfTrans()));
+        transAmountLast.setText(String.valueOf(lastTransactionData.getAmountOfTrans()));
     }
 }
