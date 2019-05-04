@@ -509,6 +509,19 @@ public class Database {
         }
     }
 
+    public void insertWithdrawTransactionOrDepo(int idEmp, double transAmount, String recAccount, int idAccFrom){
+        try{
+            PreparedStatement statement = conn.prepareStatement(SQL24);
+            statement.setInt(1,idEmp);
+            statement.setString(2,recAccount);
+            statement.setDouble(3,transAmount);
+            statement.setInt(4,idAccFrom);
+            statement.executeUpdate();
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+    }
+
     public int idAcc(String accNum){
         try {
             PreparedStatement statement = conn.prepareStatement(SQL7);

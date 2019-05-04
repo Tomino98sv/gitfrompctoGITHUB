@@ -241,6 +241,7 @@ public class Account implements Initializable {
             depotNumDouble = Math.round(depotNumDouble*100.0)/100.0;
             boolean passed = Globals.db.changeAmount(depotNumDouble,accountAcc.getIdAcc());
             updateDATA();
+            Globals.db.insertWithdrawTransactionOrDepo(currentEmployee.getEmployeeId(),depotNumDouble,accountAcc.getAccNum(),accountAcc.getIdAcc());
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
             depotInput.setText("");
             if (passed){
@@ -267,6 +268,7 @@ public class Account implements Initializable {
             withdrawNumDouble = Math.round(withdrawNumDouble*100.0)/100.0;
             boolean passed = Globals.db.changeAmount(withdrawNumDouble*-1,accountAcc.getIdAcc());
             updateDATA();
+            Globals.db.insertWithdrawTransactionOrDepo(currentEmployee.getEmployeeId(),withdrawNumDouble,"Owner",accountAcc.getIdAcc());
             amountLab.setText(String.valueOf(accountAcc.getAmount()));
             withdrawInput.setText("");
             if (passed){
@@ -526,6 +528,7 @@ public class Account implements Initializable {
                 updateDATA();
                 amountLab.setText(String.valueOf(accountAcc.getAmount()));
                 successfulProc.setVisible(true);
+                lastTransaction();
             }else{
                 eraseSendAmount = true;
                 amountToSend.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
@@ -575,5 +578,19 @@ public class Account implements Initializable {
         }
         successfulProc.setVisible(false);
     }
-    //card method
+
+    public void lastTransaction(){
+
+        labelIdEmp.setText("IdEmp");
+        labelFname.setText("FnameEmp");
+        labelLname.setText("LnameEmp");
+        labelPos.setText("positionOfLAST");
+
+        labelClF.setText("FirTar");
+        labelClL.setText("LastTar");
+        labelAccLast.setText("accnumTarget");
+
+        transDate.setText("dateOfTrans");
+        transAmountLast.setText("AmountOfSend");
+    }
 }
