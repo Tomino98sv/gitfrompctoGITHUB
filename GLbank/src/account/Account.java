@@ -93,6 +93,10 @@ public class Account implements Initializable {
     public Label labelFname;
     public Label labelLname;
     public Label labelPos;
+    public Label successfulProc;
+
+    public boolean eraseTargetAcc=false;
+    public boolean eraseSendAmount=false;
 
     public Label labelClF;
     public Label labelClL;
@@ -139,7 +143,6 @@ public class Account implements Initializable {
                 .observableArrayList(
                         Globals.db.getAllClients());
         if (listClients.isEmpty()){
-            System.out.println("no Client");
             noClient(true);
         }else{
             noClient(false);
@@ -169,7 +172,6 @@ public class Account implements Initializable {
                 selectedCardId++;
             }
             currentClient = listClients.get(selectClientId);
-        System.out.println(currentClient.getFname()+" "+ currentClient.getLname()+" clientId in list "+selectClientId+"and id of client in db "+currentClient.getId());
         clientfname.setText(currentClient.getFname());
         clientlname.setText(currentClient.getLname());
         clientemail.setText(currentClient.getEmail());
@@ -214,7 +216,6 @@ public class Account implements Initializable {
         comboBoxAccCards.getSelectionModel().select(selectedAccountId);
 
         accountAcc = currentClient.getListAccount().get(selectedAccountId);
-        System.out.println("account id is "+accountAcc.getIdAcc());
         if (!accountAcc.getListOfCards().isEmpty()){
             comboBoxCards.getItems().clear();
             noCard(false);
@@ -350,7 +351,6 @@ public class Account implements Initializable {
 
     private void noAccount(boolean bool){
         if (noClient){
-            System.out.println("noClient bol true takze banujem aj createAccButton");
             buttonCreateAcc.setDisable(bool);
             buttonCreateAcc.setVisible(bool);
         }else{
@@ -415,9 +415,7 @@ public class Account implements Initializable {
     }
 
     public void noClient(boolean bool){
-        System.out.println("volan methodu NoClient");
         noClient = bool;
-        System.out.println("noClient je na: "+noClient);
         comboBox.getItems().clear();
         noAccount(true);
         noCard(true);
@@ -517,6 +515,56 @@ public class Account implements Initializable {
     }
 
     public void sendTrans(ActionEvent event) {
+        String trgAcc=targetAccount.getText();
+        Double amount=0.0;
+        if (validationSendAmount() && validationTargetAcc(trgAcc)){
+            amount=Double.parseDouble(amountToSend.getText());
+            amount=Math.round(amount*100.0)/100.0;
+            successfulProc.setVisible(true);
+            System.out.println("AMOUNT IS: "+amount+" TO "+trgAcc);
+        }
+    }
+
+    public boolean validationTargetAcc(String accnum){
+        if (Globals.db.isExistingAccount(accnum)){
+            return true;
+        }else{
+            eraseTargetAcc = true;
+            targetAccount.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+            targetAccount.setText("Non existing accnumber");
+            return false;
+        }
+    }
+
+    public boolean validationSendAmount(){
+        Double amount=0.0;
+        try {
+            amount=Double.parseDouble(amountToSend.getText());
+        }catch(NumberFormatException e) {
+            eraseSendAmount = true;
+            amountToSend.setStyle("-fx-text-fill: red; -fx-font-size: 16px;");
+            amountToSend.setText("Wrong valid number");
+            return false;
+        }
+        return true;
+    }
+
+    public void eraseTarAcc(MouseEvent mouseEvent) {
+        if(eraseTargetAcc){
+            targetAccount.setStyle("-fx-text-fill: black; -fx-font-size: 12px;");
+            targetAccount.setText("");
+            eraseTargetAcc=false;
+        }
+        successfulProc.setVisible(false);
+    }
+
+    public void eraseSendAmount(MouseEvent mouseEvent) {
+        if (eraseSendAmount){
+            amountToSend.setStyle("-fx-text-fill: black; -fx-font-size: 12px;");
+            amountToSend.setText("");
+            eraseSendAmount=false;
+        }
+        successfulProc.setVisible(false);
     }
     //card method
 }

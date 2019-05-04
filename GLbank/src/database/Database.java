@@ -470,4 +470,19 @@ public class Database {
     }
 
 
+    public boolean isExistingAccount(String accNum){
+        try {
+            PreparedStatement statement = conn.prepareStatement("SELECT * from account where AccNum like ?");
+            statement.setString(1,accNum);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()){
+                return true;
+            }
+        }catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        return false;
+    }
+
 }
