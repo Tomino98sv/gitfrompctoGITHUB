@@ -23,12 +23,12 @@ public class Database {
     private static final String SQL9 = "INSERT into card (PIN,active,expireM,expireY,ida) values(?,?,?,?,?)";
     private static final String SQL10 = "SELECT * from card where ida like ?";
     private static final String SQL11 = "SELECT * from client where id like ?";
-    private static final String SQL12 = "INSERT into loginClient (login,password,idc) values (?,?,?)";
-    private static final String SQL13 = "SELECT * from loginClient where id like ?";
-    private static final String SQL14 = "SELECT * from loginClient where login like ?";
+    private static final String SQL12 = "INSERT into loginclient (login,password,idc) values (?,?,?)";
+    private static final String SQL13 = "SELECT * from loginclient where id like ?";
+    private static final String SQL14 = "SELECT * from loginclient where login like ?";
     private static final String SQL15 = "UPDATE card set PIN=? where id like ?";
-    private static final String SQL16 = "SELECT * from loginClient where idc like ?";
-    private static final String SQL17 = "UPDATE loginClient set password=? where id like ?";
+    private static final String SQL16 = "SELECT * from loginclient where idc like ?";
+    private static final String SQL17 = "UPDATE loginclient set password=? where id like ?";
     private static final String SQL18 = "INSERT into loginhistory(logDate,idl) values (NOW(),?)";
     private static final String SQL19 = "INSERT into loginhistory(logDate,success,idl) values (NOW(),true,?)";
     private static final String SQL20 = "SELECT * from loginhistory where idl = ? order by UNIX_TIMESTAMP(logDate) desc limit 3";
@@ -177,7 +177,7 @@ public class Database {
             statement.setInt(1,idAcc);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                amount=resultSet.getInt(1);
+                amount=resultSet.getInt("amount");
                 System.out.println("AMOUNT: "+amount);
             }
             if (amount+amountToDep>=0){
@@ -228,7 +228,7 @@ public class Database {
 
             int idclient=0;
             while (resultSet.next()){
-                idclient = resultSet.getInt(1);
+                idclient = resultSet.getInt(1);  //netreba menit na meno
             }
             newClient.setInt(1,idclient);
 
@@ -349,10 +349,10 @@ public class Database {
             statement.setInt(1,idc);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                int id=resultSet.getInt(1);
-                String login=resultSet.getString(2);
-                String passw=resultSet.getString(3);
-                int idcl=resultSet.getInt(4);
+                int id=resultSet.getInt("id");
+                String login=resultSet.getString("login");
+                String passw=resultSet.getString("password");
+                int idcl=resultSet.getInt("idc");
                 loginClient = new LoginClient(id,login,passw,idcl);
             }
             return loginClient;
@@ -450,7 +450,7 @@ public class Database {
             statement.setInt(1,idl);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()){
-                String bool = resultSet.getString(3);
+                String bool = resultSet.getString("success");
                 System.out.println(bool);
                 try {
                     if (Integer.valueOf(bool)==1){
@@ -599,10 +599,10 @@ public class Database {
                 statement1.setInt(1,idcl);
                 ResultSet resultSet1 = statement1.executeQuery();
                 while (resultSet1.next()){
-                    int id = resultSet1.getInt(1);
-                    String fname = resultSet1.getString(2);
-                    String lname = resultSet1.getString(3);
-                    String email = resultSet1.getString(4);
+                    int id = resultSet1.getInt("id");
+                    String fname = resultSet1.getString("fname");
+                    String lname = resultSet1.getString("lname");
+                    String email = resultSet1.getString("email");
                     return new Client(id,fname,lname,email,null);
                 }
             }

@@ -10,9 +10,9 @@ public class Globals {
     static public final Database db;
 
     static {
-        user="root";
-        pass="";
-        url="jdbc:mysql://localhost:3306/glbank";
+        user="glbank";
+        pass="password";
+        url="jdbc:mysql://itsovy.sk:3306/glbank";
         driver="com.mysql.jdbc.Driver";
         db=Database.getInstanceDatabase();
     }
