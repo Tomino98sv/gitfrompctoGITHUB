@@ -23,12 +23,12 @@ public class Database {
     private static final String SQL9 = "INSERT into card (PIN,active,expireM,expireY,ida) values(?,?,?,?,?)";
     private static final String SQL10 = "SELECT * from card where ida like ?";
     private static final String SQL11 = "SELECT * from client where id like ?";
-    private static final String SQL12 = "INSERT into loginclient (login,password,idc) values (?,?,?)";
+    private static final String SQL12 = "INSERT into loginclient (login,password,idc) values (?,MD5(?),?)";
     private static final String SQL13 = "SELECT * from loginclient where id like ?";
     private static final String SQL14 = "SELECT * from loginclient where login like ?";
     private static final String SQL15 = "UPDATE card set PIN=? where id like ?";
     private static final String SQL16 = "SELECT * from loginclient where idc like ?";
-    private static final String SQL17 = "UPDATE loginclient set password=? where id like ?";
+    private static final String SQL17 = "UPDATE loginclient set password=MD5(?) where id like ?";
     private static final String SQL18 = "INSERT into loginhistory(logDate,idl) values (NOW(),?)";
     private static final String SQL19 = "INSERT into loginhistory(logDate,success,idl) values (NOW(),true,?)";
     private static final String SQL20 = "SELECT * from loginhistory where idl = ? order by UNIX_TIMESTAMP(logDate) desc limit 3";
