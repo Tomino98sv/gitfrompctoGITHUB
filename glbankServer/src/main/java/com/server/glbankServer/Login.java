@@ -15,10 +15,15 @@ public class Login {
     @Autowired
     LoginRepository loginRepository;
 
-    @GetMapping(path = "/login")
+    @GetMapping(path = "/insertLoginClient")
     public @ResponseBody
-    String login(@RequestParam String name, @RequestParam int age){
-        return "hovno "+name+" age "+age;
+    String insertClient(@RequestParam String login, @RequestParam String password, @RequestParam int idc){
+        loginclient newLogCl = new loginclient();
+        newLogCl.setLogin(login);
+        newLogCl.setPassword(password);
+        newLogCl.setIdc(idc);
+        loginRepository.save(newLogCl);
+        return "Saved";
     }
 
     @GetMapping(path="/allClientLogin")
