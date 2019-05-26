@@ -11,96 +11,81 @@ public class Main {
 
     public void shipsDeployment(int [][] gameBoard){
         Random rand = new Random();
-        int counter=0;
+        int counter5=0;
+        int counter4=0;
+        int counter3=0;
+        int counter2=0;
         getCleanBoard(gameBoard);
 
         int a;
         int b;
-        while (counter!=14){
+        while (true){
             a = rand.nextInt(10);
             b = rand.nextInt(10);
-            if (checkForTwo(gameBoard,a,b)){
-                counter++;
+            if (counter5<1){
+                if (checkIfIsConstructable(gameBoard,a,b,5)){
+                    counter5++;
+                }
+            }
+            if (counter5==1){
+                if (counter4<2){
+                    if (checkIfIsConstructable(gameBoard,a,b,4)){
+                        counter4++;
+                    }
+                }
+                if (counter4==2){
+                    if (counter3<3){
+                        if (checkIfIsConstructable(gameBoard,a,b,3)){
+                            counter3++;
+                        }
+                    }
+                    if (counter3==3){
+                        if (counter2<4){
+                            if (checkIfIsConstructable(gameBoard,a,b,2)){
+                                counter2++;
+                            }
+                        }
+                        if (counter2==4){
+                            break;
+                        }
+                    }
+                }
             }
         }
 
         renderBoard(gameBoard);
     }
 
-    public boolean checkForTwo(int [][] gameBoard,int a, int b){
-        if (b<=8){
-            if (gameBoard[a][b]!=1 && gameBoard[a][b+1]!=1){
-                if (checkForMargin(gameBoard,a,b,2,true,false)){
-                    gameBoard[a][b]=1;
-                    gameBoard[a][b+1]=1;
+    public boolean checkIfIsConstructable(int [][] gameBoard,int a, int b,int size){
+        if (b<=10-size){
+                if (checkForMargin(gameBoard,a,b,size,true,false)){
+                    for (int c =0;c<size;c++){
+                        gameBoard[a][b+c]=1;
+                    }
+
                     return true;
                 }else{
                     //margin isn't free
                     return false;
                 }
             }else{
-                //Already someone there
-                return false;
-            }
-            }else{
             //nemozem ist horizontalne s 2 lebo na konci sa nezmesti
         }
-//        if (a<=8){
-//            if (gameBoard[a][b]!=1 && gameBoard[a+1][b]!=1){
-//                if (checkForMargin(gameBoard,a,b,2,false,true)){
-//                    gameBoard[a][b]=1;
-//                    gameBoard[a+1][b]=1;
-//                    return true;
-//                }else{
-//                    //margin isn't free
-//                    return false;
-//                }
-//
-//            }else{
-//                //Already someone there
-//                return false;
-//            }
-//        }else{
-//            //nemozem ist vertikalne s 2 lebo na konci sa nezmesti
-//        }
+        if (a<=10-size){
+                if (checkForMargin(gameBoard,a,b,size,false,true)){
+                    for (int c=0;c<size;c++){
+                        gameBoard[a+c][b]=1;
+                    }
+                    return true;
+                }else{
+                    //margin isn't free
+                    return false;
+                }
 
-        return false;
-    }
+        }else{
+            //nemozem ist vertikalne s 2 lebo na konci sa nezmesti
+        }
 
-    public boolean checkForThree(int [][] gameBoard,int a, int b){
-        if (b<=7){
-        }else{
-            //nemozem ist horizontalne s 3 lebo na konci sa nezmesti
-        }
-        if (a<=7){
-        }else{
-            //nemozem ist vertikalne s 3 lebo na konci sa nezmesti
-        }
-        return false;
-    }
-
-    public boolean checkForFour(int [][] gameBoard,int a, int b){
-        if (b<=6){
-        }else{
-            //nemozem ist horizontalne s 4 lebo na konci sa nezmesti
-
-        }
-        if (a<=6){
-        }else{
-            //nemozem ist vertikalne s 4 lebo na konci sa nezmesti
-        }
-        return false;
-    }
-
-    public boolean checkForFive(int [][] gameBoard,int a, int b){
-        if (b<=5){
-        }else{
-            //nemozem ist horizontalne s 5 lebo na konci sa nezmesti
-        }
-        if (a<=5){
-        }else{
-            //nemozem ist vertikalne s 5 lebo na konci sa nezmesti
-        }
         return false;
     }
 
@@ -121,9 +106,26 @@ public class Main {
             }
             System.out.println("True");
             return true;
-        }else{
+        }else if(vertical){
             System.out.println("Vertical margin");
+            System.out.println("a: "+a+"b: "+b);
+            for(int c=0;c<size+2;c++){           // na riadky okolo
+                for (int d=0;d<3;d++){   // na stlpce okolo
+                    if ((c+a)-1<0 || (d+b)-1<0 || (c+a)-1>9 || (d+b)-1>9){ }else{  //aby neslo za pole hodnot
+                        System.out.print(gameboard[(c+a)-1][(d+b)-1]+" ");
+                        if (gameboard[(c+a)-1][(d+b)-1]==1){    // ci je na kontrolovanom mieste 1
+                            System.out.println("FALSE");
+                            return false;
+                        }
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println("True");
+
             return true;
+        }else{
+            return false;
         }
     }
 
