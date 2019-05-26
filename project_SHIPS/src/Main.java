@@ -16,7 +16,7 @@ public class Main {
 
         int a;
         int b;
-        while (counter!=1){
+        while (counter!=14){
             a = rand.nextInt(10);
             b = rand.nextInt(10);
             if (checkForTwo(gameBoard,a,b)){
@@ -45,24 +45,24 @@ public class Main {
             }else{
             //nemozem ist horizontalne s 2 lebo na konci sa nezmesti
         }
-        if (a<=8){
-            if (gameBoard[a][b]!=1 && gameBoard[a+1][b]!=1){
-                if (checkForMargin(gameBoard,a,b,2,false,true)){
-                    gameBoard[a][b]=1;
-                    gameBoard[a+1][b]=1;
-                    return true;
-                }else{
-                    //margin isn't free
-                    return false;
-                }
-
-            }else{
-                //Already someone there
-                return false;
-            }
-        }else{
-            //nemozem ist vertikalne s 2 lebo na konci sa nezmesti
-        }
+//        if (a<=8){
+//            if (gameBoard[a][b]!=1 && gameBoard[a+1][b]!=1){
+//                if (checkForMargin(gameBoard,a,b,2,false,true)){
+//                    gameBoard[a][b]=1;
+//                    gameBoard[a+1][b]=1;
+//                    return true;
+//                }else{
+//                    //margin isn't free
+//                    return false;
+//                }
+//
+//            }else{
+//                //Already someone there
+//                return false;
+//            }
+//        }else{
+//            //nemozem ist vertikalne s 2 lebo na konci sa nezmesti
+//        }
 
         return false;
     }
@@ -105,19 +105,26 @@ public class Main {
     }
 
     public boolean checkForMargin(int [][]gameboard,int a,int b, int size, boolean horizontal, boolean vertical){
-        gameboard[a][b]=1;
-        gameboard[a][b+1]=1;
-        System.out.println("a: "+a+"b: "+b);
-        for(int c=0;c<3;c++){
-            for (int d=0;d<size+2;d++){
-                if ((c+a)-1<0 || (d+b)-1<0 || (c+a)-1>9 || (d+b)-1>9){ }else{
-                    System.out.print(gameboard[(c+a)-1][(d+b)-1]+" ");
-
+        if (horizontal){
+            System.out.println("a: "+a+"b: "+b);
+            for(int c=0;c<3;c++){           // na riadky okolo
+                for (int d=0;d<size+2;d++){   // na stlpce okolo
+                    if ((c+a)-1<0 || (d+b)-1<0 || (c+a)-1>9 || (d+b)-1>9){ }else{  //aby neslo za pole hodnot
+                        System.out.print(gameboard[(c+a)-1][(d+b)-1]+" ");
+                            if (gameboard[(c+a)-1][(d+b)-1]==1){    // ci je na kontrolovanom mieste 1
+                                System.out.println("FALSE");
+                                    return false;
+                            }
+                    }
                 }
+                System.out.println();
             }
-            System.out.println();
+            System.out.println("True");
+            return true;
+        }else{
+            System.out.println("Vertical margin");
+            return true;
         }
-        return true;
     }
 
     public void getCleanBoard(int [][] gameBoard){
