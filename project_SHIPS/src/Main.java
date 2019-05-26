@@ -1,11 +1,112 @@
+import java.util.Random;
+
 public class Main {
 
     public static void main(String[] args) {
         Main meth = new Main();
         int[][] gameBoard = new int[10][10];
-        meth.getCleanBoard(gameBoard);
-        meth.renderBoard(gameBoard);
+        meth.shipsDeployment(gameBoard);
 	// write your code here
+    }
+
+    public void shipsDeployment(int [][] gameBoard){
+        Random rand = new Random();
+        int counter=0;
+        getCleanBoard(gameBoard);
+
+        int a;
+        int b;
+        while (counter!=4){
+            a = rand.nextInt(10);
+            b = rand.nextInt(10);
+            if (checkForTwo(gameBoard,a,b)){
+                counter++;
+            }
+        }
+
+        renderBoard(gameBoard);
+    }
+
+    public boolean checkForTwo(int [][] gameBoard,int a, int b){
+        if (b<=8){
+            if (gameBoard[a][b]!=1 && gameBoard[a][b+1]!=1){
+                if (checkForMargin(gameBoard,a,b,2,true,false)){
+                    gameBoard[a][b]=1;
+                    gameBoard[a][b+1]=1;
+                    return true;
+                }else{
+                    //margin isn't free
+                    return false;
+                }
+            }else{
+                //Already someone there
+                return false;
+            }
+            }else{
+            //nemozem ist horizontalne s 2 lebo na konci sa nezmesti
+        }
+        if (a<=8){
+            if (gameBoard[a][b]!=1 && gameBoard[a+1][b]!=1){
+                if (checkForMargin(gameBoard,a,b,2,false,true)){
+                    gameBoard[a][b]=1;
+                    gameBoard[a+1][b]=1;
+                    return true;
+                }else{
+                    //margin isn't free
+                    return false;
+                }
+
+            }else{
+                //Already someone there
+                return false;
+            }
+        }else{
+            //nemozem ist vertikalne s 2 lebo na konci sa nezmesti
+        }
+
+        return false;
+    }
+
+    public boolean checkForThree(int [][] gameBoard,int a, int b){
+        if (b<=7){
+        }else{
+            //nemozem ist horizontalne s 3 lebo na konci sa nezmesti
+        }
+        if (a<=7){
+        }else{
+            //nemozem ist vertikalne s 3 lebo na konci sa nezmesti
+        }
+        return false;
+    }
+
+    public boolean checkForFour(int [][] gameBoard,int a, int b){
+        if (b<=6){
+        }else{
+            //nemozem ist horizontalne s 4 lebo na konci sa nezmesti
+
+        }
+        if (a<=6){
+        }else{
+            //nemozem ist vertikalne s 4 lebo na konci sa nezmesti
+        }
+        return false;
+    }
+
+    public boolean checkForFive(int [][] gameBoard,int a, int b){
+        if (b<=5){
+        }else{
+            //nemozem ist horizontalne s 5 lebo na konci sa nezmesti
+        }
+        if (a<=5){
+        }else{
+            //nemozem ist vertikalne s 5 lebo na konci sa nezmesti
+        }
+        return false;
+    }
+
+    public boolean checkForMargin(int [][]gameboard,int a,int b, int size, boolean horizontal, boolean vertical){
+
+        return true;
     }
 
     public void getCleanBoard(int [][] gameBoard){
