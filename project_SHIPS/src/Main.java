@@ -16,7 +16,7 @@ public class Main {
 
         int a;
         int b;
-        while (counter!=4){
+        while (counter!=1){
             a = rand.nextInt(10);
             b = rand.nextInt(10);
             if (checkForTwo(gameBoard,a,b)){
@@ -105,7 +105,18 @@ public class Main {
     }
 
     public boolean checkForMargin(int [][]gameboard,int a,int b, int size, boolean horizontal, boolean vertical){
+        gameboard[a][b]=1;
+        gameboard[a][b+1]=1;
+        System.out.println("a: "+a+"b: "+b);
+        for(int c=0;c<3;c++){
+            for (int d=0;d<size+2;d++){
+                if ((c+a)-1<0 || (d+b)-1<0 || (c+a)-1>9 || (d+b)-1>9){ }else{
+                    System.out.print(gameboard[(c+a)-1][(d+b)-1]+" ");
 
+                }
+            }
+            System.out.println();
+        }
         return true;
     }
 
