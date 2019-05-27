@@ -155,13 +155,17 @@ public class Main {
     }
 
     public boolean checkForMarginLeftUp(int [][]gameboard,int a,int b, int size, boolean horizontal, boolean vertical){
+
+        //SKOPIROVANE ZATIAL LEN CHECKFORMARGIN
+
         if (horizontal){
+            System.out.println("Horizontal left margin");
             System.out.println("a: "+a+"b: "+b);
             for(int c=0;c<3;c++){           // na riadky okolo
-                for (int d=0;d<size+2;d++){   // na stlpce okolo
-                    if ((c+a)-1<0 || (d+b)-1<0 || (c+a)-1>9 || (d+b)-1>9){ }else{  //aby neslo za pole hodnot
-                        System.out.print(gameboard[(c+a)-1][(d+b)-1]+" ");
-                        if (gameboard[(c+a)-1][(d+b)-1]==1){    // ci je na kontrolovanom mieste 1
+                for (int d=b+1;d>(b+1)-size-2;d--){   // na stlpce okolo
+                    System.out.println("["+((c+a)-1)+"]["+d+"]");
+                    if ((a+c)-1<0 || d<0 || (c+a)-1>9 || d>9){ }else{  //aby neslo za pole hodnot
+                        if (gameboard[(c+a)-1][d]==1){    // ci je na kontrolovanom mieste 1
                             System.out.println("FALSE");
                             return false;
                         }
