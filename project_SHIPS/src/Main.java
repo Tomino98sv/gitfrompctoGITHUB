@@ -156,8 +156,6 @@ public class Main {
 
     public boolean checkForMarginLeftUp(int [][]gameboard,int a,int b, int size, boolean horizontal, boolean vertical){
 
-        //SKOPIROVANE ZATIAL LEN CHECKFORMARGIN
-
         if (horizontal){
             System.out.println("Horizontal left margin");
             System.out.println("a: "+a+"b: "+b);
@@ -176,13 +174,14 @@ public class Main {
             System.out.println("True");
             return true;
         }else if(vertical){
-            System.out.println("Vertical margin");
+            //SKOPIROVANE ZATIAL LEN CHECKFORMARGIN
+            System.out.println("Vertical up margin");
             System.out.println("a: "+a+"b: "+b);
-            for(int c=0;c<size+2;c++){           // na riadky okolo
+            for(int c=a+1;c>(a+1)-size-2;c--){           // na riadky okolo
                 for (int d=0;d<3;d++){   // na stlpce okolo
-                    if ((c+a)-1<0 || (d+b)-1<0 || (c+a)-1>9 || (d+b)-1>9){ }else{  //aby neslo za pole hodnot
-                        System.out.print(gameboard[(c+a)-1][(d+b)-1]+" ");
-                        if (gameboard[(c+a)-1][(d+b)-1]==1){    // ci je na kontrolovanom mieste 1
+                    System.out.println("["+c+"]["+((d+b)-1)+"]");
+                    if (c<0 || (d+b)-1<0 || c>9 || (d+b)-1>9){ }else{  //aby neslo za pole hodnot
+                        if (gameboard[c][(d+b)-1]==1){    // ci je na kontrolovanom mieste 1
                             System.out.println("FALSE");
                             return false;
                         }
@@ -191,7 +190,6 @@ public class Main {
                 System.out.println();
             }
             System.out.println("True");
-
             return true;
         }else{
             return false;
