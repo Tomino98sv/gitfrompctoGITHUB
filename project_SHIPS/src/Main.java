@@ -57,35 +57,60 @@ public class Main {
     }
 
     public boolean checkIfIsConstructable(int [][] gameBoard,int a, int b,int size){
-        if (b<=10-size){
-                if (checkForMargin(gameBoard,a,b,size,true,false)){
+        if (b<=10-size){   //zlava do prava sa zmesti
+                if (checkForMargin(gameBoard,a,b,size,true,false)){ //kontroluje sa margin do prava
                     for (int c =0;c<size;c++){
                         gameBoard[a][b+c]=1;
                     }
-
                     return true;
-                }else{
-                    //margin isn't free
-                    return false;
+                }else{    //do prava neni volne pozrem na lavo
+                    if (b+1>=size){   // pozrem ci sa vobec zmesti na na lavo
+                        if (checkForMarginLeftUp(gameBoard,a,b,size,true,false)){
+                            for (int c =0;c<size;c++){
+                                gameBoard[a][b-c]=1;
+                            }
+                            return true;
+                        }
+                    }
                 }
             }else{
-            //nemozem ist horizontalne s 2 lebo na konci sa nezmesti
-        }
-        if (a<=10-size){
-                if (checkForMargin(gameBoard,a,b,size,false,true)){
+            if (b+1>=size){   // pozrem ci sa vobec zmesti na na lavo
+                if (checkForMarginLeftUp(gameBoard,a,b,size,true,false)){
+                    for (int c =0;c<size;c++){
+                        gameBoard[a][b-c]=1;
+                    }
+                    return true;
+                }
+            }
+        }   //HORIZONT
+
+
+        if (a<=10-size){    //zhora dole ci sa zmesti
+                if (checkForMargin(gameBoard,a,b,size,false,true)){  // pozrem ci margin dole je volny
                     for (int c=0;c<size;c++){
                         gameBoard[a+c][b]=1;
                     }
                     return true;
                 }else{
-                    //margin isn't free
-                    return false;
+                    if (a+1>=size){   // pozrem ci sa vobec zmesti na hor
+                        if (checkForMarginLeftUp(gameBoard,a,b,size,false,true)){  //pozrem ci margin zdola na hor je volny
+                            for (int c =0;c<size;c++){
+                                gameBoard[a-c][b]=1;
+                            }
+                            return true;
+                        }
+                    }
                 }
-
-        }else{
-            //nemozem ist vertikalne s 2 lebo na konci sa nezmesti
-        }
-
+        }else{   //zhora dole sa nezmesti
+            if (a+1>=size){   // pozrem ci sa vobec zmesti hore
+                if (checkForMarginLeftUp(gameBoard,a,b,size,false,true)){   // pozrem ci margin hore je volny
+                    for (int c =0;c<size;c++){
+                        gameBoard[a-c][b]=1;
+                    }
+                    return true;
+                }
+            }
+        }   //VERTICAL
         return false;
     }
 
@@ -96,10 +121,50 @@ public class Main {
                 for (int d=0;d<size+2;d++){   // na stlpce okolo
                     if ((c+a)-1<0 || (d+b)-1<0 || (c+a)-1>9 || (d+b)-1>9){ }else{  //aby neslo za pole hodnot
                         System.out.print(gameboard[(c+a)-1][(d+b)-1]+" ");
-                            if (gameboard[(c+a)-1][(d+b)-1]==1){    // ci je na kontrolovanom mieste 1
-                                System.out.println("FALSE");
-                                    return false;
-                            }
+                        if (gameboard[(c+a)-1][(d+b)-1]==1){    // ci je na kontrolovanom mieste 1
+                            System.out.println("FALSE");
+                            return false;
+                        }
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println("True");
+            return true;
+        }else if(vertical){
+            System.out.println("Vertical margin");
+            System.out.println("a: "+a+"b: "+b);
+            for(int c=0;c<size+2;c++){           // na riadky okolo
+                for (int d=0;d<3;d++){   // na stlpce okolo
+                    if ((c+a)-1<0 || (d+b)-1<0 || (c+a)-1>9 || (d+b)-1>9){ }else{  //aby neslo za pole hodnot
+                        System.out.print(gameboard[(c+a)-1][(d+b)-1]+" ");
+                        if (gameboard[(c+a)-1][(d+b)-1]==1){    // ci je na kontrolovanom mieste 1
+                            System.out.println("FALSE");
+                            return false;
+                        }
+                    }
+                }
+                System.out.println();
+            }
+            System.out.println("True");
+
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public boolean checkForMarginLeftUp(int [][]gameboard,int a,int b, int size, boolean horizontal, boolean vertical){
+        if (horizontal){
+            System.out.println("a: "+a+"b: "+b);
+            for(int c=0;c<3;c++){           // na riadky okolo
+                for (int d=0;d<size+2;d++){   // na stlpce okolo
+                    if ((c+a)-1<0 || (d+b)-1<0 || (c+a)-1>9 || (d+b)-1>9){ }else{  //aby neslo za pole hodnot
+                        System.out.print(gameboard[(c+a)-1][(d+b)-1]+" ");
+                        if (gameboard[(c+a)-1][(d+b)-1]==1){    // ci je na kontrolovanom mieste 1
+                            System.out.println("FALSE");
+                            return false;
+                        }
                     }
                 }
                 System.out.println();
