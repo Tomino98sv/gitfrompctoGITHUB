@@ -1,0 +1,57 @@
+body,html{
+   margin-left: 0;
+   margin-right: 0;
+   margin-top: 0;
+   margin-bottom: 0;
+   padding: 0;
+   background-color:rgb(237, 224, 218);
+}
+
+#menu{
+    width: 100%;
+    min-height: 50px;
+    background-color: rgb(255, 127, 53);
+    box-shadow: 0px 6px 16px -4px rgba(0,0,0,0.64);
+}
+
+#menu .button {
+    background-color: transparent; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: left;
+  }
+  
+  #menu .button:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+  }
+  
+  #menu .button:hover {
+    background-color: rgba(243, 102, 21, 0.808);
+  }
+
+  #menu .buttonLeft {
+    background-color: transparent; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: right;
+  }
+
+  #menu .buttonLeft:not(:last-child) {
+    border-right: none; /* Prevent double borders */
+  }
+  
+  #menu .buttonLeft:hover {
+    background-color: rgba(243, 102, 21, 0.808);
+  }

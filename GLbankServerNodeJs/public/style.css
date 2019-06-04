@@ -1,0 +1,78 @@
+
+body,html{
+	min-height: 100%; 
+}
+
+body{
+	background-image: url("skyscrapers.jpg");
+    background-repeat: no-repeat; 
+    background-size: cover; 
+}
+
+
+#login{
+	background-color:  rgba(255, 127, 53,0.8);
+	position: relative;
+	margin: auto;
+	transform: translateY(+50%);
+	padding: 40px;
+	max-width: 250px;
+	max-height: 400px;
+
+}
+
+form{
+	width: 240px;
+	text-align: center;
+}
+
+input[type=text]
+{
+	width: 240px;
+	text-align: center;
+	background: transparent;
+	border:none;
+	border-bottom: 1px solid #fff;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px 0;
+	transition: border 0.5s;
+	outline: none;
+	color: #000000;
+}
+
+input[type=password]
+{
+	width: 240px;
+	text-align: center;
+	background: transparent;
+	border:none;
+	border-bottom: 1px solid #fff;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px 0;
+	transition: border 0.5s;
+	outline: none;
+	color: #000000;
+}
+::placeholder{
+	color: aliceblue;
+	font-weight: normal;
+}
+
+.enterBut{
+	border:none;
+	width: 100px;
+	background-color: white;
+	color: #000;
+	font-size: 16px;
+	line-height: 25px;
+	padding: 10px 0;
+	border-radius: 15px;
+
+}
+
+.enterBut:hover{
+	background-color: rgba(0, 0, 0,0.7);
+	color: white;
+}

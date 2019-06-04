@@ -7,17 +7,21 @@ const cors = require('cors');
 const app=express();
 app.use(express.json());
 app.use(cors());
+app.use(express.static('public'));
+app.use(express.static('./'));
 
-app.get('/test',function(req,res){
+app.get('/',function(req,res){
+
     console.log('new request: /test');
-    res.status(200).send();
+    res.sendFile(__dirname+'/login/index.html');
+
 });
 
 app.post('/login',(req,res)=>{
     let username = req.body.login;
     let password = req.body.password;
     let callback = function(value,status){
-        res.status(status).send(value);
+         res.status(status).send(value);
     };
     if(username != undefined && password != undefined){
        database.checkLoginMeth(username,password,callback);
