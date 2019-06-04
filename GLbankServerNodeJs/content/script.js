@@ -6,6 +6,11 @@ var user = JSON.parse(window.localStorage.getItem('user'));
   });
 
 
+let fname;
+let lname;
+let email;
+let id;
+
 window.onload = inicialise();
 
 function inicialise(){
@@ -16,15 +21,10 @@ function inicialise(){
     if (this.readyState === 4) {
       var userInfo = JSON.parse(this.responseText);
 
-      document.getElementById('fname').innerHTML = "fname: "+userInfo.fname;
-      document.getElementById('lname').innerHTML = "lname: "+userInfo.lname;
-      document.getElementById('email').innerHTML = "email: "+userInfo.email;
-      document.getElementById('id').innerHTML = "id: "+userInfo.id;
-
-      console.log("fname "+userInfo.fname);
-      console.log("lname "+userInfo.lname);
-      console.log("email "+userInfo.email);
-      console.log("id "+userInfo.id);
+      fname = ""+userInfo.fname;
+      lname = ""+userInfo.lname;
+      email = ""+userInfo.email;
+      id = ""+userInfo.id;
     }
   });
   
@@ -41,3 +41,35 @@ function logOut(){
   location.replace("../login/index.html");
 }
   
+
+let body;
+var table;
+
+function profile(){
+  document.getElementById('body').innerHTML=""
+  body= document.getElementById('body');
+  table = document.createElement('TABLE');
+  table.setAttribute("id","tableInfo");
+  body.appendChild(table);
+
+  appendTr("FirstName:","fname",fname);
+  appendTr("LastName:","lname",lname);
+  appendTr("Email:","email",email);
+  appendTr("IdClient:","id",id);
+}
+
+function appendTr(nameTh,nameClass,valueTd){
+  var tr = document.createElement('tr');
+  var th = document.createElement('th');
+  var td = document.createElement('td');
+  var text = document.createTextNode(nameTh);
+
+  th.appendChild(text);
+  tr.appendChild(th);
+
+  td.setAttribute("id",nameClass);
+  text = document.createTextNode(valueTd);
+  td.appendChild(text);
+  tr.appendChild(td);
+  table.appendChild(tr);
+}

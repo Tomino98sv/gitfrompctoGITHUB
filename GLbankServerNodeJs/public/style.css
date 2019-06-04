@@ -18,7 +18,24 @@ body{
 	padding: 40px;
 	max-width: 250px;
 	max-height: 400px;
+}
 
+#wrongMess{
+	background-color:  rgba(255, 127, 53,0.8);
+	position: relative;
+	margin: auto;
+	transform: translateY(+189%);
+	padding: 2px;
+	max-width: 250px;
+	max-height: 400px;
+	text-align: center;
+	border-radius: 0% 0% 50% 50%; 
+}
+
+#wrongMess p{
+	color: red;
+	font-size: 20px;
+    font-family: cursive;
 }
 
 form{
@@ -33,12 +50,31 @@ input[type=text]
 	background: transparent;
 	border:none;
 	border-bottom: 1px solid #fff;
+	border-top: 1px solid transparent;
 	font-size: 16px;
 	font-weight: bold;
 	padding: 10px 0;
 	transition: border 0.5s;
 	outline: none;
 	color: #000000;
+	border-radius: 0% 0% 0% 0%; 
+}
+
+input[type=text]:hover
+{
+	width: 240px;
+	text-align: center;
+	background: rgba(255, 127, 53,1);
+	border:none;
+	border-bottom: 1px solid #fff;
+	border-top: 1px solid #fff;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px 0;
+	transition: border 0.5s;
+	outline: none;
+	color: #000000;
+	border-radius: 0% 0% 20% 20%;
 }
 
 input[type=password]
@@ -48,13 +84,35 @@ input[type=password]
 	background: transparent;
 	border:none;
 	border-bottom: 1px solid #fff;
+	border-top: 1px solid transparent;
 	font-size: 16px;
 	font-weight: bold;
 	padding: 10px 0;
 	transition: border 0.5s;
 	outline: none;
 	color: #000000;
+	border-radius: 0% 0% 0% 0%; 
+
 }
+
+input[type=password]:hover
+{
+	width: 240px;
+	text-align: center;
+	background: rgba(255, 127, 53,1);
+	border:none;
+	border-bottom: 1px solid #fff;
+	border-top: 1px solid #fff;
+	font-size: 16px;
+	font-weight: bold;
+	padding: 10px 0;
+	transition: border 0.5s;
+	outline: none;
+	color: #000000;
+	border-radius: 0% 0% 20% 20%; 
+
+}
+
 ::placeholder{
 	color: aliceblue;
 	font-weight: normal;

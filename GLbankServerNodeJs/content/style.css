@@ -26,7 +26,7 @@ body,html{
     cursor: pointer;
     float: left;
   }
-  
+
   #menu .button:not(:last-child) {
     border-right: none; /* Prevent double borders */
   }
@@ -55,3 +55,54 @@ body,html{
   #menu .buttonLeft:hover {
     background-color: rgba(243, 102, 21, 0.808);
   }
+
+  #menu .buttonimg {
+    background-color: transparent; /* Green */
+    border: none;
+    color: white;
+    padding: 0px 0px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+    float: right;
+    border-right: none; /* Prevent double borders */
+  }
+
+  #menu .buttonimg:hover {
+    background-color: rgba(243, 102, 21, 0.808);
+  }
+
+  #menu .buttonimg img{
+    max-height: 45px;
+    max-width: 45px;
+  }
+
+  #body{
+    margin: auto;
+    margin-top: 20px;
+    width: 40%;
+    min-height: 300px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 6px 16px -4px rgba(0,0,0,0.64);
+  }
+
+  #tableInfo{
+    
+  }
+
+  table, td, th {  
+    border: 1px solid #ddd;
+    text-align: left;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    padding: 15px;
+  }
+

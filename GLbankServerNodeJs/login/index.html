@@ -17,10 +17,17 @@
 	</form>
 </div>
 
+<div id="wrongMess">
+	<p class="message">Wrong password or login</p>
+</div>
+
 <script>
+	document.getElementById('wrongMess').style.visibility = "hidden";
+	document.getElementsByName('username')[0].onclick = function(){document.getElementById('wrongMess').style.visibility = "hidden";};
+	document.getElementsByName('passwd')[0].onclick = function(){document.getElementById('wrongMess').style.visibility = "hidden";};
+
 
 function login(){
-
 	var loginValue = document.getElementsByName('username')[0].value;
 	var passValue = document.getElementsByName('passwd')[0].value;
 
@@ -45,7 +52,8 @@ function login(){
 			}
 			if(this.readyState === 4 && this.status == 401){
 			  console.log("Wrong login or password");
-			  console.log(this.responseText);
+				console.log(this.responseText);
+				document.getElementById('wrongMess').style.visibility = "visible";
 			}
 		  });
 		  
