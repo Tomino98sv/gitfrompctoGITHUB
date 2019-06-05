@@ -114,6 +114,14 @@ body,html{
     background-color:transparent;
   }
 
+  #contentProf{
+    margin: auto;
+    margin-top: 20px;
+    width: 60%;
+    min-height: 600px;
+    background-color:transparent;
+  }
+
   .left{
     float: left;
     width: 50%;

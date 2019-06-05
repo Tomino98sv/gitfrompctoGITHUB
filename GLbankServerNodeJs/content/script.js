@@ -5,12 +5,6 @@ var user = JSON.parse(window.localStorage.getItem('user'));
     "token": user.token
   });
 
-
-let fname;
-let lname;
-let email;
-let id;
-
 window.onload = inicialise();
 
 function inicialise(){
@@ -21,10 +15,12 @@ function inicialise(){
     if (this.readyState === 4) {
       var userInfo = JSON.parse(this.responseText);
 
-      fname = ""+userInfo.fname;
-      lname = ""+userInfo.lname;
-      email = ""+userInfo.email;
-      id = ""+userInfo.id;
+      document.getElementById('fname').innerHTML = ""+userInfo.fname;
+      document.getElementById('lname').innerHTML = ""+userInfo.lname;
+      document.getElementById('email').innerHTML = ""+userInfo.email;
+      document.getElementById('id').innerHTML = ""+userInfo.id;
+      document.getElementsByName('content')[0].style.display="block";
+      document.getElementsByName('content')[1].style.display="none";
     }
   });
   
@@ -42,43 +38,12 @@ function logOut(){
 }
   
 
-let body;
-var table;
 let content;
 function profile(){
-  document.getElementById('content').innerHTML="";
-  content = document.getElementById('content');
-
-  body= document.createElement('div');
-  body.setAttribute("id","bodyProfil");
-  content.appendChild(body);
-  table = document.createElement('TABLE');
-  table.setAttribute("id","tableInfo");
-  body.appendChild(table);
-
-  appendTr("FirstName:","fname",fname);
-  appendTr("LastName:","lname",lname);
-  appendTr("Email:","email",email);
-  appendTr("IdClient:","id",id);
+  document.getElementsByName('content')[1].style.display="block";
+  document.getElementsByName('content')[0].style.display="none";
 }
-
-function appendTr(nameTh,nameClass,valueTd){
-  var tr = document.createElement('tr');
-  var th = document.createElement('th');
-  var td = document.createElement('td');
-  var text = document.createTextNode(nameTh);
-
-  th.appendChild(text);
-  tr.appendChild(th);
-
-  td.setAttribute("id",nameClass);
-  text = document.createTextNode(valueTd);
-  td.appendChild(text);
-  tr.appendChild(td);
-  table.appendChild(tr);
-}
-
-
 function home(){
-  document.getElementById('content').style.visibility="visible";
+  document.getElementsByName('content')[0].style.display="block";
+  document.getElementsByName('content')[1].style.display="none";
 }
