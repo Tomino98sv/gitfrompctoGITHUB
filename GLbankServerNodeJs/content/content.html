@@ -9,7 +9,7 @@
 
 <div id="menu">
 	<button class="button" onclick="home()">Home</button>
-	<button class="button">Account</button>
+	<button class="button">Accounts</button>
 	<button class="buttonLeft" onclick="logOut()">Logout</button>
 	<button class="buttonimg" onclick="profile()"><img src="profilimg.png"></button>
 </div>
@@ -17,8 +17,30 @@
 <div name="content" id="content">
 	<div class="left">
 		<div class="leftUp">
-			<div class="headerLfUp"></div>
-			<div class="homeInfoContent"></div>
+			<div class="headerLfUp">
+				<table id="tableLeftUp">
+					<tr>
+						<th>Account Name:</th>
+						<td class="accName"></td>
+					</tr>
+					<tr>
+						<th>Account Number:</th>
+						<td class="accNumb"></td>
+					</tr>
+				</table>
+			</div>
+			<div class="homeInfoContent">
+					<table id="tableLeftDown">
+							<tr>
+								<th>Current Balance</th>
+								<th></th>
+							</tr>
+							<tr>
+								<td class="currBalance"></td>
+								<td><button>Payment</button</td>
+							</tr>
+						</table>
+			</div>
 		</div>
 		<div class="leftDown">
 			<div class="headerLfDwn"></div>
