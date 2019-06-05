@@ -69,6 +69,9 @@ function getAccounts(){
       console.log(this.responseText);
       accounts= JSON.parse(this.responseText);
       console.log(accounts);
+      for(var a=0;a<accounts.length;a++){
+        addAccNumb(accounts[a].AccNum);
+      }
     }
   });
   
@@ -78,4 +81,16 @@ function getAccounts(){
   xhr.setRequestHeader("Postman-Token", "bdd97c40-eefa-47cb-869c-ba8caf45f636");
   
   xhr.send(data);
+}
+
+function addAccNumb(accNumb){
+  var dropCont = document.getElementsByClassName('dropdown-content')[0];
+  var button = document.createElement('BUTTON');
+  button.setAttribute("class","buttonAccount");
+  var p = document.createElement('P');
+  var text = document.createTextNode(accNumb);
+
+  button.appendChild(text);
+  p.appendChild(button);
+  dropCont.appendChild(p);
 }
