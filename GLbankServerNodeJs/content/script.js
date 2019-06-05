@@ -44,10 +44,14 @@ function logOut(){
 
 let body;
 var table;
-
+let content;
 function profile(){
-  document.getElementById('body').innerHTML=""
-  body= document.getElementById('body');
+  document.getElementById('content').innerHTML="";
+  content = document.getElementById('content');
+
+  body= document.createElement('div');
+  body.setAttribute("id","bodyProfil");
+  content.appendChild(body);
   table = document.createElement('TABLE');
   table.setAttribute("id","tableInfo");
   body.appendChild(table);
@@ -72,4 +76,9 @@ function appendTr(nameTh,nameClass,valueTd){
   td.appendChild(text);
   tr.appendChild(td);
   table.appendChild(tr);
+}
+
+
+function home(){
+  document.getElementById('content').style.visibility="visible";
 }

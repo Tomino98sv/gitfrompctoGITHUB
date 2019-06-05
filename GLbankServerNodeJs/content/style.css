@@ -79,10 +79,10 @@ body,html{
     max-width: 45px;
   }
 
-  #body{
+  #bodyProfil{
     margin: auto;
     margin-top: 20px;
-    width: 40%;
+    width: 80%;
     min-height: 300px;
     background-color: rgb(255, 255, 255);
     box-shadow: 0px 6px 16px -4px rgba(0,0,0,0.64);
@@ -106,3 +106,77 @@ body,html{
     padding: 15px;
   }
 
+  #content{
+    margin: auto;
+    margin-top: 20px;
+    width: 90%;
+    min-height: 600px;
+    background-color:transparent;
+  }
+
+  .left{
+    float: left;
+    width: 50%;
+  }
+  .leftUp{
+    width: 100%;
+    background-color: gray;
+    height:240px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 6px 16px -4px rgba(0,0,0,0.64);
+    
+  }
+
+
+  .headerLfUp{
+    width: 100%;
+    background-color: rgb(226, 225, 225);
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.75);
+    height: 40%;
+  }
+  .homeInfoContent{
+
+  }
+
+  .leftDown{
+    width: 100%;
+    background-color: gainsboro;
+    height: 330px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 6px 16px -4px rgba(0,0,0,0.64);
+    margin-top: 20px; 
+  }
+
+
+  .headerLfDwn{
+    width: 100%;
+    background-color: rgb(226, 225, 225);
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.75);
+    height: 25%;
+  }
+  .homeGraphContent{
+
+  }
+
+  .right{
+    background-color: red;
+    float: right;
+    width: 47%;
+    margin-bottom:10px;
+    margin-left:3%;   
+    height: 590px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 6px 16px -4px rgba(0,0,0,0.64);
+    
+  }
+
+
+  .headerRht{
+    width: 100%;
+    background-color: rgb(226, 225, 225);
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.75);
+    height: 16%;
+  }
+  .transContent{
+
+  }
