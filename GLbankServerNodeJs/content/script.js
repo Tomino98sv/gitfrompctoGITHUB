@@ -6,7 +6,7 @@ var user = JSON.parse(window.localStorage.getItem('user'));
   });
   var accounts;
   var userInfo;
-
+  var currentAcc;
 window.onload = inicialise();
 
 function inicialise(){
@@ -103,6 +103,7 @@ function addAccNumb(account,index){
 }
 
 function changeAcc(index,currAccIdAcc){
+  currentAcc = accounts[index];
   document.getElementsByClassName("accName")[0].innerHTML = ""+userInfo.fname+" "+userInfo.lname;
   document.getElementsByClassName("accNumb")[0].innerHTML = ""+accounts[index].AccNum;
   document.getElementsByClassName("currBalance")[0].innerHTML ="\u20ac "+accounts[index].amount;
@@ -140,25 +141,42 @@ function getTransactions(idAcc){
 }
 
 function addTransHistory(transHistory){
-  document.getElementsByClassName('transContent')[0].innerHTML='';
-  var divTrans = document.getElementsByClassName('transContent')[0];
+  document.getElementsByClassName('tableTrans')[0].innerHTML='';
+  var tableTrans = document.getElementsByClassName('tableTrans')[0];
+  var tr = document.createElement("tr");
+  appendTransTh(tr,"Account FROM");
+  appendTransTh(tr,"Recipient Account");
+  appendTransTh(tr,"TransactionDate");
+  appendTransTh(tr,"TransactionAmount");
+  tableTrans.appendChild(tr);
   if(transHistory==null){
       var text = document.createTextNode("NONE TRANSHISTORY");
       var p = document.createElement('P');
       p.appendChild(text);
-      divTrans.appendChild(p);
+      tableTrans.appendChild(p);
   }else{
     for(var a=0;a<transHistory.length;a++){
-      var text = document.createTextNode(" idAcc "+transHistory[a].idAcc+" RecAccount "
-                                +transHistory[a].RecAccount+" idEmployee "
-                                +transHistory[a].idEmployee+" TransDate "
-                                +transHistory[a].TransDate+" TransAmount "
-                                +transHistory[a].TransAmount+" id "
-                                +transHistory[a].id);
-      var p = document.createElement('P');
-      p.appendChild(text);
-      divTrans.appendChild(p);
-      console.log(transHistory[a]);
+
+      var tr = document.createElement('TR');
+      appendTransTD(tr,currentAcc.AccNum);
+      appendTransTD(tr,transHistory[a].RecAccount);
+      appendTransTD(tr,transHistory[a].TransDate);
+      appendTransTD(tr,transHistory[a].TransAmount);
+      tableTrans.appendChild(tr);
   }
   }
+}
+
+function appendTransTD(tr,value){
+  var td = document.createElement('TD');
+  var text = document.createTextNode(value);
+  td.appendChild(text);
+  tr.appendChild(td);
+}
+
+function appendTransTh(tr,value){
+  var th = document.createElement('TH');
+  var text = document.createTextNode(value);
+  th.appendChild(text);
+  tr.appendChild(th);
 }
