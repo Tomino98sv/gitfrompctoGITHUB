@@ -49,10 +49,17 @@ function profile(){
 function home(){
   document.getElementsByName('content')[0].style.display="block";
   document.getElementsByName('content')[1].style.display="none";
-  console.log(""+userInfo.fname+" "+userInfo.lname+" "+accounts[0].AccNum);
   document.getElementsByClassName("accName")[0].innerHTML = ""+userInfo.fname+" "+userInfo.lname;
-  document.getElementsByClassName("accNumb")[0].innerHTML = ""+accounts[0].AccNum;
-  document.getElementsByClassName("currBalance")[0].innerHTML ="\u20ac "+accounts[0].amount;
+ if(accounts==undefined){
+    document.getElementsByClassName("accNumb")[0].innerHTML = "Ziaden ucet nemas takze nechapem co tu vlastne robis";
+    document.getElementsByClassName("currBalance")[0].innerHTML ="\u20ac 0 Nemaaaas nic ty ***";
+  }else{
+    document.getElementsByClassName("accNumb")[0].innerHTML = ""+accounts[0].AccNum;
+    document.getElementsByClassName("currBalance")[0].innerHTML ="\u20ac "+accounts[0].amount;
+  }
+
+  getTransactions(accounts[0].id);
+
 }
 
 function getAccounts(){
@@ -66,11 +73,10 @@ function getAccounts(){
   
   xhr.addEventListener("readystatechange", function () {
     if (this.readyState === 4 && this.status == 200) {
-      console.log(this.responseText);
       accounts= JSON.parse(this.responseText);
-      console.log(accounts);
       for(var a=0;a<accounts.length;a++){
-        addAccNumb(accounts[a].AccNum);
+        addAccNumb(accounts[a],a);
+        getTransactions(accounts[a].id);
       }
     }
   });
@@ -83,14 +89,76 @@ function getAccounts(){
   xhr.send(data);
 }
 
-function addAccNumb(accNumb){
+function addAccNumb(account,index){
   var dropCont = document.getElementsByClassName('dropdown-content')[0];
   var button = document.createElement('BUTTON');
   button.setAttribute("class","buttonAccount");
+  button.setAttribute("onclick","changeAcc("+index+","+account.id+")");
   var p = document.createElement('P');
-  var text = document.createTextNode(accNumb);
+  var text = document.createTextNode(account.AccNum);
 
   button.appendChild(text);
   p.appendChild(button);
   dropCont.appendChild(p);
+}
+
+function changeAcc(index,currAccIdAcc){
+  document.getElementsByClassName("accName")[0].innerHTML = ""+userInfo.fname+" "+userInfo.lname;
+  document.getElementsByClassName("accNumb")[0].innerHTML = ""+accounts[index].AccNum;
+  document.getElementsByClassName("currBalance")[0].innerHTML ="\u20ac "+accounts[index].amount;
+  getTransactions(currAccIdAcc);
+}
+
+function getTransactions(idAcc){
+  var data = JSON.stringify({
+    "login": user.login,
+    "idAcc": idAcc,
+    "token": user.token
+  });
+  
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+  
+  xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === 4 && this.status == 200) {
+        var trans = JSON.parse(this.responseText);
+        addTransHistory(trans);
+    }
+
+    if (this.status == 403) {
+      console.log(this.responseText);
+      addTransHistory(null);
+  }
+  });
+  
+  xhr.open("POST", "http://localhost:3000/transHistory");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader("cache-control", "no-cache");
+  xhr.setRequestHeader("Postman-Token", "ebfb6e12-0c8f-4cdb-8c3f-74fdd6cf8841");
+  
+  xhr.send(data);
+}
+
+function addTransHistory(transHistory){
+  document.getElementsByClassName('transContent')[0].innerHTML='';
+  var divTrans = document.getElementsByClassName('transContent')[0];
+  if(transHistory==null){
+      var text = document.createTextNode("NONE TRANSHISTORY");
+      var p = document.createElement('P');
+      p.appendChild(text);
+      divTrans.appendChild(p);
+  }else{
+    for(var a=0;a<transHistory.length;a++){
+      var text = document.createTextNode(" idAcc "+transHistory[a].idAcc+" RecAccount "
+                                +transHistory[a].RecAccount+" idEmployee "
+                                +transHistory[a].idEmployee+" TransDate "
+                                +transHistory[a].TransDate+" TransAmount "
+                                +transHistory[a].TransAmount+" id "
+                                +transHistory[a].id);
+      var p = document.createElement('P');
+      p.appendChild(text);
+      divTrans.appendChild(p);
+      console.log(transHistory[a]);
+  }
+  }
 }
