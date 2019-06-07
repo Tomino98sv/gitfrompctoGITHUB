@@ -40,7 +40,6 @@ function logOut(){
   location.replace("../login/index.html");
 }
   
-
 let content;
 function profile(){
   document.getElementsByName('content')[1].style.display="block";
@@ -127,7 +126,6 @@ function getTransactions(idAcc){
     }
 
     if (this.status == 403) {
-      console.log(this.responseText);
       addTransHistory(null);
   }
   });
@@ -142,7 +140,11 @@ function getTransactions(idAcc){
 
 function addTransHistory(transHistory){
   document.getElementsByClassName('tableTrans')[0].innerHTML='';
+  var captionHead = document.createElement('CAPTION');
+  var captionText = document.createTextNode("Sent-Transactions");
+  captionHead.appendChild(captionText);
   var tableTrans = document.getElementsByClassName('tableTrans')[0];
+  tableTrans.appendChild(captionHead);
   var tr = document.createElement("tr");
   appendTransTh(tr,"Account FROM");
   appendTransTh(tr,"Recipient Account");
@@ -150,21 +152,29 @@ function addTransHistory(transHistory){
   appendTransTh(tr,"TransactionAmount");
   tableTrans.appendChild(tr);
   if(transHistory==null){
-      var text = document.createTextNode("NONE TRANSHISTORY");
+      var text = document.createTextNode(" ");
       var p = document.createElement('P');
       p.appendChild(text);
       tableTrans.appendChild(p);
   }else{
     for(var a=0;a<transHistory.length;a++){
-
+      var date = changeDateFormat(transHistory[a].TransDate);
       var tr = document.createElement('TR');
-      appendTransTD(tr,currentAcc.AccNum);
-      appendTransTD(tr,transHistory[a].RecAccount);
-      appendTransTD(tr,transHistory[a].TransDate);
-      appendTransTD(tr,transHistory[a].TransAmount);
+      if(currentAcc!=undefined){
+        appendTransTD(tr,currentAcc.AccNum);
+        appendTransTD(tr,transHistory[a].RecAccount);
+        appendTransTD(tr,date);
+        appendTransTD(tr,transHistory[a].TransAmount+" \u20ac");
+      }
       tableTrans.appendChild(tr);
   }
   }
+}
+
+function changeDateFormat(date){
+  var d = new Date(date);
+  console.log(d.toLocaleTimeString());
+  return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0" + d.getDate()).slice(-2)+" "+("0" + d.getHours()).slice(-2)+":"+("0" + d.getMinutes()).slice(-2)+":"+("0" + d.getSeconds()).slice(-2);
 }
 
 function appendTransTD(tr,value){
@@ -180,3 +190,4 @@ function appendTransTh(tr,value){
   th.appendChild(text);
   tr.appendChild(th);
 }
+

@@ -145,7 +145,7 @@ body,html{
   }
   
   table {
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
     width: 100%;
   }
   
@@ -240,10 +240,15 @@ body,html{
 
   table, td, th {
     border: 0px;
-    border-collapse: collapse; 
+    /* border-collapse: collapse;  */
     padding: 10px;
     text-align: left;
   }
+
+#tableLeftUp{
+  border-collapse: collapse;
+}
+
 #tableLeftUp th{
 
 font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -272,6 +277,11 @@ font-style: normal;
 font-variant: normal;
 text-transform: none;
   }
+
+  #tableLeftDown{
+    border-collapse: collapse;
+  }
+
 
 #tableLeftDown th{
   font-family: "Trebuchet MS", Helvetica, sans-serif;
@@ -358,4 +368,25 @@ text-transform: none;
   font-style: normal;
   font-variant: normal;
   text-transform: none;
+}
+
+.tableTrans{
+  border: 1px black;
+}
+
+.tableTrans th{
+  background-color: #868686;
+  color: white;
+}
+
+.tableTrans td{
+  background-color: #d1d1d1;
+  text-align: center;
+}
+
+.tableTrans caption{
+  background-color: #eeeeee;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1em;
 }
