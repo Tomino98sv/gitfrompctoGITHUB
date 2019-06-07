@@ -14,7 +14,7 @@ let con = mysql.createConnection({
 const checkLoginMeth = (username,password,callback) => {
     console.log("checkLogin "+username+" "+password);
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished by checkLoginMeth"); 
     let sql="SELECT * FROM loginclient where login like '"+username+"' and password like MD5('"+password+"')"; 
     con.query(sql,(err,result) => {
         if(err) throw err;
@@ -32,7 +32,10 @@ const checkLoginMeth = (username,password,callback) => {
                 // console.log(JSON.stringify(obj));
                 callback(JSON.stringify(obj),200);
         }
-    })
+    });
+    // con.end(function(){
+    //     console.log("checkLoginMeth closing connection");
+    // });
     });
 }
 
@@ -65,7 +68,7 @@ const userinfoMeth = (login,token,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished  by userinfoMeth"); 
     let sql="SELECT client.fname,client.lname,client.email,client.id from loginclient inner join client on client.id=loginclient.idc where loginclient.login like '"+login+"'"; 
     con.query(sql,(err,res) => {
         if(err) throw err;
@@ -80,9 +83,11 @@ const userinfoMeth = (login,token,callback) => {
                 obj.id=res[0].id;
                 callback(JSON.stringify(obj),200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("userinfoMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";
@@ -99,7 +104,7 @@ const getAccountsMeth = (login,token,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished by getAccountsMeth"); 
     let sql="select * from account where account.idc="+
     "(select client.id from loginclient inner join client on "+
     "client.id=loginclient.idc where loginclient.login like '"+login+"')"; 
@@ -110,9 +115,11 @@ const getAccountsMeth = (login,token,callback) => {
         }else{
                 callback(JSON.stringify(res),200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("getAccountsMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";
@@ -129,7 +136,7 @@ const getAccountInfoMeth = (login,token,accNum,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished by getAccountInfoMeth"); 
     let sql="select * from account where account.idc="+
     "(select client.id from loginclient inner join client on "+
     "client.id=loginclient.idc where loginclient.login like '"+login+"') and account.accnum like '"+accNum+"'"; 
@@ -145,9 +152,11 @@ const getAccountInfoMeth = (login,token,accNum,callback) => {
                 obj.amount=res[0].amount;
                 callback(JSON.stringify(obj),200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("getAccountInfoMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";
@@ -165,7 +174,7 @@ const transHistoryMeth = (login,idAcc,token,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished  by transHistoryMeth"); 
     let sql="select * from transaction where idAcc like '"+idAcc+"'"; 
     con.query(sql,(err,res) => {
         if(err) throw err;
@@ -174,9 +183,11 @@ const transHistoryMeth = (login,idAcc,token,callback) => {
         }else{
                 callback(JSON.stringify(res),200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("transHistoryMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";
@@ -193,8 +204,8 @@ const transHistoryRecAccMeth = (login,RecAccount,token,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
-    let sql="select * from transaction where RecAccount like '"+RecAccount+"'"; 
+    console.log("Connection to database has been estabilished by transHistoryRecAccMeth"); 
+    let sql="select transaction.id,account.AccNum as FromAcc,transaction.RecAccount,transaction.idEmployee,transaction.TransDate,transaction.TransAmount from transaction inner join account on transaction.idAcc = account.id where transaction.RecAccount like '"+RecAccount+"' group by transaction.id";
     con.query(sql,(err,res) => {
         if(err) throw err;
         if(res.length==0){
@@ -202,9 +213,11 @@ const transHistoryRecAccMeth = (login,RecAccount,token,callback) => {
         }else{
                 callback(JSON.stringify(res),200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("transHistoryRecAccMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";
@@ -221,7 +234,7 @@ const cardsMeth = (login,idAcc,token,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished by cardsMeth"); 
     let sql="select * from card where ida like '"+idAcc+"'"; 
     con.query(sql,(err,res) => {
         if(err) throw err;
@@ -230,9 +243,11 @@ const cardsMeth = (login,idAcc,token,callback) => {
         }else{
                 callback(JSON.stringify(res),200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("cardsMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";
@@ -249,7 +264,7 @@ const cardInfoMeth = (login,token,idCard,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished by cardInfoMeth"); 
     let sql="select * from card where id like '"+idCard+"'"; 
     con.query(sql,(err,res) => {
         if(err) throw err;
@@ -265,9 +280,11 @@ const cardInfoMeth = (login,token,idCard,callback) => {
                  obj.Active = res[0].Active;
                 callback(JSON.stringify(obj),200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("cardInfoMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";
@@ -284,7 +301,7 @@ const cardTransMeth = (login,token,idCard,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished by cardTransMeth"); 
     let sql="select * from cardtrans where idCard like '"+idCard+"'"; 
     con.query(sql,(err,res) => {
         if(err) throw err;
@@ -294,9 +311,11 @@ const cardTransMeth = (login,token,idCard,callback) => {
             
                 callback(JSON.stringify(res),200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("cardTransMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";
@@ -313,7 +332,7 @@ const changePasswordMeth = (login,token,oldpassword,newpassword,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished by changePasswordMeth"); 
     let sql=" UPDATE loginclient set password=MD5('"+newpassword+"')"+
     " where loginclient.login like '"+login+"' and loginclient.password "+
     "like MD5('"+oldpassword+"')"; 
@@ -325,9 +344,11 @@ const changePasswordMeth = (login,token,oldpassword,newpassword,callback) => {
                 console.log(res.affectedRows + " record(s) updated");
                 callback("{OK}",200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("changePasswordMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";
@@ -344,7 +365,7 @@ const blockcardMeth = (login,token,idCard,callback) => {
     ){
      
     con.connect(function(err){
-    console.log("Connection to database has been estabilished"); 
+    console.log("Connection to database has been estabilished by blockcardMeth"); 
     let sql="UPDATE card set active="+0+" where card.id="+idCard; 
     con.query(sql,(err,res) => {
         if(err) throw err;
@@ -354,9 +375,11 @@ const blockcardMeth = (login,token,idCard,callback) => {
                 console.log(res.affectedRows + " record(s) updated");
                 callback("{Blocked}",200);
         }
-    })
     });
-
+    // con.end(function(){
+    //     console.log("blockcardMeth closing connection");
+    // });
+    });
     }else{
         let mess = new Object();
         mess.message = "Wrong credintials!";

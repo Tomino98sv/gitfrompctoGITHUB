@@ -76,7 +76,7 @@ function getAccounts(){
       accounts= JSON.parse(this.responseText);
       for(var a=0;a<accounts.length;a++){
         addAccNumb(accounts[a],a);
-        getTransactions(accounts[a].id);
+        // getTransactions(accounts[a].id);
       }
     }
   });
@@ -251,7 +251,7 @@ function addTransHistoryReceived(transHistory){
       var date = changeDateFormat(transHistory[a].TransDate);
       var tr = document.createElement('TR');
       if(currentAcc!=undefined){
-        appendTransTD(tr,accNumberFrom(transHistory[a].idAcc));
+        appendTransTD(tr,transHistory[a].FromAcc);
         appendTransTD(tr,transHistory[a].RecAccount);
         appendTransTD(tr,date);
         appendTransTD(tr,transHistory[a].TransAmount+" \u20ac");
@@ -259,8 +259,4 @@ function addTransHistoryReceived(transHistory){
       tableTrans.appendChild(tr);
   }
   }
-}
-
-function accNumberFrom(transHistIdAcc){
-  return "FromHere";
 }
