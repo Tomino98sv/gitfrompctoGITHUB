@@ -184,6 +184,34 @@ const transHistoryMeth = (login,idAcc,token,callback) => {
     }
 }
 
+const transHistoryRecAccMeth = (login,RecAccount,token,callback) => {
+
+
+    if(tokens.find(
+        person => (person.login == login && person.token == token)
+        )
+    ){
+     
+    con.connect(function(err){
+    console.log("Connection to database has been estabilished"); 
+    let sql="select * from transaction where RecAccount like '"+RecAccount+"'"; 
+    con.query(sql,(err,res) => {
+        if(err) throw err;
+        if(res.length==0){
+            callback("{Could not get any transHistory with this RecAccount!}",403);
+        }else{
+                callback(JSON.stringify(res),200);
+        }
+    })
+    });
+
+    }else{
+        let mess = new Object();
+        mess.message = "Wrong credintials!";
+        callback(JSON.stringify(mess),401);
+    }
+}
+
 const cardsMeth = (login,idAcc,token,callback) => {
 
 
@@ -344,6 +372,7 @@ module.exports={
     getAccountsMeth,
     getAccountInfoMeth,
     transHistoryMeth,
+    transHistoryRecAccMeth,
     cardsMeth,
     cardInfoMeth,
     cardTransMeth,

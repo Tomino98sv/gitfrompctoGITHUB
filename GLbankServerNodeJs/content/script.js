@@ -58,6 +58,7 @@ function home(){
   }
 
   getTransactions(accounts[0].id);
+  getTransactionsReceived(accounts[0].AccNum);
 
 }
 
@@ -92,7 +93,7 @@ function addAccNumb(account,index){
   var dropCont = document.getElementsByClassName('dropdown-content')[0];
   var button = document.createElement('BUTTON');
   button.setAttribute("class","buttonAccount");
-  button.setAttribute("onclick","changeAcc("+index+","+account.id+")");
+  button.setAttribute("onclick","changeAcc("+index+","+account.id+",'"+account.AccNum+"')");
   var p = document.createElement('P');
   var text = document.createTextNode(account.AccNum);
 
@@ -101,12 +102,16 @@ function addAccNumb(account,index){
   dropCont.appendChild(p);
 }
 
-function changeAcc(index,currAccIdAcc){
+function changeAcc(index,currAccIdAcc,currAccNum){
+  console.log("currAccNum "+currAccNum);
   currentAcc = accounts[index];
   document.getElementsByClassName("accName")[0].innerHTML = ""+userInfo.fname+" "+userInfo.lname;
   document.getElementsByClassName("accNumb")[0].innerHTML = ""+accounts[index].AccNum;
   document.getElementsByClassName("currBalance")[0].innerHTML ="\u20ac "+accounts[index].amount;
+
+  console.log(currAccIdAcc);
   getTransactions(currAccIdAcc);
+  getTransactionsReceived(currAccNum);
 }
 
 function getTransactions(idAcc){
@@ -122,11 +127,12 @@ function getTransactions(idAcc){
   xhr.addEventListener("readystatechange", function () {
     if (this.readyState === 4 && this.status == 200) {
         var trans = JSON.parse(this.responseText);
-        addTransHistory(trans);
+        addTransHistorySent(trans);
     }
 
     if (this.status == 403) {
-      addTransHistory(null);
+      console.log(this.responseText);
+      addTransHistorySent(null);
   }
   });
   
@@ -138,7 +144,37 @@ function getTransactions(idAcc){
   xhr.send(data);
 }
 
-function addTransHistory(transHistory){
+function getTransactionsReceived(receivedAccNum){
+  var data = JSON.stringify({
+    "login": user.login,
+    "RecAccount": receivedAccNum,
+    "token": user.token
+  });
+  
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+  
+  xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === 4 && this.status == 200) {
+      var trans = JSON.parse(this.responseText);
+      addTransHistoryReceived(trans);
+  }
+
+  if (this.status == 403) {
+    console.log(this.responseText);
+    addTransHistoryReceived(null);
+}
+  });
+  
+  xhr.open("POST", "http://localhost:3000/transHistoryRecAccMeth");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader("cache-control", "no-cache");
+  xhr.setRequestHeader("Postman-Token", "fc645bfd-ceca-42bc-b590-6218f624c1d2");
+  
+  xhr.send(data);
+}
+
+function addTransHistorySent(transHistory){
   document.getElementsByClassName('tableTrans')[0].innerHTML='';
   var captionHead = document.createElement('CAPTION');
   var captionText = document.createTextNode("Sent-Transactions");
@@ -173,7 +209,6 @@ function addTransHistory(transHistory){
 
 function changeDateFormat(date){
   var d = new Date(date);
-  console.log(d.toLocaleTimeString());
   return d.getFullYear()+"-"+("0"+(d.getMonth()+1)).slice(-2)+"-"+("0" + d.getDate()).slice(-2)+" "+("0" + d.getHours()).slice(-2)+":"+("0" + d.getMinutes()).slice(-2)+":"+("0" + d.getSeconds()).slice(-2);
 }
 
@@ -191,3 +226,41 @@ function appendTransTh(tr,value){
   tr.appendChild(th);
 }
 
+
+
+function addTransHistoryReceived(transHistory){
+  document.getElementsByClassName('tableTransReceived')[0].innerHTML='';
+  var captionHead = document.createElement('CAPTION');
+  var captionText = document.createTextNode("Received-Transactions");
+  captionHead.appendChild(captionText);
+  var tableTrans = document.getElementsByClassName('tableTransReceived')[0];
+  tableTrans.appendChild(captionHead);
+  var tr = document.createElement("tr");
+  appendTransTh(tr,"Account FROM");
+  appendTransTh(tr,"Recipient Account");
+  appendTransTh(tr,"TransactionDate");
+  appendTransTh(tr,"TransactionAmount");
+  tableTrans.appendChild(tr);
+  if(transHistory==null){
+      var text = document.createTextNode(" ");
+      var p = document.createElement('P');
+      p.appendChild(text);
+      tableTrans.appendChild(p);
+  }else{
+    for(var a=0;a<transHistory.length;a++){
+      var date = changeDateFormat(transHistory[a].TransDate);
+      var tr = document.createElement('TR');
+      if(currentAcc!=undefined){
+        appendTransTD(tr,accNumberFrom(transHistory[a].idAcc));
+        appendTransTD(tr,transHistory[a].RecAccount);
+        appendTransTD(tr,date);
+        appendTransTD(tr,transHistory[a].TransAmount+" \u20ac");
+      }
+      tableTrans.appendChild(tr);
+  }
+  }
+}
+
+function accNumberFrom(transHistIdAcc){
+  return "FromHere";
+}

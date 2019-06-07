@@ -82,6 +82,16 @@ app.post('/transHistory',(req,res)=>{
     database.transHistoryMeth(login,idAcc,token,callback);
 });
 
+app.post('/transHistoryRecAccMeth',(req,res)=>{
+    let login = req.body.login;
+    let RecAccount = req.body.RecAccount;
+    let token = req.body.token;
+    let callback = function(value,status){
+        res.status(status).send(value);
+    };
+    database.transHistoryRecAccMeth(login,RecAccount,token,callback);
+});
+
 app.post('/cards',(req,res)=>{
     let login = req.body.login;
     let idAcc = req.body.idAcc;
