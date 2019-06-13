@@ -387,6 +387,68 @@ const blockcardMeth = (login,token,idCard,callback) => {
     }
 }
 
+const newTransactionMeth = (login,token,amount,idAccFrom,RecAccNum,callback) => {
+
+
+    if(tokens.find(
+        person => (person.login == login && person.token == token)
+        )
+    ){
+        console.log("Src=aky "+login+" "+token+" "+amount+" "+idAccFrom+" "+RecAccNum);
+    con.connect(function(err){
+    console.log("Connection to database has been estabilished by newTransactionMeth"); 
+    let sql1="UPDATE account set account.amount = account.amount -"+amount+" where account.id like "+idAccFrom; 
+    let sql2="UPDATE account set account.amount = account.amount +"+amount+" where account.AccNum like '"+RecAccNum+"'"; 
+    let sql3="INSERT into transaction (idAcc,RecAccount,idEmployee,TransDate,TransAmount) values ("+idAccFrom+",'"+RecAccNum+"',"+null+",now(),"+amount+")"; 
+        con.beginTransaction(function(err){
+            if (err) { throw err; }
+            con.query(sql1, function(err, result) {
+              if (err) { 
+                con.rollback(function() {
+                  throw err;
+                });
+              }
+              con.query(sql2, function(err, result) {
+                if (err) { 
+                  con.rollback(function() {
+                    throw err;
+                  });
+                } 
+                
+                con.query(sql3,function(err,result){
+                    if (err) {
+                        con.rollback(function(){
+                            throw err;
+                        });
+                    }
+
+                    con.commit(function(err) {
+                        if (err) { 
+                            con.rollback(function() {
+                            throw err;
+                          });
+                        }
+                        console.log('Transaction Complete.');
+                        con.end();
+                        let mess = new Object();
+                            mess.message = "Transaction Complete";
+                            callback(JSON.stringify(mess),200);
+                      });
+
+                });
+              });
+            });
+        });
+    });
+    }else{
+        let mess = new Object();
+        mess.message = "Wrong credintials!";
+        callback(JSON.stringify(mess),401);
+    }
+}
+
+
+
 
 module.exports={
     checkLoginMeth,
@@ -400,5 +462,6 @@ module.exports={
     cardInfoMeth,
     cardTransMeth,
     changePasswordMeth,
-    blockcardMeth
+    blockcardMeth,
+    newTransactionMeth
 };

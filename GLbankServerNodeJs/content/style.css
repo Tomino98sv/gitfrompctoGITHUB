@@ -278,12 +278,12 @@ font-variant: normal;
 text-transform: none;
   }
 
-  #tableLeftDown{
+  #tablePayment{
     border-collapse: collapse;
   }
 
 
-#tableLeftDown th{
+#tablePayment th{
   font-family: "Trebuchet MS", Helvetica, sans-serif;
 font-size: 22px;
 letter-spacing: 0.8px;
@@ -294,19 +294,6 @@ text-decoration: none solid rgb(68, 68, 68);
 font-style: normal;
 font-variant: normal;
 text-transform: none;
-}
-
-#tableLeftDown th{
-  font-family: "Trebuchet MS", Helvetica, sans-serif;
-  font-size: 22px;
-  letter-spacing: 0.8px;
-  word-spacing: 0.2px;
-  color: #868686;
-  font-weight: 400;
-  text-decoration: none solid rgb(68, 68, 68);
-  font-style: normal;
-  font-variant: normal;
-  text-transform: none;
 }
 
 #tableLeftDown{

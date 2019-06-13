@@ -21,8 +21,10 @@ function inicialise(){
       document.getElementById('lname').innerHTML = ""+userInfo.lname;
       document.getElementById('email').innerHTML = ""+userInfo.email;
       document.getElementById('id').innerHTML = ""+userInfo.id;
-      document.getElementsByName('content')[1].style.display="none";
+      document.getElementsByName('content')[1].style.display="block";
       document.getElementsByName('content')[0].style.display="none";
+      // document.getElementById('tableLeftDown').style.display = 'block';
+      document.getElementById('tablePayment').style.display = 'none';
       getAccounts();
     }
   });
@@ -259,4 +261,15 @@ function addTransHistoryReceived(transHistory){
       tableTrans.appendChild(tr);
   }
   }
+}
+
+function gotToPayment(){
+  document.getElementById('tableLeftDown').style.display = 'none';
+  document.getElementById('tablePayment').style.display = 'block';
+}
+
+function performPayment(){
+  document.getElementById('tableLeftDown').style.display = 'block';
+  document.getElementById('tablePayment').style.display = 'none';
+
 }

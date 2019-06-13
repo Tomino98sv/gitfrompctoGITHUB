@@ -144,5 +144,17 @@ app.post('/blockcard',(req,res)=>{
     database.blockcardMeth(login,token,idCard,callback);
 });
 
+app.post('/newTransaction',(req,res)=>{
+    let login = req.body.login;
+    let token = req.body.token;
+    let amount = req.body.amount;
+    let idAccFrom = req.body.idAccFrom;
+    let RecAccNum = req.body.RecAccNum;
+    let callback = function(value,status){
+        res.status(status).send(value);
+    };
+    database.newTransactionMeth(login,token,amount,idAccFrom,RecAccNum,callback);
+});
+
 console.log("ide server");
 app.listen(3000);
