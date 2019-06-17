@@ -111,17 +111,6 @@ app.post('/cardinfo',(req,res)=>{
     };
     database.cardInfoMeth(login,token,idCard,callback);
 });
-
-app.post('/cardTrans',(req,res)=>{
-    let login = req.body.login;
-    let token = req.body.token;
-    let idCard = req.body.idCard;
-    let callback = function(value,status){
-        res.status(status).send(value);
-    };
-    database.cardTransMeth(login,token,idCard,callback);
-});
-
 app.post('/changePassword',(req,res)=>{
     let login = req.body.login;
     let token = req.body.token;

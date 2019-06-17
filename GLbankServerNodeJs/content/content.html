@@ -16,6 +16,8 @@
 	</div>
 	<button class="buttonLeft" onclick="logOut()">Logout</button>
 	<button class="buttonimg" onclick="profile()"><img src="profilimg.png"></button>
+	<button class="buttonChangeAccount" onclick="getToChangePassword()">ChangePassword</button>
+
 </div>
 
 <div name="content" id="content">
@@ -47,8 +49,12 @@
 
 						<table id="tablePayment">
 							<tr>
-								<th>Paymenting</th>
-								<th></th>
+								<th>RespondentAccount</th>
+								<th><input id="toAccNum" type="text" placeholder="type accountNumber"></th>
+							</tr>
+							<tr>
+								<th>Amount</th>
+								<th><input id="amountToSent" type="number" placeholder="type amount of Money"></th>
 							</tr>
 							<tr>
 								<td class="currBalance"></td>
@@ -76,6 +82,7 @@
 
 <div name="content" id="contentProf">
 	<div id="bodyProfil">
+		<div class="headerProfil"><p>Info about you</p></div>
 		<table id="tableInfo">
 			<tr>
 				<th>FirstName:</th>
@@ -95,6 +102,30 @@
 			</tr>
 		</table>	
 	</div>	
+</div>
+
+<div name="content" id="contentChangePass">
+	<div id="bodyChange">
+		<p>
+			<p>OldPassword</p>
+			<p><input type="password" id="oldPass"></p>
+		</p>
+		<p>
+			<p>NewPassword</p>
+			<p><input type="password" id="newPass"></p>
+		</p>
+		<p>
+			<p>RepeatPassword</p>
+			<p><input type="password" id="newRptPass"></p>
+		</p>
+		<p>
+			<p><button onclick="changePassword()">Confirm</button></p>
+		</p>
+	</div>
+	
+	<div id="bodyWrongMess">
+
+	</div>
 </div>
 
 </body>

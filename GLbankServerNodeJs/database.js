@@ -291,38 +291,6 @@ const cardInfoMeth = (login,token,idCard,callback) => {
         callback(JSON.stringify(mess),401);
     }
 }
-
-const cardTransMeth = (login,token,idCard,callback) => {
-
-
-    if(tokens.find(
-        person => (person.login == login && person.token == token)
-        )
-    ){
-     
-    con.connect(function(err){
-    console.log("Connection to database has been estabilished by cardTransMeth"); 
-    let sql="select * from cardtrans where idCard like '"+idCard+"'"; 
-    con.query(sql,(err,res) => {
-        if(err) throw err;
-        if(res.length==0){
-            callback("{Could not get any cardTransactions!}",403);
-        }else{
-            
-                callback(JSON.stringify(res),200);
-        }
-    });
-    // con.end(function(){
-    //     console.log("cardTransMeth closing connection");
-    // });
-    });
-    }else{
-        let mess = new Object();
-        mess.message = "Wrong credintials!";
-        callback(JSON.stringify(mess),401);
-    }
-}
-
 const changePasswordMeth = (login,token,oldpassword,newpassword,callback) => {
 
 
@@ -429,7 +397,6 @@ const newTransactionMeth = (login,token,amount,idAccFrom,RecAccNum,callback) => 
                           });
                         }
                         console.log('Transaction Complete.');
-                        con.end();
                         let mess = new Object();
                             mess.message = "Transaction Complete";
                             callback(JSON.stringify(mess),200);
@@ -460,7 +427,6 @@ module.exports={
     transHistoryRecAccMeth,
     cardsMeth,
     cardInfoMeth,
-    cardTransMeth,
     changePasswordMeth,
     blockcardMeth,
     newTransactionMeth
