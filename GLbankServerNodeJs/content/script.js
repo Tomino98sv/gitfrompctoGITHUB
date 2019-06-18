@@ -462,6 +462,24 @@ function changeCard(Active,PIN,expirem,expirey,id,ida){
   addCardTr("Active: ",activeWord);
   addCardTr("PIN: ",PIN);
   addCardTr("Date of Expire: ",expirem+"/"+expirey);
+
+  var tr = document.createElement("TR");
+  var td = document.createElement("TD");
+  var th = document.createElement("TH");
+  var text = document.createTextNode("Block Card");
+  var button = document.createElement("BUTTON");
+
+  button.appendChild(text);
+  button.setAttribute("class","blockButton");
+  button.setAttribute("onclick","blockCard("+id+")");
+  if(Active == 0){
+    button.setAttribute("disabled",true);
+    button.style.color = "graytext";
+  }
+  td.appendChild(button);
+  tr.appendChild(th);
+  tr.appendChild(td);
+  tableCard.appendChild(tr);
 }
 
 function addCardTr(header,content){
@@ -478,4 +496,31 @@ function addCardTr(header,content){
   tr.appendChild(td);
 
   tableCard.appendChild(tr);
+}
+
+function blockCard(idCard){
+  var data = JSON.stringify({
+    "login": user.login,
+    "token": user.token,
+    "idCard": idCard
+  });
+  
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+  
+  xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === 4 && this.status == 200) {
+      alert("Successfully blocked card");
+    }
+    if (this.readyState === 4 && this.status == 403) {
+      console.log(this.responseText);
+    }
+  });
+  
+  xhr.open("POST", "http://localhost:3000/blockcard");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader("cache-control", "no-cache");
+  xhr.setRequestHeader("Postman-Token", "8e2cc3c2-7c86-499c-adf9-a13d3b6b04ae");
+  
+  xhr.send(data);
 }
