@@ -125,7 +125,21 @@ body,html{
     display: block;
   }
 
+  .dropdown-contentCards{
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    padding: 12px 16px;
+    z-index: 1;
+  }
 
+  .buttonAccounts:hover .dropdown-contentCards{
+    background-color: rgba(243, 102, 21, 0.808);
+    display: block;
+  }
+  
   .buttonAccount {
     background-color: transparent; /* Green */
     border: none;
@@ -258,6 +272,9 @@ body,html{
     float: left;
     width: 50%;
     margin-bottom: 10px;
+    /* overflow-x: hidden;
+    max-height: 600px;
+    max-width: 100%; */
   }
   .leftUp{
     width: 100%;
@@ -266,6 +283,45 @@ body,html{
     background-color: rgb(255, 255, 255);
     box-shadow: 0px 6px 16px -4px rgba(0,0,0,0.64);
     
+  }
+
+  .leftMiddle{
+  
+    width: 100%;
+    background-color: gainsboro;
+    min-height: 220px;
+    background-color: rgb(255, 255, 255);
+    box-shadow: 0px 6px 16px -4px rgba(0,0,0,0.64);
+    margin-top: 20px; 
+  }
+
+  .headerLfMdl{
+    width: 100%;
+    background-color: rgb(226, 225, 225);
+    box-shadow: 0px 3px 6px 0px rgba(0,0,0,0.75);
+    min-height: 20%;
+    padding-top: 10px;
+
+  }
+
+
+  .headerLfMdl p {
+    margin: 0px;
+    text-align: center;
+    font-family: "Trebuchet MS", Helvetica, sans-serif;
+    font-size: 44px;
+    letter-spacing: 0.8px;
+    word-spacing: 0.2px;
+    color: #868686;
+    font-weight: 400;
+    text-decoration: none solid rgb(68, 68, 68);
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+  }
+
+
+  .ContentLftMdl{
   }
 
 
@@ -306,7 +362,7 @@ body,html{
     margin-bottom:10px;
     margin-left:3%;   
     margin-top: 13px;
-    min-height: 590px;
+    min-height: 650px;
     background-color: rgb(255, 255, 255);
     box-shadow: 0px 6px 16px -4px rgba(0,0,0,0.64);
     
@@ -532,4 +588,9 @@ text-transform: none;
   font-style: normal;
   font-variant: normal;
   text-transform: none;
+}
+
+.ContentLftMdl table{
+  border-collapse: collapse;
+  margin: 2px;
 }

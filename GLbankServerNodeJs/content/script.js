@@ -5,6 +5,7 @@ var user = JSON.parse(window.localStorage.getItem('user'));
     "token": user.token
   });
   var accounts;
+  var cards;
   var userInfo;
   var currentAcc;
 window.onload = inicialise();
@@ -67,7 +68,9 @@ function home(){
 
   getTransactions(accounts[0].id);
   getTransactionsReceived(accounts[0].AccNum);
-
+  getCards(accounts[0].id);
+  var tableCard = document.getElementsByClassName("tableCards")[0];
+  tableCard.innerHTML="";
 }
 
 function getAccounts(){
@@ -122,6 +125,9 @@ function changeAcc(index,currAccIdAcc,currAccNum){
   console.log(currAccIdAcc);
   getTransactions(currAccIdAcc);
   getTransactionsReceived(currAccNum);
+  var tableCard = document.getElementsByClassName("tableCards")[0];
+  tableCard.innerHTML="";
+  getCards(currAccIdAcc);
 }
 
 function getTransactions(idAcc){
@@ -395,4 +401,81 @@ function cleandInputs(){
   newpass.value = "";
   repeatpass.value = "";
 
+}
+
+function getCards(idAccountCard){
+
+  var data = JSON.stringify({
+    "login": user.login,
+    "idAcc": idAccountCard,
+    "token": user.token
+  });
+  
+  var xhr = new XMLHttpRequest();
+  xhr.withCredentials = true;
+  
+  xhr.addEventListener("readystatechange", function () {
+    if (this.readyState === 4 && this.status == 200) {
+      cards= JSON.parse(this.responseText);
+      var dropCont = document.getElementsByClassName('dropdown-contentCards')[0];
+      dropCont.innerHTML="";
+      for(var a=0;a<cards.length;a++){
+        addCard(cards[a],a);
+      }
+    }
+    if (this.readyState === 4 && this.status == 403) {
+      addCardTr("No Cards","You have no cards on this account");
+    }
+  });
+  
+  xhr.open("POST", "http://localhost:3000/cards");
+  xhr.setRequestHeader("Content-Type", "application/json");
+  xhr.setRequestHeader("cache-control", "no-cache");
+  xhr.setRequestHeader("Postman-Token", "52006180-2f73-41a0-a149-82fd31b438e7");
+  
+  xhr.send(data);
+}
+
+function addCard(card,index){
+  console.log(card);
+  var dropCont = document.getElementsByClassName('dropdown-contentCards')[0];
+  var button = document.createElement('BUTTON');
+  button.setAttribute("class","buttonAccount");
+  button.setAttribute("onclick","changeCard("+card.Active+",'"+card.PIN+"',"+card.expirem+","+card.expirey+","+card.id+","+card.ida+")");
+  console.log("PIN before sent "+card.PIN);
+  var p = document.createElement('P');
+  var text = document.createTextNode(card.id);
+
+  button.appendChild(text);
+  p.appendChild(button);
+  dropCont.appendChild(p);
+}
+
+function changeCard(Active,PIN,expirem,expirey,id,ida){
+  var tableCard = document.getElementsByClassName("tableCards")[0];
+  tableCard.innerHTML="";
+  console.log("PIN after sent "+PIN);
+  var activeWord;
+
+  addCardTr("Id of card: ",id);
+  activeWord = Active == 0 ? "No" : "Yes";
+  addCardTr("Active: ",activeWord);
+  addCardTr("PIN: ",PIN);
+  addCardTr("Date of Expire: ",expirem+"/"+expirey);
+}
+
+function addCardTr(header,content){
+  var tableCard = document.getElementsByClassName("tableCards")[0];
+  var th = document.createElement("TH");
+  var txt = document.createTextNode(header);
+  th.appendChild(txt);
+  var tr = document.createElement("TR");
+  tr.appendChild(th);
+
+  var td = document.createElement("TD");
+  txt = document.createTextNode(content);
+  td.appendChild(txt);
+  tr.appendChild(td);
+
+  tableCard.appendChild(tr);
 }
