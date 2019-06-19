@@ -18,7 +18,7 @@
 </div>
 
 <div id="wrongMess">
-	<p class="message">Wrong password or login</p>
+	<p class="message">default mess</p>
 </div>
 
 <script>
@@ -51,8 +51,23 @@ function login(){
 				location.replace("../content/content.html");
 			}
 			if(this.readyState === 4 && this.status == 401){
-			  console.log("Wrong login or password");
 				console.log(this.responseText);
+				document.getElementsByClassName('message')[0].innerHTML= "";
+				document.getElementsByClassName('message')[0].innerHTML = "Wrong password for this username";
+				document.getElementById('wrongMess').style.visibility = "visible";
+			}
+
+			if(this.readyState === 4 && this.status == 404){
+				console.log(this.responseText);
+				document.getElementsByClassName('message')[0].innerHTML= "";
+				document.getElementsByClassName('message')[0].innerHTML = "Wrong username or account not existing";
+				document.getElementById('wrongMess').style.visibility = "visible";
+			}
+
+			if(this.readyState === 4 && this.status == 403){
+				console.log(this.responseText);
+				document.getElementsByClassName('message')[0].innerHTML= "";
+				document.getElementsByClassName('message')[0].innerHTML = this.responseText;
 				document.getElementById('wrongMess').style.visibility = "visible";
 			}
 		  });

@@ -16,26 +16,56 @@ const checkLoginMeth = (username,password,callback) => {
     con.connect(function(err){
     console.log("Connection to database has been estabilished by checkLoginMeth"); 
     let sql="SELECT * FROM loginclient where login like '"+username+"' and password like MD5('"+password+"')"; 
-    con.query(sql,(err,result) => {
+    con.query(sql,(err,resultLogin) => {
         if(err) throw err;
-        if(result.length==0){
-            console.log('login '+username+' password '+password+' login like this not exists');
-            callback("{Wrong credintials!}",401);
+        if(resultLogin.length==0){
+
+        
+            let sql2="Select * from loginclient where login like '"+username+"'";
+            con.query(sql2,(err,result) => {
+                if(err) throw err;
+                if(result.length!=0){
+                    let sql3 = "INSERT into loginhistory (idl,LogDate,Success) values ("+result[0].id+",now(),0)";
+                    con.query(sql3,(err,result) => {
+                        if(err) throw err;
+                        console.log("Failed Login was inserted to history");
+                    });
+                    callback("Wrong password",401);
+                }else{
+                    callback("Account not existing",404);
+                }
+            });
         }else{
-                tokens=tokens.filter(person => person.login != username); // vsetky okrem mna ponechat
-                console.log("login je v databaze");
-                let token=tokgen.generate();
-                let obj=new Object();
-                obj.login=result[0].login;
-                obj.token=token;
-                tokens.push(obj);
-                // console.log(JSON.stringify(obj));
-                callback(JSON.stringify(obj),200);
+
+                let sql5 = "SELECT * from loginhistory where idl like "+resultLogin[0].id+" order by LogDate DESC limit 3";
+                con.query(sql5,(err,result) => {
+                    if(err) throw err;
+                    console.log("id: "+result[0].id+" idl: "+result[0].idl+" LogDate: "+result[0].LogDate+" Success: "+result[0].Success);
+                    console.log("id: "+result[1].id+" idl: "+result[1].idl+" LogDate: "+result[1].LogDate+" Success: "+result[1].Success);
+                    console.log("id: "+result[2].id+" idl: "+result[2].idl+" LogDate: "+result[2].LogDate+" Success: "+result[2].Success);
+                    if(result[0].Success == null){
+                        callback("Account blocked by bank employee",403);
+                    }else if(result[0].Success == 0 && result[1].Success == 0 && result[2].Success == 0){
+                        callback("Account blocked after 3 nonsuccessfull logins",403);
+                    }else{
+                        tokens=tokens.filter(person => person.login != username); // vsetky okrem mna ponechat
+                        console.log("login je v databaze");
+                        let token=tokgen.generate();
+                        let obj=new Object();
+                        obj.login=resultLogin[0].login;
+                        obj.token=token;
+                        tokens.push(obj);
+                        // console.log(JSON.stringify(obj));
+                        let sql4 = "INSERT into loginhistory (idl,LogDate,Success) values ("+resultLogin[0].id+",now(),1)";
+                        con.query(sql4,(err,result) => {
+                            if(err) throw err;
+                            console.log("Successfull Login was inserted to history");
+                        });
+                        callback(JSON.stringify(obj),200);
+                    }
+                });
         }
     });
-    // con.end(function(){
-    //     console.log("checkLoginMeth closing connection");
-    // });
     });
 }
 
