@@ -65,24 +65,35 @@ public class SudokuSolution {
 
 
     public void solveSudoku(){
-        for(int a=0;a<initalValues.length;a++){
-            for (int b=0;b<initalValues[a].length;b++){
 
-                if (initalValues[a][b].getCertainNumber()!= 0){
-                    if (checkLine(a,initalValues[a][b].getCertainNumber(),b)){
-                        System.out.println("Found Line match ["+a+"]["+b+"]");
-                    }else if(checkColumn(b,initalValues[a][b].getCertainNumber(),a)){
-                        System.out.println("Found Column match "+a+"]["+b+"]");
-                    }else if(chechSquare(a,b,initalValues[a][b].getCertainNumber())){
-                        System.out.println("Found Square match "+a+"]["+b+"]");
+        int countEmpty;
+        do{
+            countEmpty=0;
+            for(int a=0;a<initalValues.length;a++){
+                for (int b=0;b<initalValues[a].length;b++){
+                    if (initalValues[a][b].getCertainNumber()==0){
+                        for (int number = 1; number<10; number++){
+                            if (checkLine(a,number,b)){
+                            }else if(checkColumn(b,number,a)){
+                            }else if(chechSquare(a,b,number)){
+                            }else{
+                                initalValues[a][b].setChances(number);
+                            }
+                        }
+                        if (initalValues[a][b].getChances().size() == 1){
+                            initalValues[a][b].setCertainNumber(initalValues[a][b].getChances().get(0));
+                        }else{
+                            countEmpty++;
+                            initalValues[a][b].cleanChances();
+                        }
                     }
                 }
-
             }
-        }
+        }while(countEmpty!=0);
     }
 
     public void printSudoku(){
+        System.out.println("\n\n");
         for(int a=0;a<initalValues.length;a++){
             for (int b=0;b<initalValues[a].length;b++){
                 System.out.print("  "+initalValues[a][b].getCertainNumber());
@@ -95,6 +106,7 @@ public class SudokuSolution {
                 System.out.println();
             }
         }
+        System.out.println("\n\n");
     }
 
 }
