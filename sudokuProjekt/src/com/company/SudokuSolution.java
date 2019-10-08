@@ -25,11 +25,10 @@ public class SudokuSolution {
 
     }
 
-    private boolean checkLine(int line, int numberLooking, int numberLookingPosition){
+    private boolean checkLine(int line, int numberLooking, int column){
         for(int a=0; a<initalValues.length;a++){
-            if (numberLookingPosition != a) {
+            if (column != a) {
                 if (initalValues[line][a].getCertainNumber() == numberLooking){
-//                    System.out.println(initalValues[line][a].getCertainNumber() +"["+line+"]["+a+"] == "+ numberLooking+"["+line+"]["+numberLookingPosition+"]");
                     return true;
                 }
             }
@@ -37,11 +36,10 @@ public class SudokuSolution {
         return false;
     }
 
-    private boolean checkColumn(int column, int numberLooking, int numberLookingPosition) {
+    private boolean checkColumn(int column, int numberLooking, int line) {
         for(int a=0; a<initalValues.length;a++) {
-            if (numberLookingPosition != a){
+            if (line != a){
                 if (initalValues[a][column].getCertainNumber() == numberLooking) {
-//                    System.out.println(initalValues[a][column].getCertainNumber() +"["+a+"]["+column+"] == "+ numberLooking+"["+numberLookingPosition+"]["+column+"]");
                     return true;
                 }
             }
@@ -50,22 +48,13 @@ public class SudokuSolution {
     }
 
     private boolean chechSquare(int linePos,int colPos, int numberLooking){
-        //00    03      06
-
-        //30    33      36
-
-        //60     63      66
-
-        //nejaka chyba niekedy to najde a niekdedy nie
-
         int startLinPos = (linePos/3)*3;
         int startColPos = (colPos/3)*3;
-
         for(int a=startLinPos;a<startLinPos+3;a++){
             for(int b=startColPos;b<startColPos+3;b++){
-                if (a!= linePos && b!= colPos){
+                if (a==linePos && b==colPos){
+                }else{
                     if (initalValues[a][b].getCertainNumber()==numberLooking){
-                        System.out.println("found match on ["+a+"]["+b+"] on number "+numberLooking);
                         return true;
                     }
                 }
@@ -81,11 +70,11 @@ public class SudokuSolution {
 
                 if (initalValues[a][b].getCertainNumber()!= 0){
                     if (checkLine(a,initalValues[a][b].getCertainNumber(),b)){
-//                        System.out.println("Found match on Line ["+a+"]["+b+"]");
+                        System.out.println("Found Line match ["+a+"]["+b+"]");
                     }else if(checkColumn(b,initalValues[a][b].getCertainNumber(),a)){
-//                        System.out.println("Found match on Column "+a+"]["+b+"]");
+                        System.out.println("Found Column match "+a+"]["+b+"]");
                     }else if(chechSquare(a,b,initalValues[a][b].getCertainNumber())){
-
+                        System.out.println("Found Square match "+a+"]["+b+"]");
                     }
                 }
 
