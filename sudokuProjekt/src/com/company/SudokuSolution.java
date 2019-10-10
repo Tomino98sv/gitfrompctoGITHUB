@@ -18,8 +18,12 @@ public class SudokuSolution {
         int count=0;
         for(int a=0;a<initalValues.length;a++){
             for (int b=0;b<initalValues[a].length;b++){
-                initalValues[a][b] = new Value(Integer.parseInt(String.valueOf(enterValue.charAt(count))));
-                count++;
+                try{
+                    initalValues[a][b] = new Value(Integer.parseInt(String.valueOf(enterValue.charAt(count))));
+                    count++;
+                }catch (NumberFormatException e){
+                    e.printStackTrace();
+                }
             }
         }
 
@@ -78,6 +82,9 @@ public class SudokuSolution {
                             }else if(chechSquare(a,b,number)){
                             }else{
                                 initalValues[a][b].setChances(number);
+                                if (initalValues[a][b].getChances().size()>1){
+                                    break;
+                                }
                             }
                         }
                         if (initalValues[a][b].getChances().size() == 1){

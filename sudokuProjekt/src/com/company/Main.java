@@ -18,7 +18,7 @@ public class Main {
              6,4,0, 1,8,0, 0,0,3
      };
      String realEnter = "100026039008700601000000200400900516000000000796004008009000000301002900640180003";
-     SudokuSolution sol1 = new SudokuSolution(realPole);
+     SudokuSolution sol1 = new SudokuSolution(realEnter);
      sol1.printSudoku();
      sol1.solveSudoku();
      sol1.printSudoku();
