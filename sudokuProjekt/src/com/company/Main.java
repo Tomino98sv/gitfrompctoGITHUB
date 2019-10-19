@@ -23,6 +23,8 @@ public class Main {
      sol1.solveSudoku();
      sol1.printSudoku();
 
+     System.out.println(3%3);
+
     }
 }
 
@@ -40,3 +42,4 @@ public class Main {
 //            3,0,1, 0,0,2, 9,0,0,
 //            6,4,0, 1,8,0, 0,0,3
 //    };
+
